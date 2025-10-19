@@ -1,4 +1,3 @@
-
 import { Category, Tool } from './types';
 import {
   // Tool Icons
@@ -17,6 +16,14 @@ import ImageToBase64 from './tools/image/ImageToBase64';
 import WordCharCounter from './tools/text/WordCharCounter';
 import DuplicateLineRemover from './tools/text/DuplicateLineRemover';
 import LoremIpsumGenerator from './tools/text/LoremIpsumGenerator';
+import XlsxToCsvConverter from './tools/file/XlsxToCsvConverter';
+import CsvToXlsxConverter from './tools/file/CsvToXlsxConverter';
+import FileMerger from './tools/file/FileMerger';
+import FileChecksumCalculator from './tools/file/FileChecksumCalculator';
+import PercentageCalculator from './tools/calculators/PercentageCalculator';
+import PasswordGenerator from './tools/calculators/PasswordGenerator';
+import UnitConverter from './tools/calculators/UnitConverter';
+import DateDifferenceCalculator from './tools/calculators/DateDifferenceCalculator';
 
 const slugify = (text: string) =>
   text
@@ -31,7 +38,6 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'URL Encoder/Decoder', description: 'Clean up confusing or broken web links.', category: 'Web & Developer Tools', instructions: "1. Enter a URL or a string into the input box.\n2. Click 'Encode' to convert it into a URL-safe format (percent-encoding).\n3. Click 'Decode' to convert a URL-encoded string back to its original form.\n4. The result is displayed in the output box." },
   { name: 'Timestamp Converter', description: 'Convert Unix time into readable dates.', category: 'Web & Developer Tools', instructions: "1. Enter a Unix timestamp (e.g., 1672531200) to see the human-readable date.\n2. Alternatively, pick a date and time to get the corresponding Unix timestamp.\n3. The conversion happens instantly as you type or select." },
   { name: 'Base64 Encoder/Decoder', description: 'Encode/decode plain text to/from Base64.', category: 'Web & Developer Tools', instructions: "1. Type or paste your text into the input field.\n2. Click 'Encode' to convert the text to a Base64 string.\n3. Click 'Decode' to convert a Base64 string back to plain text.\n4. Copy the result from the output field." },
-  { name: 'MD5 Hash Generator', description: 'Generates MD5 hash from text.', category: 'Web & Developer Tools', instructions: "1. Enter any text, password, or string into the input field.\n2. The tool will instantly generate the 32-character MD5 hash.\n3. This is a one-way process; MD5 hashes cannot be decrypted." },
   { name: 'SHA-256 Hash Generator', description: 'Generates SHA-256 hash from text.', category: 'Web & Developer Tools', instructions: "1. Enter any text or data into the input field.\n2. The tool will instantly generate the secure 64-character SHA-256 hash.\n3. SHA-256 is commonly used for data integrity verification and security." },
   { name: 'Color Converter', description: 'Converts HEX, RGB, and HSL color codes.', category: 'Web & Developer Tools', instructions: "1. Enter a color value in any of the supported formats (HEX, RGB, or HSL).\n2. The tool will automatically convert and display the equivalent values in the other formats.\n3. A color preview will also be shown." },
   { name: 'UUID/GUID Generator', description: 'Generates universally unique identifiers.', category: 'Web & Developer Tools', instructions: "1. Simply click the 'Generate' button.\n2. A new, random Version 4 UUID will be created.\n3. You can generate as many as you need for your databases or applications." },
@@ -95,6 +101,26 @@ const getComponentForTool = (slug: string): React.ComponentType => {
     case 'lorem-ipsum-generator':
       return LoremIpsumGenerator;
 
+    // File Converters
+    case 'excel-xlsx-to-csv-converter':
+      return XlsxToCsvConverter;
+    case 'csv-to-excel-xlsx-converter':
+      return CsvToXlsxConverter;
+    case 'file-merger-textcsv':
+      return FileMerger;
+    case 'file-checksum-calculator':
+      return FileChecksumCalculator;
+
+    // Calculators
+    case 'percentage-calculator':
+      return PercentageCalculator;
+    case 'password-generator':
+      return PasswordGenerator;
+    case 'unit-converter':
+      return UnitConverter;
+    case 'date-difference-calculator':
+      return DateDifferenceCalculator;
+
     default:
       return PlaceholderTool;
   }
@@ -107,7 +133,6 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'url-encoderdecoder': return UrlEncoderDecoderIcon;
     case 'timestamp-converter': return TimestampConverterIcon;
     case 'base64-encoderdecoder': return Base64EncoderDecoderIcon;
-    case 'md5-hash-generator': return HashGeneratorIcon;
     case 'sha-256-hash-generator': return HashGeneratorIcon;
     case 'color-converter': return ColorConverterIcon;
     case 'uuidguid-generator': return UuidGeneratorIcon;
