@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { CATEGORIES, POPULAR_TOOLS } from '../constants';
+import { CATEGORIES } from '../constants';
 import CategoryCard from '../components/CategoryCard';
-import ToolCard from '../components/ToolCard';
 
 const HomePage: React.FC = () => {
   return (
@@ -32,20 +31,6 @@ const HomePage: React.FC = () => {
           {CATEGORIES.map(category => (
             <CategoryCard key={category.slug} category={category} />
           ))}
-        </div>
-      </section>
-
-      {/* Popular Tools Section */}
-      <section className="py-16">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Our Most Popular Tools
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {POPULAR_TOOLS.map(tool => {
-            const category = CATEGORIES.find(c => c.name === tool.category);
-            if (!category) return null;
-            return <ToolCard key={tool.slug} tool={tool} category={category} />;
-          })}
         </div>
       </section>
     </div>

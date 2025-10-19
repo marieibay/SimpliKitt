@@ -220,12 +220,3 @@ export const CATEGORIES: Category[] = [
     tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools')
   },
 ];
-
-export const POPULAR_TOOLS: Tool[] = [
-  ALL_TOOLS.find(t => t.slug === 'json-formatter')!,
-  ALL_TOOLS.find(t => t.slug === 'case-converter')!,
-  ALL_TOOLS.find(t => t.slug === 'image-resizer')!,
-  ALL_TOOLS.find(t => t.slug === 'merge-pdf')!,
-  ALL_TOOLS.find(t => t.slug === 'password-generator')!,
-  ALL_TOOLS.find(t => t.slug === 'url-encoderdecoder')!,
-];
