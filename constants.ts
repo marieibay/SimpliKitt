@@ -1,3 +1,4 @@
+
 import { Category, Tool } from './types';
 import {
   // Tool Icons
@@ -24,6 +25,11 @@ import PercentageCalculator from './tools/calculators/PercentageCalculator';
 import PasswordGenerator from './tools/calculators/PasswordGenerator';
 import UnitConverter from './tools/calculators/UnitConverter';
 import DateDifferenceCalculator from './tools/calculators/DateDifferenceCalculator';
+import TimestampConverter from './tools/web/TimestampConverter';
+import Base64EncoderDecoder from './tools/web/Base64EncoderDecoder';
+import Sha256HashGenerator from './tools/web/Sha256HashGenerator';
+import ColorConverter from './tools/web/ColorConverter';
+import UuidGuidGenerator from './tools/web/UuidGuidGenerator';
 
 const slugify = (text: string) =>
   text
@@ -80,6 +86,16 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return UrlEncoderDecoder;
     case 'json-formatter':
       return JsonFormatter;
+    case 'timestamp-converter':
+      return TimestampConverter;
+    case 'base64-encoderdecoder':
+      return Base64EncoderDecoder;
+    case 'sha-256-hash-generator':
+      return Sha256HashGenerator;
+    case 'color-converter':
+      return ColorConverter;
+    case 'uuidguid-generator':
+      return UuidGuidGenerator;
       
     // Image Tools
     case 'image-resizer':
