@@ -6,6 +6,10 @@ import CategoryPage from './pages/CategoryPage';
 import ToolPage from './pages/ToolPage';
 import AllToolsPage from './pages/AllToolsPage';
 import Layout from './components/Layout';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TosPage from './pages/TosPage';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +20,10 @@ const App: React.FC = () => {
           <Route path="/category/:categorySlug" element={<CategoryPage />} />
           <Route path="/tool/:toolSlug" element={<ToolPage />} />
           <Route path="/tools" element={<AllToolsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/tos" element={<TosPage />} />
         </Routes>
       </Layout>
     </HashRouter>

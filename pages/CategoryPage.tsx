@@ -3,7 +3,6 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CATEGORIES } from '../constants';
 import ToolCard from '../components/ToolCard';
-import { ChevronDownIcon } from '../components/Icons';
 
 const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
@@ -21,13 +20,13 @@ const CategoryPage: React.FC = () => {
     );
   }
 
-  const { name, description, icon: Icon, color, accentColor, tools } = category;
+  const { name, description, icon, color, tools } = category;
 
   return (
     <div>
       <div className="text-center pt-8 pb-12">
-        <div className={`w-16 h-16 ${color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
-          <Icon className={`w-9 h-9 ${accentColor}`} />
+        <div className={`w-20 h-20 ${color} rounded-2xl flex items-center justify-center mx-auto mb-4 p-3`}>
+          <img src={icon} alt={`${name} icon`} className="w-full h-full object-contain" />
         </div>
         <h1 className="text-4xl font-extrabold text-gray-900">{name}</h1>
         <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-600">{description}</p>

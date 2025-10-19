@@ -1,6 +1,5 @@
 import { Category, Tool } from './types';
 import {
-  WebDevIcon, CalculatorIcon, FileConverterIcon, PdfIcon, TextToolsIcon, ImageToolsIcon,
   // Tool Icons
   WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon
 } from './components/Icons';
@@ -133,58 +132,64 @@ export const ALL_TOOLS: Tool[] = allToolsRaw.map(tool => {
 
 export const CATEGORIES: Category[] = [
   {
-    slug: 'web-and-developer-tools',
-    name: 'Web & Developer Tools',
-    description: 'Format code, encode data, generate hashes, and manage web assets.',
-    icon: WebDevIcon,
-    color: 'bg-blue-100',
-    accentColor: 'text-blue-600',
-    tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools')
-  },
-  {
-    slug: 'calculators-and-time-tools',
-    name: 'Calculators & Time Tools',
-    description: 'Perform calculations, convert units, and manage dates and times.',
-    icon: CalculatorIcon,
-    color: 'bg-purple-100',
-    accentColor: 'text-purple-600',
-    tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools')
-  },
-  {
-    slug: 'file-converters-and-utilities',
-    name: 'File Converters & Utilities',
-    description: 'Convert, merge, and manage various file formats directly in your browser.',
-    icon: FileConverterIcon,
-    color: 'bg-green-100',
-    accentColor: 'text-green-600',
-    tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities')
-  },
-  {
-    slug: 'pdf-and-document-tools',
-    name: 'PDF & Document Tools',
-    description: 'Merge, split, convert, and edit your PDF files with ease.',
-    icon: PdfIcon,
-    color: 'bg-red-100',
-    accentColor: 'text-red-600',
-    tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools')
+    slug: 'image-tools',
+    name: 'Image Tools',
+    description: 'Edit, convert, and optimize images.',
+    icon: 'https://i.imgur.com/2fSinTK.png',
+    color: 'bg-orange-100',
+    cardColor: 'bg-orange-500',
+    accentColor: 'text-orange-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'Image Tools')
   },
   {
     slug: 'text-and-list-tools',
     name: 'Text & List Tools',
-    description: 'Format text, clean up lists, and generate content for your projects.',
-    icon: TextToolsIcon,
-    color: 'bg-yellow-100',
-    accentColor: 'text-yellow-600',
+    description: 'Format, clean, and analyze text.',
+    icon: 'https://i.imgur.com/pWLz7Qk.png',
+    color: 'bg-blue-100',
+    cardColor: 'bg-blue-500',
+    accentColor: 'text-blue-600',
     tools: ALL_TOOLS.filter(t => t.category === 'Text & List Tools')
   },
   {
-    slug: 'image-tools',
-    name: 'Image Tools',
-    description: 'Resize, convert, compress, and apply filters to your images.',
-    icon: ImageToolsIcon,
-    color: 'bg-pink-100',
-    accentColor: 'text-pink-600',
-    tools: ALL_TOOLS.filter(t => t.category === 'Image Tools')
+    slug: 'pdf-and-document-tools',
+    name: 'PDF & Document Tools',
+    description: 'Merge, split, secure, and convert.',
+    icon: 'https://i.imgur.com/fcPM5or.png',
+    color: 'bg-green-100',
+    cardColor: 'bg-green-500',
+    accentColor: 'text-green-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools')
+  },
+  {
+    slug: 'file-converters-and-utilities',
+    name: 'File Converters & Utilities',
+    description: 'Convert formats, merge files, and more.',
+    icon: 'https://i.imgur.com/hCEBg9R.png',
+    color: 'bg-purple-100',
+    cardColor: 'bg-purple-500',
+    accentColor: 'text-purple-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities')
+  },
+  {
+    slug: 'calculators-and-time-tools',
+    name: 'Calculators & Time Tools',
+    description: 'Solve math, convert units, and dates.',
+    icon: 'https://i.imgur.com/Aj5fAOO.png',
+    color: 'bg-cyan-100',
+    cardColor: 'bg-cyan-400',
+    accentColor: 'text-cyan-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools')
+  },
+  {
+    slug: 'web-and-developer-tools',
+    name: 'Web & Developer Tools',
+    description: 'JSON, URL, hash, and code helpers.',
+    icon: 'https://i.imgur.com/2KCBdel.png',
+    color: 'bg-indigo-100',
+    cardColor: 'bg-indigo-600',
+    accentColor: 'text-indigo-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools')
   },
 ];
 

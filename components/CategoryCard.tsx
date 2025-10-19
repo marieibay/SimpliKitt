@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Category } from '../types';
@@ -8,15 +7,21 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
-  const { slug, name, description, icon: Icon, color, accentColor } = category;
+  const { slug, name, description, icon, cardColor } = category;
 
   return (
-    <Link to={`/category/${slug}`} className="group block p-6 bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-      <div className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center mb-4`}>
-        <Icon className={`w-7 h-7 ${accentColor}`} />
+    <Link
+      to={`/category/${slug}`}
+      className={`group relative block h-full ${cardColor} rounded-2xl p-4 flex flex-col overflow-hidden transition-transform transform hover:-translate-y-1 shadow-lg hover:shadow-xl`}
+    >
+      <div className="flex-1 flex items-center justify-center mb-4">
+        <img src={icon} alt={`${name} icon`} className="w-16 h-16 object-contain" />
       </div>
-      <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors">{name}</h3>
-      <p className="text-sm text-gray-500 mt-1">{description}</p>
+
+      <div className="bg-white rounded-xl p-4">
+        <h3 className="font-bold text-gray-800 text-base truncate">{name}</h3>
+        <p className="text-sm text-gray-500 mt-1 h-10 leading-tight">{description}</p>
+      </div>
     </Link>
   );
 };

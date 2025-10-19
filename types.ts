@@ -14,8 +14,9 @@ export interface Category {
   slug: string;
   name: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: string;
   color: string;
+  cardColor: string;
   accentColor: string;
   tools: Tool[];
 }
