@@ -27,7 +27,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       return '/tools';
     }
 
-    if (pathname.startsWith('/category/') || pathname === '/tools') {
+    const infoPages = ['/about', '/contact', '/privacy', '/tos'];
+    if (pathname.startsWith('/category/') || pathname === '/tools' || infoPages.includes(pathname)) {
       return '/';
     }
 

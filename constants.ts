@@ -9,6 +9,10 @@ import CaseConverter from './tools/text/CaseConverter';
 import UrlEncoderDecoder from './tools/web/UrlEncoderDecoder';
 import JsonFormatter from './tools/web/JsonFormatter';
 import PlaceholderTool from './tools/PlaceholderTool';
+import ImageResizer from './tools/image/ImageResizer';
+import JpgPngConverter from './tools/image/JpgPngConverter';
+import ImageCompressor from './tools/image/ImageCompressor';
+import ImageToBase64 from './tools/image/ImageToBase64';
 
 const slugify = (text: string) =>
   text
@@ -67,6 +71,15 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return UrlEncoderDecoder;
     case 'json-formatter':
       return JsonFormatter;
+    // Image Tools
+    case 'image-resizer':
+      return ImageResizer;
+    case 'jpg-and-png-converter':
+      return JpgPngConverter;
+    case 'image-compressor':
+      return ImageCompressor;
+    case 'image-to-base64':
+      return ImageToBase64;
     default:
       return PlaceholderTool;
   }

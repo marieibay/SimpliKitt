@@ -20,12 +20,12 @@ const CategoryPage: React.FC = () => {
     );
   }
 
-  const { name, description, icon, color, tools } = category;
+  const { name, description, icon, cardColor, tools } = category;
 
   return (
     <div>
       <div className="text-center pt-8 pb-12">
-        <div className={`w-20 h-20 ${color} rounded-2xl flex items-center justify-center mx-auto mb-4 p-3`}>
+        <div className={`w-20 h-20 ${cardColor} rounded-2xl flex items-center justify-center mx-auto mb-4 p-3`}>
           <img src={icon} alt={`${name} icon`} className="w-full h-full object-contain" />
         </div>
         <h1 className="text-4xl font-extrabold text-gray-900">{name}</h1>
