@@ -1,3 +1,4 @@
+
 import { Category, Tool } from './types';
 import {
   // Tool Icons
@@ -13,6 +14,9 @@ import ImageResizer from './tools/image/ImageResizer';
 import JpgPngConverter from './tools/image/JpgPngConverter';
 import ImageCompressor from './tools/image/ImageCompressor';
 import ImageToBase64 from './tools/image/ImageToBase64';
+import WordCharCounter from './tools/text/WordCharCounter';
+import DuplicateLineRemover from './tools/text/DuplicateLineRemover';
+import LoremIpsumGenerator from './tools/text/LoremIpsumGenerator';
 
 const slugify = (text: string) =>
   text
@@ -65,12 +69,12 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
 
 const getComponentForTool = (slug: string): React.ComponentType => {
   switch (slug) {
-    case 'case-converter':
-      return CaseConverter;
+    // Web & Developer
     case 'url-encoderdecoder':
       return UrlEncoderDecoder;
     case 'json-formatter':
       return JsonFormatter;
+      
     // Image Tools
     case 'image-resizer':
       return ImageResizer;
@@ -80,6 +84,17 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageCompressor;
     case 'image-to-base64':
       return ImageToBase64;
+
+    // Text & List Tools
+    case 'case-converter':
+      return CaseConverter;
+    case 'word-and-char-counter':
+      return WordCharCounter;
+    case 'duplicate-line-remover':
+      return DuplicateLineRemover;
+    case 'lorem-ipsum-generator':
+      return LoremIpsumGenerator;
+
     default:
       return PlaceholderTool;
   }
