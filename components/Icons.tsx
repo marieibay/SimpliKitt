@@ -186,8 +186,10 @@ export const ImageToBase64Icon: React.FC<{ className?: string }> = ({ className 
 
 export const PngToSvgIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
-    <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    <path d="M3 8c4 3 8-3 10-3s6 6 10 3" />
+    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+    <path d="M14 15H9v-5"/>
+    <path d="M16 3h5v5"/>
+    <path d="M21 3l-7 7"/>
   </IconWrapper>
 );
 
