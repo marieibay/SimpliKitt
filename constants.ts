@@ -32,6 +32,7 @@ import ColorConverter from './tools/web/ColorConverter';
 import UuidGuidGenerator from './tools/web/UuidGuidGenerator';
 import MergePdf from './tools/pdf/MergePdf';
 import SplitPdf from './tools/pdf/SplitPdf';
+import PdfToJpgConverter from './tools/pdf/PdfToJpgConverter';
 
 const slugify = (text: string) =>
   text
@@ -65,7 +66,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // PDF & Document Tools
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "1. Upload two or more PDF files.\n2. Drag and drop the file previews to arrange them in the desired order.\n3. Click the 'Merge PDFs' button.\n4. Download your new, single PDF document." },
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "1. Upload a PDF file.\n2. Enter the page numbers or ranges you want to extract (e.g., 1, 3-5, 8).\n3. Click 'Extract Pages & Download' to process the file.\n4. A new PDF containing only your selected pages will be downloaded." },
-  { name: 'PDF to JPG Converter', description: 'Convert PDF pages into JPG images.', category: 'PDF & Document Tools', instructions: "1. Upload your PDF document.\n2. The tool will convert each page of the PDF into a separate JPG image.\n3. Download all the generated images as a single ZIP file." },
+  { name: 'PDF to JPG Converter', description: 'Convert PDF pages into JPG images.', category: 'PDF & Document Tools', instructions: "1. Upload your PDF document.\n2. Select your desired output format (JPEG or PNG).\n3. The tool will convert each page of the PDF into a separate JPG image.\n4. Download all the generated images as a single ZIP file." },
   { name: 'JPG to PDF Converter', description: 'Combine JPG images into a single PDF.', category: 'PDF & Document Tools', instructions: "1. Upload one or more JPG images.\n2. Reorder the images as you want them to appear in the PDF.\n3. Click 'Create PDF' to combine the images.\n4. Download your newly created PDF file." },
 
   // Text & List Tools
@@ -144,6 +145,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return MergePdf;
     case 'extract-pdf-pages':
       return SplitPdf;
+    case 'pdf-to-jpg-converter':
+      return PdfToJpgConverter;
 
     default:
       return PlaceholderTool;

@@ -16,8 +16,6 @@
     "xlsx": "latest",
     "pdf-lib": "1.17.1",
     "jspdf": "2.5.1",
-    "pdfjs-dist": "3.11.174",
-    "fflate": "0.8.1",
     "fast-png": "6.1.0"
   },
   "devDependencies": {
