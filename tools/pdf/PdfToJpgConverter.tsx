@@ -21,32 +21,13 @@ const PdfToJpgConverter: React.FC = () => {
   const [convertedImages, setConvertedImages] = useState<ConvertedImage[]>([]);
   const [outputFormat, setOutputFormat] = useState<'jpeg' | 'png'>('jpeg');
   const [error, setError] = useState<string | null>(null);
-  const [librariesReady, setLibrariesReady] = useState(!!(window.pdfjsLib && window.fflate));
 
   useEffect(() => {
-    if (librariesReady) return;
-
-    const timeoutId = setTimeout(() => {
-        if (!window.pdfjsLib || !window.fflate) {
-            setError("Converter failed to load. Please check your network connection, disable any ad-blockers, and refresh the page.");
-        }
-        clearInterval(checkIntervalId);
-    }, 5000); // 5-second timeout
-
-    const checkIntervalId = setInterval(() => {
-        if (window.pdfjsLib && window.fflate) {
-            window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
-            setLibrariesReady(true);
-            clearInterval(checkIntervalId);
-            clearTimeout(timeoutId);
-        }
-    }, 100);
-
-    return () => {
-        clearInterval(checkIntervalId);
-        clearTimeout(timeoutId);
-    };
-  }, [librariesReady]);
+    // Set workerSrc for pdf.js safely after component mounts
+    if (window.pdfjsLib) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
+    }
+  }, []);
 
   const handleFile = (selectedFile: File) => {
     setFile(selectedFile);
@@ -59,7 +40,7 @@ const PdfToJpgConverter: React.FC = () => {
       setError("Please upload a PDF file first.");
       return;
     }
-    if (!librariesReady) {
+    if (!window.pdfjsLib) {
       setError("PDF processing library failed to load. Please refresh and try again.");
       return;
     }
@@ -110,7 +91,7 @@ const PdfToJpgConverter: React.FC = () => {
   
   const handleDownloadAllAsZip = () => {
     if (convertedImages.length === 0) return;
-    if (!librariesReady) {
+    if (!window.fflate) {
         setError("ZIP compression library failed to load. Please refresh and try again.");
         return;
     }
@@ -171,12 +152,9 @@ const PdfToJpgConverter: React.FC = () => {
         <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg">
             <p className="font-semibold">An Error Occurred</p>
             <p className="text-sm">{error}</p>
-            {/* Show 'Try again' only for conversion errors, not loading errors */}
-            {librariesReady && 
-              <button onClick={handleReset} className="mt-2 text-sm text-blue-600 hover:underline font-medium">
-                  Try again
-              </button>
-            }
+            <button onClick={handleReset} className="mt-2 text-sm text-blue-600 hover:underline font-medium">
+                Try again
+            </button>
         </div>
      )
   }
@@ -247,8 +225,6 @@ const PdfToJpgConverter: React.FC = () => {
       onFileUpload={handleFile}
       acceptedMimeTypes={['application/pdf']}
       title="Upload a PDF to Convert to Images"
-      disabled={!librariesReady || !!error}
-      description={librariesReady ? "Supports JPG and PNG output" : "Initializing converter..."}
     />
   );
 };
