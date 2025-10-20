@@ -190,3 +190,15 @@ export const PngToSvgIcon: React.FC<{ className?: string }> = ({ className }) =>
     <path d="M3 8c4 3 8-3 10-3s6 6 10 3" />
   </IconWrapper>
 );
+
+export const MenuIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </IconWrapper>
+);
+
+export const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </IconWrapper>
+);
