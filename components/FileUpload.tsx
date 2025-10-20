@@ -6,9 +6,10 @@ interface FileUploadProps {
   acceptedMimeTypes: string[];
   title?: string;
   description?: string;
+  disabled?: boolean;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes, title, description }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes, title, description, disabled }) => {
   const [error, setError] = useState<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
@@ -26,13 +27,18 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes
     onDrop,
     accept: acceptedMimeTypes.reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     multiple: false,
+    disabled,
   });
 
   return (
     <div
       {...getRootProps()}
-      className={`p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${
-        isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+      className={`p-8 border-2 border-dashed rounded-lg text-center transition-colors ${
+        disabled 
+          ? 'border-gray-300 bg-gray-100 cursor-not-allowed' 
+          : isDragActive 
+          ? 'border-blue-500 bg-blue-50 cursor-pointer' 
+          : 'border-gray-300 hover:border-gray-400 cursor-pointer'
       }`}
     >
       <input {...getInputProps()} />
