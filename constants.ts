@@ -33,6 +33,7 @@ import UuidGuidGenerator from './tools/web/UuidGuidGenerator';
 import MergePdf from './tools/pdf/MergePdf';
 import SplitPdf from './tools/pdf/SplitPdf';
 import PdfToJpgConverter from './tools/pdf/PdfToJpgConverter';
+import ImageToPdfConverter from './tools/pdf/ImageToPdfConverter';
 
 const slugify = (text: string) =>
   text
@@ -66,8 +67,8 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // PDF & Document Tools
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "1. Upload two or more PDF files.\n2. Drag and drop the file previews to arrange them in the desired order.\n3. Click the 'Merge PDFs' button.\n4. Download your new, single PDF document." },
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "1. Upload a PDF file.\n2. Enter the page numbers or ranges you want to extract (e.g., 1, 3-5, 8).\n3. Click 'Extract Pages & Download' to process the file.\n4. A new PDF containing only your selected pages will be downloaded." },
-  { name: 'PDF to JPG Converter', description: 'Convert PDF pages into JPG images.', category: 'PDF & Document Tools', instructions: "1. Upload your PDF document.\n2. Select your desired output format (JPEG or PNG).\n3. The tool will convert each page of the PDF into a separate JPG image.\n4. Download all the generated images as a single ZIP file." },
-  { name: 'JPG to PDF Converter', description: 'Combine JPG images into a single PDF.', category: 'PDF & Document Tools', instructions: "1. Upload one or more JPG images.\n2. Reorder the images as you want them to appear in the PDF.\n3. Click 'Create PDF' to combine the images.\n4. Download your newly created PDF file." },
+  { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "1. Upload your PDF document.\n2. Select your desired output format (JPEG or PNG).\n3. The tool will convert each page of the PDF into a separate image file.\n4. Download all the generated images as a single ZIP file." },
+  { name: 'Image to PDF Converter', description: 'Combine multiple images into a single PDF.', category: 'PDF & Document Tools', instructions: "1. Upload one or more image files (JPG, PNG, etc.).\n2. Drag and drop to reorder the images as they should appear in the PDF.\n3. Adjust page size and orientation settings as needed.\n4. Click 'Create PDF' and download your file." },
 
   // Text & List Tools
   { name: 'Word & Char Counter', description: 'Check content length for essays or tweets.', category: 'Text & List Tools', instructions: "1. Paste or type your text into the text area.\n2. The tool will instantly update the word count, character count (with and without spaces), and paragraph count.\n3. No buttons needed, it's all automatic!" },
@@ -145,8 +146,10 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return MergePdf;
     case 'extract-pdf-pages':
       return SplitPdf;
-    case 'pdf-to-jpg-converter':
+    case 'pdf-to-image-converter':
       return PdfToJpgConverter;
+    case 'image-to-pdf-converter':
+      return ImageToPdfConverter;
 
     default:
       return PlaceholderTool;
@@ -179,8 +182,8 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     // PDF & Document Tools
     case 'merge-pdf': return MergePdfIcon;
     case 'extract-pdf-pages': return SplitPdfIcon;
-    case 'pdf-to-jpg-converter': return PdfToJpgConverterIcon;
-    case 'jpg-to-pdf-converter': return JpgToPdfConverterIcon;
+    case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
+    case 'image-to-pdf-converter': return JpgToPdfConverterIcon;
 
     // Text & List Tools
     case 'word-and-char-counter': return WordCounterIcon;
