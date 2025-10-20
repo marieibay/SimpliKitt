@@ -55,7 +55,8 @@ const SplitPdf: React.FC = () => {
         })
         .filter(i => i >= 0 && i < totalPages);
       
-      const uniqueIndices = [...new Set(pageIndices)].sort((a,b) => a-b);
+      // FIX: Add explicit types to sort callback parameters to fix arithmetic operation error.
+      const uniqueIndices = [...new Set(pageIndices)].sort((a: number, b: number) => a - b);
 
       if (uniqueIndices.length === 0) {
         setError("Invalid or empty page range specified.");

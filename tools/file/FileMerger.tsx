@@ -29,11 +29,13 @@ const FileMerger: React.FC = () => {
     setIsProcessing(true);
     setError(null);
     let content = '';
-    const readPromises = Array.from(files).map(file => {
+    // FIX: Add explicit type to 'file' parameter to resolve type inference issue.
+    const readPromises = Array.from(files).map((file: File) => {
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = e => resolve(e.target?.result as string);
-            reader.onerror = e => reject(e);
+            // FIX: Reject with reader.error instead of the ProgressEvent.
+            reader.onerror = () => reject(reader.error);
             reader.readAsText(file);
         });
     });

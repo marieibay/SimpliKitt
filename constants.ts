@@ -1,3 +1,4 @@
+import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
@@ -226,7 +227,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'image-tools',
     name: 'Image Tools',
-    description: 'Edit, convert, and optimize images for the web.',
+    shortDescription: 'Edit, convert, and optimize images for the web.',
+    description: 'A complete suite of tools to resize, compress, convert formats like JPG/PNG, and edit your images right in your browser.',
     icon: 'https://i.imgur.com/2fSinTK.png',
     color: 'bg-orange-100',
     cardColor: 'bg-orange-500',
@@ -236,7 +238,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'text-and-list-tools',
     name: 'Text & List Tools',
-    description: 'Format, clean, and analyze text and lists with ease.',
+    shortDescription: 'Format, clean, and analyze text and lists with ease.',
+    description: 'Easily format text, count words, remove duplicate lines, and generate placeholder text for your writing and development projects.',
     icon: 'https://i.imgur.com/pWLz7Qk.png',
     color: 'bg-blue-100',
     cardColor: 'bg-blue-500',
@@ -246,7 +249,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'pdf-and-document-tools',
     name: 'PDF & Document Tools',
-    description: 'Merge, split, secure, and convert your PDF documents.',
+    shortDescription: 'Merge, split, secure, and convert your PDF documents.',
+    description: 'Effortlessly merge multiple PDFs into one, extract specific pages to create new documents, or convert PDFs to and from images.',
     icon: 'https://i.imgur.com/fcPM5or.png',
     color: 'bg-green-100',
     cardColor: 'bg-green-500',
@@ -256,7 +260,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'file-converters-and-utilities',
     name: 'File Converters & Utilities',
-    description: 'Convert formats, merge files, and calculate checksums.',
+    shortDescription: 'Convert formats, merge files, and calculate checksums.',
+    description: 'Convert between common file formats like XLSX and CSV, merge multiple text files into a single document, or calculate file checksums to verify integrity.',
     icon: 'https://i.imgur.com/hCEBg9R.png',
     color: 'bg-purple-100',
     cardColor: 'bg-purple-500',
@@ -266,7 +271,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'calculators-and-time-tools',
     name: 'Calculators & Time Tools',
-    description: 'Solve math, convert units, and generate passwords.',
+    shortDescription: 'Solve math, convert units, and generate passwords.',
+    description: 'A collection of handy calculators for percentages, date differences, unit conversions, and generating strong, secure passwords for your accounts.',
     icon: 'https://i.imgur.com/Aj5fAOO.png',
     color: 'bg-cyan-100',
     cardColor: 'bg-cyan-400',
@@ -276,7 +282,8 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'web-and-developer-tools',
     name: 'Web & Developer Tools',
-    description: 'JSON, URL, hash, and code helpers for developers.',
+    shortDescription: 'JSON, URL, hash, and code helpers for developers.',
+    description: 'Essential utilities for developers, including a JSON formatter, URL encoder/decoder, hash generator, and a QR code creator for your projects.',
     icon: 'https://i.imgur.com/2KCBdel.png',
     color: 'bg-indigo-100',
     cardColor: 'bg-indigo-600',
