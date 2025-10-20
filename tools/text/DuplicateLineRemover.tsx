@@ -10,7 +10,17 @@ const DuplicateLineRemover: React.FC = () => {
       return '';
     }
     const lines = input.split('\n');
-    const uniqueLines = [...new Set(lines)];
+    
+    // Case-insensitive duplicate removal, keeping first occurrence's casing
+    const seen = new Set<string>();
+    const uniqueLines: string[] = [];
+    for (const line of lines) {
+        const lowerLine = line.toLowerCase();
+        if (!seen.has(lowerLine)) {
+            seen.add(lowerLine);
+            uniqueLines.push(line);
+        }
+    }
     return uniqueLines.join('\n');
   }, [input]);
   
@@ -20,7 +30,7 @@ const DuplicateLineRemover: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
     const originalLines = input.split('\n').length;
     const uniqueLines = output.split('\n').length;
-    trackEvent('duplicate_lines_removed', { originalLines, uniqueLines });
+    trackEvent('duplicate_lines_removed', { originalLines, uniqueLines, caseSensitive: false });
   };
 
   return (

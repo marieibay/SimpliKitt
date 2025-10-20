@@ -119,7 +119,10 @@ export const MergePdfIcon: React.FC<{ className?: string }> = ({ className }) =>
 
 export const SplitPdfIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-3.36-3.36a.48.48 0 00-.76.34V18a.48.48 0 00.76.34L14.74 15" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M14 2v4a2 2 0 002 2h4" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17h1" />
     </IconWrapper>
 );
 
@@ -143,8 +146,10 @@ export const WordCounterIcon: React.FC<{ className?: string }> = ({ className })
 
 export const CaseConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className}>
-        <path d="M11 5h8M14.5 5v12M18 17h-7M6 17l-3-3 3-3" />
-        <path d="M3 14h11" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="m3 15 4-8 4 8"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 13h6"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 4h6"/>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 4v10"/>
     </IconWrapper>
 );
 
@@ -161,9 +166,12 @@ export const LoremIpsumGeneratorIcon: React.FC<{ className?: string }> = ({ clas
 );
 
 export const ImageResizerIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 0h-4m4 0l-5-5" />
-    </IconWrapper>
+  <IconWrapper className={className}>
+    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18 8V2" />
+    <path d="M21 5h-6" />
+    <path d="M3 3l7 7" />
+  </IconWrapper>
 );
 
 export const JpgPngConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -186,10 +194,10 @@ export const ImageToBase64Icon: React.FC<{ className?: string }> = ({ className 
 
 export const PngToSvgIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
-    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-    <path d="M14 15H9v-5"/>
-    <path d="M16 3h5v5"/>
-    <path d="M21 3l-7 7"/>
+    <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+    <path d="M18 8V2" />
+    <path d="M21 5h-6" />
+    <path d="M3 3l7 7" />
   </IconWrapper>
 );
 
