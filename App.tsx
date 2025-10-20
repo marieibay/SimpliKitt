@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import CategoryPage from './pages/CategoryPage';
 import ToolPage from './pages/ToolPage';
@@ -26,6 +27,7 @@ const App: React.FC = () => {
           <Route path="/tos" element={<TosPage />} />
         </Routes>
       </Layout>
+      <Analytics />
     </HashRouter>
   );
 };
