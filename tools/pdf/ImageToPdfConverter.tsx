@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { trackEvent } from '../../analytics';
 
 // Add type definition for global jsPDF library
 declare global {
@@ -101,6 +102,11 @@ const ImageToPdfConverter: React.FC = () => {
       
       const pdfBlob = doc.output('blob');
       setOutputPdfUrl(URL.createObjectURL(pdfBlob));
+      trackEvent('images_to_pdf_converted', {
+        imageCount: images.length,
+        pageSize,
+        orientation,
+      });
 
     } catch (err: any) {
       setError(`An error occurred: ${err.message || 'Unknown error'}`);

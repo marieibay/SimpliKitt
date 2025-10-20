@@ -1,5 +1,5 @@
-
 import React, { useState, useMemo } from 'react';
+import { trackEvent } from '../../analytics';
 
 const DuplicateLineRemover: React.FC = () => {
   const [input, setInput] = useState('');
@@ -18,6 +18,9 @@ const DuplicateLineRemover: React.FC = () => {
     navigator.clipboard.writeText(output);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    const originalLines = input.split('\n').length;
+    const uniqueLines = output.split('\n').length;
+    trackEvent('duplicate_lines_removed', { originalLines, uniqueLines });
   };
 
   return (

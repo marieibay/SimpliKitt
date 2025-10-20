@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const CsvToXlsxConverter: React.FC = () => {
   const [xlsxBlob, setXlsxBlob] = useState<Blob | null>(null);
@@ -36,6 +37,7 @@ const CsvToXlsxConverter: React.FC = () => {
   
   const handleDownload = () => {
     if (!xlsxBlob) return;
+    trackEvent('file_converted_downloaded', { from: 'csv', to: 'xlsx', fileName });
     const link = document.createElement('a');
     if (link.href) {
       URL.revokeObjectURL(link.href);

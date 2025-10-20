@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ALL_TOOLS, CATEGORIES } from '../constants';
+import { trackEvent } from '../analytics';
 
 const ToolPage: React.FC = () => {
   const { toolSlug } = useParams<{ toolSlug: string }>();
   const tool = ALL_TOOLS.find(t => t.slug === toolSlug);
+
+  useEffect(() => {
+    if (tool) {
+      trackEvent('tool_viewed', { toolName: tool.name, toolSlug: tool.slug });
+    }
+  }, [tool]);
 
   if (!tool) {
     return (

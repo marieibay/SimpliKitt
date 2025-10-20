@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 // Add type definitions for global libraries to satisfy TypeScript
 declare global {
@@ -81,6 +82,10 @@ const PdfToJpgConverter: React.FC = () => {
         });
       }
       setConvertedImages(images);
+      trackEvent('pdf_to_images_converted', {
+        pageCount: numPages,
+        format: outputFormat,
+      });
     } catch (err: any) {
       console.error("PDF Conversion Error:", err);
       setError(`Failed to convert PDF: ${err.message || 'Unknown error'}. It might be corrupted or encrypted.`);
@@ -108,6 +113,10 @@ const PdfToJpgConverter: React.FC = () => {
     });
 
     Promise.all(promises).then(() => {
+        trackEvent('downloaded_converted_images_zip', {
+            imageCount: convertedImages.length,
+            format: outputFormat
+        });
         window.fflate.zip(filesToZip, (err: any, data: Uint8Array) => {
             if (err) {
                 setError('Failed to create ZIP file.');

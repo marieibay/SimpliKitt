@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { trackEvent } from '../../analytics';
 
 type CalcMode = 'percentOf' | 'isWhatPercent' | 'change';
 
@@ -6,6 +7,8 @@ const PercentageCalculator: React.FC = () => {
   const [mode, setMode] = useState<CalcMode>('percentOf');
   const [valA, setValA] = useState('');
   const [valB, setValB] = useState('');
+  const resultRef = useRef<number | string | null>(null);
+
 
   const result = useMemo(() => {
     const a = parseFloat(valA);
@@ -32,6 +35,15 @@ const PercentageCalculator: React.FC = () => {
     }
     return null;
   }, [mode, valA, valB]);
+
+  useEffect(() => {
+    // Track only when the result becomes a valid number from not being one
+    if (typeof result === 'number' && typeof resultRef.current !== 'number') {
+      trackEvent('percentage_calculated', { mode });
+    }
+    resultRef.current = result;
+  }, [result, mode]);
+
 
   const renderInputs = () => {
     switch (mode) {

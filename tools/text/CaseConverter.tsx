@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { trackEvent } from '../../analytics';
 
 const CaseConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -31,6 +31,7 @@ const CaseConverter: React.FC = () => {
         break;
     }
     setOutput(result);
+    trackEvent('text_case_converted', { case_type: type });
   };
 
   const handleCopy = () => {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileMergerIcon } from '../../components/Icons';
+import { trackEvent } from '../../analytics';
 
 const FileMerger: React.FC = () => {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -41,6 +42,7 @@ const FileMerger: React.FC = () => {
         const fileContents = await Promise.all(readPromises);
         content = fileContents.join('\n\n'); // Add blank lines between files
         setMergedContent(content);
+        trackEvent('files_merged', { fileCount: files.length });
     } catch (err) {
         setError("Error reading one of the files.");
         console.error(err);

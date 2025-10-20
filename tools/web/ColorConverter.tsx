@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { trackEvent } from '../../analytics';
 
 // Color conversion utilities
 const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
@@ -65,6 +65,7 @@ const ColorConverter: React.FC = () => {
             setRgb(`${rgbVal.r}, ${rgbVal.g}, ${rgbVal.b}`);
             const hslVal = rgbToHsl(rgbVal.r, rgbVal.g, rgbVal.b);
             setHsl(`${hslVal.h}, ${hslVal.s}, ${hslVal.l}`);
+            trackEvent('color_converted', { from: 'hex' });
         } else {
             setError('Invalid HEX value');
         }
@@ -79,6 +80,7 @@ const ColorConverter: React.FC = () => {
             setHex(rgbToHex(r,g,b));
             const hslVal = rgbToHsl(r,g,b);
             setHsl(`${hslVal.h}, ${hslVal.s}, ${hslVal.l}`);
+            trackEvent('color_converted', { from: 'rgb' });
         } else {
             setError('Invalid RGB value');
         }
@@ -94,6 +96,7 @@ const ColorConverter: React.FC = () => {
                 const rgbVal = hslToRgb(h,s,l);
                 setRgb(`${rgbVal.r}, ${rgbVal.g}, ${rgbVal.b}`);
                 setHex(rgbToHex(rgbVal.r, rgbVal.g, rgbVal.b));
+                trackEvent('color_converted', { from: 'hsl' });
             } else {
                 setError('Invalid HSL value');
             }

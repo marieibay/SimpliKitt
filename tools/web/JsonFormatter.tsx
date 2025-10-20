@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { trackEvent } from '../../analytics';
 
 const JsonFormatter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -18,6 +18,7 @@ const JsonFormatter: React.FC = () => {
       const formattedJson = JSON.stringify(parsedJson, null, 2);
       setOutput(formattedJson);
       setError(null);
+      trackEvent('json_formatted', { inputLength: input.length });
     } catch (e: any) {
       setError(`Invalid JSON: ${e.message}`);
       setOutput('');
@@ -35,6 +36,7 @@ const JsonFormatter: React.FC = () => {
       const minifiedJson = JSON.stringify(parsedJson);
       setOutput(minifiedJson);
       setError(null);
+      trackEvent('json_minified', { inputLength: input.length });
     } catch (e: any) {
       setError(`Invalid JSON: ${e.message}`);
       setOutput('');

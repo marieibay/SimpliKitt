@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const FileChecksumCalculator: React.FC = () => {
   const [checksum, setChecksum] = useState<string | null>(null);
@@ -20,6 +21,7 @@ const FileChecksumCalculator: React.FC = () => {
       const hashArray = Array.from(new Uint8Array(hashBuffer));
       const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
       setChecksum(hashHex);
+      trackEvent('checksum_calculated', { fileName: file.name, size: file.size });
     } catch (err) {
       setError('Failed to calculate checksum.');
       console.error(err);

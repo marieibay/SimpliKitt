@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { trackEvent } from '../../analytics';
 
 const UNITS = {
   length: {
@@ -48,6 +49,8 @@ const UnitConverter: React.FC = () => {
   const [fromUnit, setFromUnit] = useState('meters');
   const [toUnit, setToUnit] = useState('feet');
   const [inputValue, setInputValue] = useState('1');
+  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
+  const prevInputRef = useRef<string | undefined>(undefined);
 
   const availableUnits = UNITS[category].units;
 
@@ -65,6 +68,15 @@ const UnitConverter: React.FC = () => {
 
     return convertedValue.toLocaleString(undefined, { maximumFractionDigits: 6 });
   }, [inputValue, fromUnit, toUnit, category]);
+
+  useEffect(() => {
+    // Fire event only when a valid conversion occurs and the input value has changed
+    if (result && inputValue !== prevInputRef.current) {
+        trackEvent('unit_converted', { category, from: fromUnit, to: toUnit });
+    }
+    prevInputRef.current = inputValue;
+  }, [result, inputValue, category, fromUnit, toUnit]);
+
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategory = e.target.value as UnitCategory;

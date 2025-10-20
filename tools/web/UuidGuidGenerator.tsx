@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { trackEvent } from '../../analytics';
 
 const UuidGuidGenerator: React.FC = () => {
   const [uuid, setUuid] = useState('');
@@ -28,6 +28,11 @@ const UuidGuidGenerator: React.FC = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+  
+  const handleGenerateClick = () => {
+      generateUuid();
+      trackEvent('uuid_generated');
+  }
 
   return (
     <div className="max-w-xl mx-auto space-y-6 text-center">
@@ -48,7 +53,7 @@ const UuidGuidGenerator: React.FC = () => {
       
       <div className="flex justify-center gap-4">
         <button
-          onClick={generateUuid}
+          onClick={handleGenerateClick}
           className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
         >
           Generate New UUID

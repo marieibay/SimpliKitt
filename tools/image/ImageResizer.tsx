@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const ImageResizer: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -37,6 +38,12 @@ const ImageResizer: React.FC = () => {
     if (ctx) {
       ctx.drawImage(originalImageRef.current, 0, 0, width, height);
       setResizedImage(canvas.toDataURL('image/jpeg'));
+      trackEvent('image_resized', {
+        originalWidth: originalDimensions.w,
+        originalHeight: originalDimensions.h,
+        newWidth: width,
+        newHeight: height,
+      });
     }
   };
   

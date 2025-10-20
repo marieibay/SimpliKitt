@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const SplitPdf: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -78,6 +79,11 @@ const SplitPdf: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(link.href);
+      trackEvent('pdf_pages_extracted', {
+        pageRange,
+        totalPages,
+        extractedPageCount: uniqueIndices.length,
+      });
 
     } catch (err) {
       setError("An error occurred while splitting the PDF. Please check the file and page range.");

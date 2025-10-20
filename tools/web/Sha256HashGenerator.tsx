@@ -1,15 +1,17 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { trackEvent } from '../../analytics';
 
 const Sha256HashGenerator: React.FC = () => {
   const [input, setInput] = useState('');
   const [hash, setHash] = useState('');
   const [copied, setCopied] = useState(false);
+  const hasTrackedRef = useRef(false);
 
   useEffect(() => {
     const generateHash = async () => {
       if (input === '') {
         setHash('');
+        hasTrackedRef.current = false;
         return;
       }
       try {
@@ -19,6 +21,10 @@ const Sha256HashGenerator: React.FC = () => {
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         setHash(hashHex);
+        if (!hasTrackedRef.current) {
+            trackEvent('hash_generated');
+            hasTrackedRef.current = true;
+        }
       } catch (error) {
         console.error('Hashing failed:', error);
         setHash('Error generating hash');

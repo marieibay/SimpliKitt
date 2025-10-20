@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { trackEvent } from '../../analytics';
 
 const Base64EncoderDecoder: React.FC = () => {
   const [input, setInput] = useState('');
@@ -11,6 +11,7 @@ const Base64EncoderDecoder: React.FC = () => {
     try {
       setError('');
       setOutput(btoa(input));
+      trackEvent('base64_encoded');
     } catch (e) {
       setError('Failed to encode. The input may contain characters not supported by btoa.');
       setOutput('');
@@ -21,6 +22,7 @@ const Base64EncoderDecoder: React.FC = () => {
     try {
       setError('');
       setOutput(atob(input));
+      trackEvent('base64_decoded');
     } catch (e) {
       setError('Invalid Base64 string. Please check your input.');
       setOutput('');

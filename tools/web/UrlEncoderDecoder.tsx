@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { trackEvent } from '../../analytics';
 
 const UrlEncoderDecoder: React.FC = () => {
   const [input, setInput] = useState('');
@@ -10,12 +10,14 @@ const UrlEncoderDecoder: React.FC = () => {
   const handleEncode = () => {
     setError('');
     setOutput(encodeURIComponent(input));
+    if (input) trackEvent('url_encoded');
   };
   
   const handleDecode = () => {
     try {
       setError('');
       setOutput(decodeURIComponent(input));
+      if (input) trackEvent('url_decoded');
     } catch (e) {
       setError('Invalid URI component to decode.');
       setOutput('');

@@ -1,5 +1,5 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { trackEvent } from '../../analytics';
 
 const WordCharCounter: React.FC = () => {
   const [text, setText] = useState('');
@@ -9,9 +9,11 @@ const WordCharCounter: React.FC = () => {
     charactersNoSpaces: 0,
     paragraphs: 0,
   });
+  const hasTrackedRef = useRef(false);
 
   useEffect(() => {
     if (text.trim() === '') {
+      hasTrackedRef.current = false; // Reset when text is cleared
       setStats({ words: 0, characters: 0, charactersNoSpaces: 0, paragraphs: 0 });
       return;
     }
@@ -25,6 +27,12 @@ const WordCharCounter: React.FC = () => {
       .filter(p => p.trim() !== '').length;
 
     setStats({ words, characters, charactersNoSpaces, paragraphs });
+
+    // Track only once when user starts typing
+    if (!hasTrackedRef.current) {
+        trackEvent('text_stats_calculated');
+        hasTrackedRef.current = true;
+    }
   }, [text]);
 
   return (

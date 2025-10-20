@@ -1,7 +1,7 @@
-
 import React, { useState, useRef } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { MergePdfIcon } from '../../components/Icons';
+import { trackEvent } from '../../analytics';
 
 const MergePdf: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -54,6 +54,7 @@ const MergePdf: React.FC = () => {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      trackEvent('pdfs_merged', { fileCount: files.length });
 
     } catch (err) {
       setError("An error occurred while merging the PDFs. Please ensure they are valid and not encrypted.");

@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { trackEvent } from '../../analytics';
 
 const TimestampConverter: React.FC = () => {
   const [timestamp, setTimestamp] = useState<string>(Math.floor(Date.now() / 1000).toString());
@@ -50,18 +50,21 @@ const TimestampConverter: React.FC = () => {
     const newTs = e.target.value;
     setTimestamp(newTs);
     updateDateTimeFromTimestamp(newTs);
+    if(newTs) trackEvent('timestamp_converted', { from: 'timestamp' });
   };
   
   const handleDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDt = e.target.value;
     setDateTime(newDt);
     updateTimestampFromDateTime(newDt);
+    if(newDt) trackEvent('timestamp_converted', { from: 'datetime' });
   };
 
   const setToNow = () => {
       const now = Math.floor(Date.now() / 1000).toString();
       setTimestamp(now);
       updateDateTimeFromTimestamp(now);
+      trackEvent('timestamp_set_to_now');
   }
 
   return (

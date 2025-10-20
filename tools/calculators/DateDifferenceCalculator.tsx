@@ -1,9 +1,14 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { trackEvent } from '../../analytics';
 
 const DateDifferenceCalculator: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
+  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
+  const prevStartDate = useRef<string | undefined>(undefined);
+  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
+  const prevEndDate = useRef<string | undefined>(undefined);
 
   const difference = useMemo(() => {
     if (!startDate || !endDate) return null;
@@ -32,6 +37,14 @@ const DateDifferenceCalculator: React.FC = () => {
 
     return { years, months, days };
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    if (difference && (startDate !== prevStartDate.current || endDate !== prevEndDate.current)) {
+        trackEvent('date_difference_calculated');
+    }
+    prevStartDate.current = startDate;
+    prevEndDate.current = endDate;
+  }, [difference, startDate, endDate]);
 
   return (
     <div className="max-w-lg mx-auto space-y-6">

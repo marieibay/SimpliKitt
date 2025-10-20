@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { trackEvent } from '../../analytics';
 
 const PasswordGenerator: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -58,6 +59,19 @@ const PasswordGenerator: React.FC = () => {
   }
   
   const strength = getStrength();
+  
+  const handleGenerateClick = () => {
+    generatePassword();
+    trackEvent('password_regenerated', {
+      length,
+      includeUppercase,
+      includeLowercase,
+      includeNumbers,
+      includeSymbols,
+      strength: strength.text,
+    });
+  };
+
 
   return (
     <div className="max-w-md mx-auto space-y-6">
@@ -112,7 +126,7 @@ const PasswordGenerator: React.FC = () => {
       </div>
       
        <button 
-          onClick={generatePassword}
+          onClick={handleGenerateClick}
           className="w-full px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
         >
           Generate New Password

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const JpgPngConverter: React.FC = () => {
   const [inputFile, setInputFile] = useState<File | null>(null);
@@ -20,6 +21,10 @@ const JpgPngConverter: React.FC = () => {
   const handleConvert = () => {
     if (!inputFile) return;
     setIsConverting(true);
+    trackEvent('image_format_converted', {
+        from: inputFile.type.split('/')[1],
+        to: outputFormat,
+    });
     
     const reader = new FileReader();
     reader.onload = (e) => {

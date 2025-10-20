@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
 
 const ImageCompressor: React.FC = () => {
   const [inputFile, setInputFile] = useState<File | null>(null);
@@ -8,6 +9,7 @@ const ImageCompressor: React.FC = () => {
   const [quality, setQuality] = useState(0.8);
   const [originalSize, setOriginalSize] = useState(0);
   const [compressedSize, setCompressedSize] = useState(0);
+  const [hasTracked, setHasTracked] = useState(false);
 
   const handleFile = (file: File) => {
     setInputFile(file);
@@ -18,6 +20,7 @@ const ImageCompressor: React.FC = () => {
     };
     reader.readAsDataURL(file);
     setCompressedImage(null);
+    setHasTracked(false); // Reset tracking for new file
   };
 
   useEffect(() => {
@@ -37,10 +40,19 @@ const ImageCompressor: React.FC = () => {
         const padding = (resultDataUrl.charAt(resultDataUrl.length - 2) === '=') ? 2 : ((resultDataUrl.charAt(resultDataUrl.length - 1) === '=') ? 1 : 0);
         const sizeInBytes = base64Length * 0.75 - padding;
         setCompressedSize(sizeInBytes);
+
+        if (!hasTracked) {
+          trackEvent('image_compressed', {
+            quality: quality,
+            originalSize: inputFile.size,
+            compressedSize: sizeInBytes,
+          });
+          setHasTracked(true);
+        }
       }
     };
     img.src = originalImage;
-  }, [originalImage, inputFile, quality]);
+  }, [originalImage, inputFile, quality, hasTracked]);
 
   const formatBytes = (bytes: number, decimals = 2) => {
     if (bytes === 0) return '0 Bytes';
