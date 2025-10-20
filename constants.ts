@@ -226,7 +226,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'image-tools',
     name: 'Image Tools',
-    description: 'Quickly resize, compress, and convert images for web optimization. These tools help you reduce file sizes for faster page loads and switch between formats like JPG and PNG to meet any requirement.',
+    description: 'Edit, convert, and optimize images for the web.',
     icon: 'https://i.imgur.com/2fSinTK.png',
     color: 'bg-orange-100',
     cardColor: 'bg-orange-500',
@@ -236,7 +236,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'text-and-list-tools',
     name: 'Text & List Tools',
-    description: 'Perform common text manipulations like changing case, counting words, or removing duplicate lines. Perfect for cleaning up data, formatting content for social media, or generating placeholder text for mockups.',
+    description: 'Format, clean, and analyze text and lists with ease.',
     icon: 'https://i.imgur.com/pWLz7Qk.png',
     color: 'bg-blue-100',
     cardColor: 'bg-blue-500',
@@ -246,7 +246,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'pdf-and-document-tools',
     name: 'PDF & Document Tools',
-    description: 'Manage your PDF files with ease. Combine multiple documents into a single file, extract specific pages, or convert PDFs to and from image formats for easy sharing and archiving.',
+    description: 'Merge, split, secure, and convert your PDF documents.',
     icon: 'https://i.imgur.com/fcPM5or.png',
     color: 'bg-green-100',
     cardColor: 'bg-green-500',
@@ -256,7 +256,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'file-converters-and-utilities',
     name: 'File Converters & Utilities',
-    description: 'Switch between common data formats like CSV and Excel (XLSX) for better compatibility, merge multiple text files into one, or verify file integrity by calculating secure checksums.',
+    description: 'Convert formats, merge files, and calculate checksums.',
     icon: 'https://i.imgur.com/hCEBg9R.png',
     color: 'bg-purple-100',
     cardColor: 'bg-purple-500',
@@ -266,7 +266,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'calculators-and-time-tools',
     name: 'Calculators & Time Tools',
-    description: 'Handle everyday calculations and conversions. Solve percentage problems, create strong and secure passwords, convert between different units of measurement, or calculate the duration between two dates.',
+    description: 'Solve math, convert units, and generate passwords.',
     icon: 'https://i.imgur.com/Aj5fAOO.png',
     color: 'bg-cyan-100',
     cardColor: 'bg-cyan-400',
@@ -276,7 +276,7 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'web-and-developer-tools',
     name: 'Web & Developer Tools',
-    description: 'A collection of essential utilities for developers. Format messy JSON, encode or decode URLs and Base64 strings, generate hashes and unique IDs (UUIDs), and convert between different color formats.',
+    description: 'JSON, URL, hash, and code helpers for developers.',
     icon: 'https://i.imgur.com/2KCBdel.png',
     color: 'bg-indigo-100',
     cardColor: 'bg-indigo-600',

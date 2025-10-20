@@ -20,7 +20,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
 
       <div className="bg-white rounded-xl p-4">
         <h3 className="font-bold text-gray-800 text-base truncate">{name}</h3>
-        <p className="text-sm text-gray-500 mt-1 h-10 leading-tight">{description}</p>
+        <p className="text-sm text-gray-500 mt-1 h-10 leading-tight overflow-hidden">{description}</p>
       </div>
     </Link>
   );
