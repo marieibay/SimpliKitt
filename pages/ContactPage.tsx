@@ -12,8 +12,8 @@ const ContactPage: React.FC = () => {
         <p>
           Please reach out to us at:
         </p>
-        <a href="mailto:simplikitt@gmail.com" className="text-xl font-semibold text-blue-600 hover:underline">
-          simplikitt@gmail.com
+        <a href="mailto:hello@simplikitt.com" className="text-xl font-semibold text-blue-600 hover:underline">
+          hello@simplikitt.com
         </a>
         <p className="mt-4">
           We'll do our best to get back to you as soon as possible.
