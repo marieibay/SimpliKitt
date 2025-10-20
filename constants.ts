@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -19,8 +19,14 @@ import DuplicateLineRemover from './tools/text/DuplicateLineRemover';
 import LoremIpsumGenerator from './tools/text/LoremIpsumGenerator';
 import XlsxToCsvConverter from './tools/file/XlsxToCsvConverter';
 import CsvToXlsxConverter from './tools/file/CsvToXlsxConverter';
+import TsvToCsvConverter from './tools/file/TsvToCsvConverter';
 import FileMerger from './tools/file/FileMerger';
+import BatchFileRenamer from './tools/file/BatchFileRenamer';
 import FileChecksumCalculator from './tools/file/FileChecksumCalculator';
+import FileExtensionChanger from './tools/file/FileExtensionChanger';
+import DocxToTextExtractor from './tools/file/DocxToTextExtractor';
+import PptxToTextExtractor from './tools/file/PptxToTextExtractor';
+import FileSizeConverter from './tools/file/FileSizeConverter';
 import PercentageCalculator from './tools/calculators/PercentageCalculator';
 import PasswordGenerator from './tools/calculators/PasswordGenerator';
 import UnitConverter from './tools/calculators/UnitConverter';
@@ -64,8 +70,14 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // File Converters & Utilities
   { name: 'Excel (XLSX) to CSV Converter', description: 'Converts simple XLSX data to CSV.', category: 'File Converters & Utilities', instructions: "XLSX is a complex format for spreadsheets, while CSV (Comma-Separated Values) is a simple, plain-text format ideal for data exchange between different applications. This tool extracts the data from the first sheet of an Excel file.\n1. Drag and drop your .xlsx file or click to select it.\n2. The tool will process the first sheet of your file locally in your browser.\n3. A 'Download CSV' button will appear, allowing you to save the converted data." },
   { name: 'CSV to Excel (XLSX) Converter', description: 'Converts CSV to XLSX format.', category: 'File Converters & Utilities', instructions: "Convert your simple CSV data files into the more powerful XLSX format, allowing you to use Excel's features like formulas, charts, and formatting.\n1. Drag and drop your .csv file or click to select it.\n2. The tool will parse your CSV data and prepare it for Excel.\n3. Click the 'Download XLSX' button to save the data in a new Excel spreadsheet." },
+  { name: 'TSV (Tab Separated) to CSV Converter', description: 'Converts tab-delimited text to comma-delimited.', category: 'File Converters & Utilities', instructions: "Quickly convert files that use tabs to separate values (TSV) into the more common comma-separated (CSV) format.\n1. Upload your .tsv or .txt file.\n2. The tool will instantly replace all tab characters with commas.\n3. Click 'Download CSV' to save your newly formatted file." },
   { name: 'File Merger (Text/CSV)', description: 'Combines multiple text or CSV files.', category: 'File Converters & Utilities', instructions: "This tool is perfect for combining multiple log files, data exports, or text documents into a single, unified file for easier analysis or archiving.\n1. Select multiple text (.txt) or CSV (.csv) files from your computer.\n2. The files will be combined in the order you selected them, with blank lines added between each file's content.\n3. Click 'Merge and Download' to save the single, combined file." },
+  { name: 'Batch File Renamer', description: 'Renames multiple uploaded files based on a pattern.', category: 'File Converters & Utilities', instructions: "Efficiently rename a large number of files at once without manual effort. Your files are processed in the browser and bundled into a ZIP for easy download.\n1. Upload all the files you want to rename.\n2. Define a renaming pattern using a prefix (e.g., 'vacation-') and a starting number (e.g., 101).\n3. The tool will show you a live preview of the new filenames.\n4. Click 'Rename & Download ZIP' to get an archive containing all your renamed files." },
   { name: 'File Checksum Calculator', description: 'Calculates SHA-256 checksum for files.', category: 'File Converters & Utilities', instructions: "A checksum (or hash) is a unique digital fingerprint of a file. You can use it to verify that a file has not been altered or corrupted during download or transfer.\n1. Select any file from your device.\n2. The tool will process the file entirely within your browser to calculate its SHA-256 hash.\n3. You can copy the generated hash and compare it against a known value to ensure the file's integrity." },
+  { name: 'File Extension Changer', description: 'Changes the file extension (e.g., .txt to .log).', category: 'File Converters & Utilities', instructions: "Quickly change a file's extension without altering its content. This is useful for re-classifying files for use in different programs or systems.\n1. Upload any file.\n2. Enter the new extension you want the file to have (including the dot, e.g., '.log').\n3. Click 'Change & Download' to save a new copy of the file with the updated extension." },
+  { name: 'DOCX to Text Extractor', description: 'Extracts plain text content from a DOCX file.', category: 'File Converters & Utilities', instructions: "Easily pull all the text out of a Microsoft Word (.docx) document, stripping away all formatting, images, and tables. This is perfect for when you just need the raw content.\n1. Upload your .docx file.\n2. The tool will process the document in your browser and extract all readable text.\n3. The extracted text will be displayed in a textbox, ready for you to copy." },
+  { name: 'PPTX to Text Extractor', description: 'Extracts text content from a PPTX file.', category: 'File Converters & Utilities', instructions: "Extract all the text from the slides of a PowerPoint (.pptx) presentation. This tool is great for getting a text-only version of a presentation for easy searching or repurposing.\n1. Upload your .pptx file.\n2. The text from all slides will be extracted and combined.\n3. The extracted text appears in the output box, with text from each slide separated by a divider." },
+  { name: 'File Size Converter', description: 'Converts file size between Bytes, KB, MB, GB.', category: 'File Converters & Utilities', instructions: "Quickly convert between different units of digital information size. This is useful for programmers, system administrators, or anyone needing to understand and compare file sizes.\n1. Enter the size value in the 'From' field.\n2. Select the unit you are converting from (e.g., Megabytes).\n3. Select the unit you want to convert to (e.g., Kilobytes).\n4. The converted size appears instantly in the 'To' field." },
 
   // PDF & Document Tools
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "Easily combine reports, presentations, or separate chapters into a single, organized PDF document without needing any desktop software.\n1. Upload two or more PDF files by clicking 'Add PDFs'.\n2. Drag and drop the file previews in the list to arrange them in the exact order you want.\n3. Click the 'Merge PDFs' button to start the process.\n4. Your new, single PDF document will be generated and ready for download." },
@@ -134,10 +146,22 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return XlsxToCsvConverter;
     case 'csv-to-excel-xlsx-converter':
       return CsvToXlsxConverter;
+    case 'tsv-tab-separated-to-csv-converter':
+      return TsvToCsvConverter;
     case 'file-merger-textcsv':
       return FileMerger;
+    case 'batch-file-renamer':
+      return BatchFileRenamer;
     case 'file-checksum-calculator':
       return FileChecksumCalculator;
+    case 'file-extension-changer':
+      return FileExtensionChanger;
+    case 'docx-to-text-extractor':
+      return DocxToTextExtractor;
+    case 'pptx-to-text-extractor':
+        return PptxToTextExtractor;
+    case 'file-size-converter':
+        return FileSizeConverter;
 
     // Calculators
     case 'percentage-calculator':
@@ -185,8 +209,14 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     // File Converters & Utilities
     case 'excel-xlsx-to-csv-converter': return FileSpreadsheetIcon;
     case 'csv-to-excel-xlsx-converter': return FileSpreadsheetIcon;
+    case 'tsv-tab-separated-to-csv-converter': return TsvToCsvIcon;
     case 'file-merger-textcsv': return FileMergerIcon;
+    case 'batch-file-renamer': return BatchFileRenamerIcon;
     case 'file-checksum-calculator': return FileChecksumCalculatorIcon;
+    case 'file-extension-changer': return FileExtensionChangerIcon;
+    case 'docx-to-text-extractor': return DocxToTextExtractorIcon;
+    case 'pptx-to-text-extractor': return PptxToTextExtractorIcon;
+    case 'file-size-converter': return FileSizeConverterIcon;
 
     // PDF & Document Tools
     case 'merge-pdf': return MergePdfIcon;
