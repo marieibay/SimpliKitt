@@ -1,8 +1,7 @@
-
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -34,6 +33,8 @@ import MergePdf from './tools/pdf/MergePdf';
 import SplitPdf from './tools/pdf/SplitPdf';
 import PdfToJpgConverter from './tools/pdf/PdfToJpgConverter';
 import ImageToPdfConverter from './tools/pdf/ImageToPdfConverter';
+import QrCodeGenerator from './tools/web/QrCodeGenerator';
+import PngToSvgConverter from './tools/image/PngToSvgConverter';
 
 const slugify = (text: string) =>
   text
@@ -44,6 +45,7 @@ const slugify = (text: string) =>
 
 const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // Web & Developer Tools
+  { name: 'QR Code Generator', description: 'Create and download QR codes for URLs and text.', category: 'Web & Developer Tools', instructions: "1. Enter the text or URL you want to encode into the input field.\n2. The QR code will be generated instantly as you type.\n3. Customize the foreground and background colors using the color pickers.\n4. Adjust the size of the QR code using the slider.\n5. Click 'Download QR Code' to save the generated image as a PNG file." },
   { name: 'JSON Formatter', description: 'Beautify and validate messy JSON data.', category: 'Web & Developer Tools', instructions: "1. Paste your raw or minified JSON code into the 'Input JSON' box.\n2. Click 'Format' to beautify and indent the code for readability.\n3. Alternatively, click 'Minify' to compress the JSON into a single line.\n4. The result will appear in the 'Formatted JSON' box, ready to copy." },
   { name: 'URL Encoder/Decoder', description: 'Clean up confusing or broken web links.', category: 'Web & Developer Tools', instructions: "1. Enter a URL or a string into the input box.\n2. Click 'Encode' to convert it into a URL-safe format (percent-encoding).\n3. Click 'Decode' to convert a URL-encoded string back to its original form.\n4. The result is displayed in the output box." },
   { name: 'Timestamp Converter', description: 'Convert Unix time into readable dates.', category: 'Web & Developer Tools', instructions: "1. Enter a Unix timestamp (e.g., 1672531200) to see the human-readable date.\n2. Alternatively, pick a date and time to get the corresponding Unix timestamp.\n3. The conversion happens instantly as you type or select." },
@@ -81,11 +83,14 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'JPG & PNG Converter', description: 'Convert between JPG and PNG formats.', category: 'Image Tools', instructions: "1. Upload a JPG or PNG image.\n2. The tool will automatically detect the format and offer to convert it to the other (e.g., JPG to PNG).\n3. Click 'Convert' and then download the new image file." },
   { name: 'Image Compressor', description: 'Reduce image file size with optimization.', category: 'Image Tools', instructions: "1. Upload a JPG or PNG image.\n2. Use the quality slider to adjust the compression level. A lower quality results in a smaller file size.\n3. A preview will show you the original and new file sizes.\n4. Download your compressed image." },
   { name: 'Image to Base64', description: 'Encode images to Base64 strings.', category: 'Image Tools', instructions: "1. Upload any image file.\n2. The tool will read the image and convert its data into a Base64 text string.\n3. The Base64 string will be displayed for you to copy. This is useful for embedding images directly in code." },
+  { name: 'PNG to SVG Converter', description: 'Convert PNG images into pixel-based SVG format.', category: 'Image Tools', instructions: "1. Upload a PNG image file.\n2. Click the 'Convert to SVG' button to start the process.\n3. The result will be a pixelated SVG representation of your image.\n4. Click 'Download SVG' to save the file." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
   switch (slug) {
     // Web & Developer
+    case 'qr-code-generator':
+      return QrCodeGenerator;
     case 'url-encoderdecoder':
       return UrlEncoderDecoder;
     case 'json-formatter':
@@ -110,6 +115,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageCompressor;
     case 'image-to-base64':
       return ImageToBase64;
+    case 'png-to-svg-converter':
+      return PngToSvgConverter;
 
     // Text & List Tools
     case 'case-converter':
@@ -159,6 +166,7 @@ const getComponentForTool = (slug: string): React.ComponentType => {
 const getIconForTool = (slug: string): React.ComponentType<{ className?: string }> => {
   switch (slug) {
     // Web & Developer Tools
+    case 'qr-code-generator': return QrCodeIcon;
     case 'json-formatter': return JsonFormatterIcon;
     case 'url-encoderdecoder': return UrlEncoderDecoderIcon;
     case 'timestamp-converter': return TimestampConverterIcon;
@@ -196,6 +204,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'jpg-and-png-converter': return JpgPngConverterIcon;
     case 'image-compressor': return ImageCompressorIcon;
     case 'image-to-base64': return ImageToBase64Icon;
+    case 'png-to-svg-converter': return PngToSvgIcon;
       
     default:
       return WrenchIcon;
