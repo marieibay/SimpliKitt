@@ -17,10 +17,10 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <Link to="/" className="flex items-center space-x-2 mb-4 group">
+            <a href="https://simplikitt.com" className="flex items-center space-x-2 mb-4 group">
               <img src="https://i.imgur.com/GtWkrQE.png" alt="SimpliKitt Logo" className="h-8 w-8 transition-transform duration-300 group-hover:rotate-[10deg]" />
               <span className="font-bold text-xl text-gray-800">SimpliKitt</span>
-            </Link>
+            </a>
             <p className="text-sm text-gray-500 max-w-md">
               Free, instant, client-side tools to simplify your digital life. Your privacy is our priority, so your data never leaves your browser.
             </p>
