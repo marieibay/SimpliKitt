@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, BulkImageResizerIcon, BulkImageCompressorIcon, BulkImageToBase64Icon, BulkImageToGrayscaleIcon, BulkImageConverterIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, BulkImageResizerIcon, BulkImageCompressorIcon, BulkImageToBase64Icon, BulkImageToGrayscaleIcon, BulkImageConverterIcon, ImageCropperIcon, ImageWatermarkIcon, ImageRotatorIcon, ImageBlurFilterIcon, ImageSepiaFilterIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -49,6 +49,11 @@ import BulkImageToBase64 from './tools/image/BulkImageToBase64';
 import BulkImageToGrayscale from './tools/image/BulkImageToGrayscale';
 import BulkJpgToPngConverter from './tools/image/BulkJpgToPngConverter';
 import BulkPngToJpgConverter from './tools/image/BulkPngToJpgConverter';
+import ImageCropper from './tools/image/ImageCropper';
+import ImageWatermark from './tools/image/ImageWatermark';
+import ImageRotator from './tools/image/ImageRotator';
+import ImageBlurFilter from './tools/image/ImageBlurFilter';
+import ImageSepiaFilter from './tools/image/ImageSepiaFilter';
 
 
 const slugify = (text: string) =>
@@ -112,6 +117,11 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image to Grayscale (Bulk)', description: 'Converts multiple images to black and white and downloads a ZIP.', category: 'Image Tools' },
   { name: 'JPG to PNG Converter (Bulk)', description: 'Converts multiple JPG images to PNG format in a batch.', category: 'Image Tools' },
   { name: 'PNG to JPG Converter (Bulk)', description: 'Converts multiple PNG images to JPG format in a batch.', category: 'Image Tools' },
+  { name: 'Image Cropper', description: 'Crops an image to a fixed ratio (1:1, 16:9, etc.).', category: 'Image Tools' },
+  { name: 'Image Watermark', description: 'Draws an uploaded logo over the image.', category: 'Image Tools' },
+  { name: 'Image Rotator', description: 'Rotates image by any user-defined angle.', category: 'Image Tools' },
+  { name: 'Image Blur Filter', description: 'Applies a Gaussian blur effect.', category: 'Image Tools' },
+  { name: 'Image Sepia Filter', description: 'Applies a sepia tone effect.', category: 'Image Tools' },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -157,6 +167,16 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return BulkJpgToPngConverter;
     case 'png-to-jpg-converter-bulk':
         return BulkPngToJpgConverter;
+    case 'image-cropper':
+        return ImageCropper;
+    case 'image-watermark':
+        return ImageWatermark;
+    case 'image-rotator':
+        return ImageRotator;
+    case 'image-blur-filter':
+        return ImageBlurFilter;
+    case 'image-sepia-filter':
+        return ImageSepiaFilter;
 
     // Text & List Tools
     case 'case-converter':
@@ -272,6 +292,11 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-to-grayscale-bulk': return BulkImageToGrayscaleIcon;
     case 'jpg-to-png-converter-bulk': return BulkImageConverterIcon;
     case 'png-to-jpg-converter-bulk': return BulkImageConverterIcon;
+    case 'image-cropper': return ImageCropperIcon;
+    case 'image-watermark': return ImageWatermarkIcon;
+    case 'image-rotator': return ImageRotatorIcon;
+    case 'image-blur-filter': return ImageBlurFilterIcon;
+    case 'image-sepia-filter': return ImageSepiaFilterIcon;
       
     default:
       return WrenchIcon;
