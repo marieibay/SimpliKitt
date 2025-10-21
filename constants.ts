@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -55,6 +55,11 @@ import ImageRotator from './tools/image/ImageRotator';
 import ImageBlurFilter from './tools/image/ImageBlurFilter';
 import ImageSepiaFilter from './tools/image/ImageSepiaFilter';
 import ImageSharpenFilter from './tools/image/ImageSharpenFilter';
+import ImageInvertColors from './tools/image/ImageInvertColors';
+import ImageOpacityAdjuster from './tools/image/ImageOpacityAdjuster';
+import ImageHueSaturationAdjuster from './tools/image/ImageHueSaturationAdjuster';
+import ImageFlipper from './tools/image/ImageFlipper';
+import ImageToAscii from './tools/image/ImageToAscii';
 
 const slugify = (text: string) =>
   text
@@ -123,6 +128,11 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Blur Filter', description: 'Applies a Gaussian blur effect.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Blur Intensity' slider to adjust the strength of the blur effect in real-time.\n3. Click 'Download Blurred Image' to save the edited image." },
   { name: 'Image Sepia Filter', description: 'Applies a sepia tone effect.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Sepia Intensity' slider to adjust the strength of the vintage sepia tone.\n3. Click 'Download Sepia Image' to save your new photo." },
   { name: 'Image Sharpen Filter', description: 'Applies a basic sharpening filter.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Click the 'Apply Sharpen Filter' button to enhance the details and edges of your image.\n3. Click 'Download Sharpened Image' to save the result." },
+  { name: 'Image Invert Colors', description: 'Inverts the color palette (negative effect).', category: 'Image Tools', instructions: "1. Upload an image.\n2. Click the 'Invert Colors' button to apply the effect.\n3. Click 'Download Inverted Image' to save the result." },
+  { name: 'Image Opacity/Transparency Adjuster', description: 'Changes the alpha level of the image.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Opacity' slider to adjust the transparency of the image in real-time.\n3. Click 'Download Image' to save the image with its new opacity." },
+  { name: 'Image Hue/Saturation Adjuster', description: 'Modifies the hue and saturation of colors.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Hue' slider to shift the colors of the image.\n3. Use the 'Saturation' slider to make colors more or less vibrant.\n4. Click 'Download Image' to save your color-adjusted image." },
+  { name: 'Image Flipper (Horizontal & Vertical)', description: 'Flips the image on both axes.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Click 'Flip Horizontal' or 'Flip Vertical' to transform the image.\n3. Click 'Download Flipped Image' to save the result." },
+  { name: 'Image to ASCII Art (Simple)', description: 'Converts image to text-based ASCII representation.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Adjust the 'Detail Level' to change the size and complexity of the ASCII output.\n3. The ASCII art will be generated in the text box.\n4. Click 'Copy to Clipboard' or 'Download as .txt' to save your art." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -180,6 +190,16 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageSepiaFilter;
     case 'image-sharpen-filter':
       return ImageSharpenFilter;
+    case 'image-invert-colors':
+        return ImageInvertColors;
+    case 'image-opacitytransparency-adjuster':
+        return ImageOpacityAdjuster;
+    case 'image-huesaturation-adjuster':
+        return ImageHueSaturationAdjuster;
+    case 'image-flipper-horizontal-and-vertical':
+        return ImageFlipper;
+    case 'image-to-ascii-art-simple':
+        return ImageToAscii;
 
     // Text & List Tools
     case 'case-converter':
@@ -301,6 +321,11 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-blur-filter': return EyeOffIcon;
     case 'image-sepia-filter': return CameraIcon;
     case 'image-sharpen-filter': return SparklesIcon;
+    case 'image-invert-colors': return EclipseIcon;
+    case 'image-opacitytransparency-adjuster': return LayersIcon;
+    case 'image-huesaturation-adjuster': return PaletteIcon;
+    case 'image-flipper-horizontal-and-vertical': return FlipHorizontalIcon;
+    case 'image-to-ascii-art-simple': return TerminalIcon;
       
     default:
       return WrenchIcon;

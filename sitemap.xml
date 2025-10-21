@@ -113,4 +113,9 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-blur-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-sepia-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-sharpen-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-invert-colors</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-opacitytransparency-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-huesaturation-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-flipper-horizontal-and-vertical</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-ascii-art-simple</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

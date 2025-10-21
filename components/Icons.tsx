@@ -349,37 +349,90 @@ export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ clas
         <path d="m18 6 4 4h-6a2 2 0 0 1-2-2V2"/>
     </IconWrapper>
 );
-
+// FIX: Add ShieldCheckIcon for image watermarking.
 export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        <path d="m9 12 2 2 4-4"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    <path d="m9 12 2 2 4-4" />
+  </IconWrapper>
 );
 
+// FIX: Add RotateCwIcon for image rotation.
 export const RotateCwIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M21 2v6h-6"/>
-        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <polyline points="23 4 23 10 17 10" />
+    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+  </IconWrapper>
 );
 
+// FIX: Add EyeOffIcon for image blur filter.
 export const EyeOffIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07L3 3l18 18-4.24-4.24-4.52-4.52-1.34-1.34Z"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07L3 3" />
+    <line x1="1" y1="1" x2="23" y2="23" />
+  </IconWrapper>
 );
 
+// FIX: Add CameraIcon for image sepia filter.
 export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+    <circle cx="12" cy="13" r="4" />
+  </IconWrapper>
+);
+
+// FIX: Add SparklesIcon for image sharpen filter.
+export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M12 3L9.25 8.75 3.5 11.5 9.25 14.25 12 20 14.75 14.25 20.5 11.5 14.75 8.75 12 3z" />
+    <path d="M5 3v4" />
+    <path d="M19 17v4" />
+    <path d="M3 5h4" />
+    <path d="M17 19h4" />
+  </IconWrapper>
+);
+
+// FIX: Add EclipseIcon for color inversion.
+export const EclipseIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 2a7 7 0 1 0 10 10" />
+  </IconWrapper>
+);
+
+// FIX: Add LayersIcon for opacity adjustment.
+export const LayersIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <polyline points="2 17 12 22 22 17" />
+    <polyline points="2 12 12 17 22 12" />
+  </IconWrapper>
+);
+
+// FIX: Add PaletteIcon for hue/saturation adjustment.
+export const PaletteIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-        <circle cx="12" cy="13" r="3"/>
+        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.667 0-.424-.163-.82-.437-1.125-.29-.32-1.172-1.176-1.172-1.176s-1.571-1.571-1.571-2.61c0-1.284 1.033-2.316 2.316-2.316.326 0 .63.064.914.174.3.12.636.168.924.168.528 0 1.027-.208 1.402-.583.375-.375.583-.874.583-1.402V2z"/>
     </IconWrapper>
 );
 
-export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9L12 18l1.9-5.8 5.8-1.9-5.8-1.9L12 3z"/>
-        <path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>
-    </IconWrapper>
+// FIX: Add FlipHorizontalIcon for image flipping.
+export const FlipHorizontalIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M12 22V2" />
+    <path d="M8 7l-4 5 4 5" />
+    <path d="M16 7l4 5-4 5" />
+  </IconWrapper>
+);
+
+// FIX: Add TerminalIcon for ASCII art generation.
+export const TerminalIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <polyline points="4 17 10 11 4 5" />
+    <line x1="12" y1="19" x2="20" y2="19" />
+  </IconWrapper>
 );
