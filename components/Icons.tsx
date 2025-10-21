@@ -303,36 +303,3 @@ export const BulkImageCompressorIcon: React.FC<{ className?: string }> = ({ clas
       <path d="M8 10h2"/>
   </IconWrapper>
 );
-
-export const BulkImageToBase64Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <path d="M10 12h1"/>
-        <path d="M13 12h1"/>
-        <path d="M10 18h4"/>
-        <path d="M10 15h4"/>
-    </IconWrapper>
-);
-
-export const BulkImageToGrayscaleIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m12 22 4-4"/>
-        <path d="m12.3 9.7 4.5-4.5a2.1 2.1 0 1 1 3 3L15.3 12.8"/>
-        <path d="M21 21H3v-2h2"/>
-        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="M7 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-        <path d="m18 8 2 2"/>
-    </IconWrapper>
-);
-
-export const BulkImageConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m3 2 8 2 4-4 8 8-4 4 2 8-8-2-4 4-8-8 4-4-2-8Z"/>
-        <path d="M12 12h.01"/>
-    </IconWrapper>
-);
