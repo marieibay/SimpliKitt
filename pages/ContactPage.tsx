@@ -1,7 +1,27 @@
+import React, { useEffect } from 'react';
 
-import React from 'react';
+const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
+const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
 
 const ContactPage: React.FC = () => {
+  useEffect(() => {
+    const title = 'Contact SimpliKitt';
+    const description = 'Get in touch with the SimpliKitt team. Send us your questions, feedback, or suggestions via email.';
+    document.title = title;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', description);
+    }
+    
+    return () => {
+      document.title = defaultTitle;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', defaultDescription);
+      }
+    };
+  }, []);
+
   return (
     <div className="max-w-3xl mx-auto py-12 text-center">
       <h1 className="text-4xl font-extrabold text-gray-900">Contact Us</h1>

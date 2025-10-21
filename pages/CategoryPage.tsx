@@ -1,12 +1,33 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CATEGORIES } from '../constants';
 import ToolCard from '../components/ToolCard';
 
+const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
+const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
+
 const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
   const category = CATEGORIES.find(c => c.slug === categorySlug);
+
+  useEffect(() => {
+    if (category) {
+      document.title = `${category.name} - SimpliKitt`;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', category.description);
+      }
+    }
+
+    return () => {
+      document.title = defaultTitle;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', defaultDescription);
+      }
+    };
+  }, [category]);
+
 
   if (!category) {
     return (

@@ -1,6 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
+const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
 
 const TosPage: React.FC = () => {
+  useEffect(() => {
+    const title = 'Terms of Service - SimpliKitt';
+    const description = 'Review the Terms of Service for using the SimpliKitt website and its collection of free digital tools.';
+    document.title = title;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', description);
+    }
+    
+    return () => {
+      document.title = defaultTitle;
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', defaultDescription);
+      }
+    };
+  }, []);
+
   return (
     <div className="max-w-3xl mx-auto py-12">
       <h1 className="text-4xl font-extrabold text-gray-900 text-center">Terms of Service</h1>
