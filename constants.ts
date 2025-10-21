@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -60,6 +60,25 @@ import ImageOpacityAdjuster from './tools/image/ImageOpacityAdjuster';
 import ImageHueSaturationAdjuster from './tools/image/ImageHueSaturationAdjuster';
 import ImageFlipper from './tools/image/ImageFlipper';
 import ImageToAscii from './tools/image/ImageToAscii';
+import ImageContrastAdjuster from './tools/image/ImageContrastAdjuster';
+import ColorPaletteExtractor from './tools/color/ColorPaletteExtractor';
+import ImageColorPicker from './tools/color/ImageColorPicker';
+import AddBorderToImage from './tools/image/AddBorderToImage';
+import AddRoundedCornersToImage from './tools/image/AddRoundedCornersToImage';
+import ImageCollageMaker from './tools/image/ImageCollageMaker';
+import ImageToDataUrl from './tools/image/ImageToDataUrlGenerator';
+import ImageDpiChanger from './tools/image/ImageDpiChanger';
+import ImageFilterPresetLibrary from './tools/image/ImageFilterPresetLibrary';
+import ImageTextOverlay from './tools/image/ImageTextOverlay';
+import PngTransparencyChecker from './tools/image/PngTransparencyChecker';
+import ImagePixelateFilter from './tools/image/ImagePixelateFilter';
+import ImageToBmpConverter from './tools/image/ImageToBmpConverter';
+import ImageToGifConverter from './tools/image/ImageToGifConverter';
+import ImageMirrorEffect from './tools/image/ImageMirrorEffect';
+import ImageWarpingTool from './tools/image/ImageWarpingTool';
+import ImageTintAdjuster from './tools/image/ImageTintAdjuster';
+import ImageLightnessAdjuster from './tools/image/ImageLightnessAdjuster';
+
 
 const slugify = (text: string) =>
   text
@@ -133,6 +152,24 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Hue/Saturation Adjuster', description: 'Modifies the hue and saturation of colors.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Hue' slider to shift the colors of the image.\n3. Use the 'Saturation' slider to make colors more or less vibrant.\n4. Click 'Download Image' to save your color-adjusted image." },
   { name: 'Image Flipper (Horizontal & Vertical)', description: 'Flips the image on both axes.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Click 'Flip Horizontal' or 'Flip Vertical' to transform the image.\n3. Click 'Download Flipped Image' to save the result." },
   { name: 'Image to ASCII Art (Simple)', description: 'Converts image to text-based ASCII representation.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Adjust the 'Detail Level' to change the size and complexity of the ASCII output.\n3. The ASCII art will be generated in the text box.\n4. Click 'Copy to Clipboard' or 'Download as .txt' to save your art." },
+  { name: 'Image Contrast Adjuster', description: 'Increases or decreases the contrast.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Contrast' slider to adjust the contrast in real-time.\n3. Click 'Download Image' to save the edited image." },
+  { name: 'Add Border to Image', description: 'Adds a customizable border (color, thickness, style).', category: 'Image Tools', instructions: "1. Upload an image.\n2. Set the border thickness and choose a color.\n3. Click 'Download Image' to save your image with the new border." },
+  { name: 'Add Rounded Corners to Image', description: 'Clips the image corners using canvas logic.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Adjust the slider to set the corner radius.\n3. Click 'Download Image' to save the image with rounded corners." },
+  { name: 'Image Collage Maker (Basic Grid)', description: 'Arranges multiple images in a simple grid layout.', category: 'Image Tools', instructions: "1. Upload multiple images.\n2. Choose a grid layout (e.g., 2x2).\n3. The collage will be generated automatically.\n4. Click 'Download Collage' to save the result." },
+  { name: 'Color Palette Extractor (from Image)', description: 'Extracts 5-10 dominant colors from the image.', category: 'Image Tools', instructions: "1. Upload an image.\n2. The tool will analyze the image and extract the most prominent colors.\n3. Click on any color swatch to copy its HEX code." },
+  { name: 'Image Color Picker (Magnifier)', description: 'Allows precise color selection from pixels.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Hover your mouse over the image to see a magnified loupe.\n3. The color of the pixel under your cursor will be displayed in HEX, RGB, and HSL formats.\n4. Click to lock the color and easily copy the values." },
+  { name: 'Image to Data URL Generator', description: 'Generates the complete data:image/... string.', category: 'Image Tools' },
+  { name: 'Image DPI Changer', description: 'Modifies the DPI value in JPEG metadata.', category: 'Image Tools' },
+  { name: 'Image Filter Preset Library', description: 'Applies a selection of pre-defined color filters.', category: 'Image Tools' },
+  { name: 'Image Text Overlay', description: 'Adds custom text with specific font and size.', category: 'Image Tools' },
+  { name: 'PNG Transparency Checker', description: 'Displays PNGs against a checkerboard background.', category: 'Image Tools' },
+  { name: 'Image Pixelate Filter', description: 'Applies a mosaic or pixelation effect.', category: 'Image Tools' },
+  { name: 'Image to BMP Converter', description: 'Converts image data to the BMP format.', category: 'Image Tools' },
+  { name: 'Image to GIF Converter (Single Frame)', description: 'Converts single image to GIF format.', category: 'Image Tools' },
+  { name: 'Image Mirror Effect', description: 'Creates a reflection effect.', category: 'Image Tools' },
+  { name: 'Image Warping Tool (Basic)', description: 'Simple perspective transformation (using matrix logic).', category: 'Image Tools' },
+  { name: 'Image Tint Adjuster', description: 'Applies a uniform color overlay/tint.', category: 'Image Tools' },
+  { name: 'Image Lightness/Luminosity Adjuster', description: 'Controls the overall brightness level.', category: 'Image Tools' },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -200,6 +237,42 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageFlipper;
     case 'image-to-ascii-art-simple':
         return ImageToAscii;
+    case 'image-contrast-adjuster':
+        return ImageContrastAdjuster;
+    case 'add-border-to-image':
+        return AddBorderToImage;
+    case 'add-rounded-corners-to-image':
+        return AddRoundedCornersToImage;
+    case 'image-collage-maker-basic-grid':
+        return ImageCollageMaker;
+    case 'color-palette-extractor-from-image':
+        return ColorPaletteExtractor;
+    case 'image-color-picker-magnifier':
+        return ImageColorPicker;
+    case 'image-to-data-url-generator':
+        return ImageToDataUrl;
+    case 'image-dpi-changer':
+        return ImageDpiChanger;
+    case 'image-filter-preset-library':
+        return ImageFilterPresetLibrary;
+    case 'image-text-overlay':
+        return ImageTextOverlay;
+    case 'png-transparency-checker':
+        return PngTransparencyChecker;
+    case 'image-pixelate-filter':
+        return ImagePixelateFilter;
+    case 'image-to-bmp-converter':
+        return ImageToBmpConverter;
+    case 'image-to-gif-converter-single-frame':
+        return ImageToGifConverter;
+    case 'image-mirror-effect':
+        return ImageMirrorEffect;
+    case 'image-warping-tool-basic':
+        return ImageWarpingTool;
+    case 'image-tint-adjuster':
+        return ImageTintAdjuster;
+    case 'image-lightnessluminosity-adjuster':
+        return ImageLightnessAdjuster;
 
     // Text & List Tools
     case 'case-converter':
@@ -326,6 +399,24 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-huesaturation-adjuster': return PaletteIcon;
     case 'image-flipper-horizontal-and-vertical': return FlipHorizontalIcon;
     case 'image-to-ascii-art-simple': return TerminalIcon;
+    case 'image-contrast-adjuster': return ContrastIcon;
+    case 'add-border-to-image': return FrameIcon;
+    case 'add-rounded-corners-to-image': return AppWindowIcon;
+    case 'image-collage-maker-basic-grid': return LayoutGridIcon;
+    case 'color-palette-extractor-from-image': return PipetteIcon;
+    case 'image-color-picker-magnifier': return ZoomInIcon;
+    case 'image-to-data-url-generator': return FileJson2Icon;
+    case 'image-dpi-changer': return GaugeIcon;
+    case 'image-filter-preset-library': return Wand2Icon;
+    case 'image-text-overlay': return TypeIcon;
+    case 'png-transparency-checker': return CheckSquareIcon;
+    case 'image-pixelate-filter': return GridIcon;
+    case 'image-to-bmp-converter': return FileImageIcon;
+    case 'image-to-gif-converter-single-frame': return FileImageIcon;
+    case 'image-mirror-effect': return FlipVertical2Icon;
+    case 'image-warping-tool-basic': return Move3dIcon;
+    case 'image-tint-adjuster': return DropletIcon;
+    case 'image-lightnessluminosity-adjuster': return SunIcon;
       
     default:
       return WrenchIcon;

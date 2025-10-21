@@ -39,6 +39,11 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://www.simplikitt.com/#/category/color-utilities</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
     <loc>https://www.simplikitt.com/#/category/text-and-list-tools</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
@@ -118,4 +123,22 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-huesaturation-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-flipper-horizontal-and-vertical</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-to-ascii-art-simple</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-contrast-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/color-palette-extractor-from-image</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-color-picker-magnifier</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/add-border-to-image</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/add-rounded-corners-to-image</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-collage-maker-basic-grid</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-data-url-generator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-dpi-changer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-filter-preset-library</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-text-overlay</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/png-transparency-checker</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-pixelate-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-bmp-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-gif-converter-single-frame</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-mirror-effect</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-warping-tool-basic</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-tint-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-lightnessluminosity-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

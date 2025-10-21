@@ -335,13 +335,6 @@ export const BinaryIcon: React.FC<{ className?: string }> = ({ className }) => (
     </IconWrapper>
 );
 
-export const ContrastIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 18a6 6 0 0 0 0-12v12z"/>
-    </IconWrapper>
-);
-
 export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
         <path d="m22 13-1.41-1.41a2 2 0 0 0-2.82 0L15.36 14a2 2 0 0 1-2.82 0L10.12 11.6a2 2 0 0 0-2.82 0L2 17"/>
@@ -349,7 +342,14 @@ export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ clas
         <path d="m18 6 4 4h-6a2 2 0 0 1-2-2V2"/>
     </IconWrapper>
 );
-// FIX: Add ShieldCheckIcon for image watermarking.
+// FIX: Define ContrastIcon component to resolve reference error.
+export const ContrastIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 18a6 6 0 0 0 0-12v12z" />
+    </IconWrapper>
+);
+
 export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -357,7 +357,6 @@ export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className })
   </IconWrapper>
 );
 
-// FIX: Add RotateCwIcon for image rotation.
 export const RotateCwIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <polyline points="23 4 23 10 17 10" />
@@ -365,7 +364,6 @@ export const RotateCwIcon: React.FC<{ className?: string }> = ({ className }) =>
   </IconWrapper>
 );
 
-// FIX: Add EyeOffIcon for image blur filter.
 export const EyeOffIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07L3 3" />
@@ -373,7 +371,6 @@ export const EyeOffIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
-// FIX: Add CameraIcon for image sepia filter.
 export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
@@ -381,7 +378,6 @@ export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
-// FIX: Add SparklesIcon for image sharpen filter.
 export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M12 3L9.25 8.75 3.5 11.5 9.25 14.25 12 20 14.75 14.25 20.5 11.5 14.75 8.75 12 3z" />
@@ -392,7 +388,6 @@ export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) =>
   </IconWrapper>
 );
 
-// FIX: Add EclipseIcon for color inversion.
 export const EclipseIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <circle cx="12" cy="12" r="10" />
@@ -400,7 +395,6 @@ export const EclipseIcon: React.FC<{ className?: string }> = ({ className }) => 
   </IconWrapper>
 );
 
-// FIX: Add LayersIcon for opacity adjustment.
 export const LayersIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <polygon points="12 2 2 7 12 12 22 7 12 2" />
@@ -409,7 +403,6 @@ export const LayersIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
-// FIX: Add PaletteIcon for hue/saturation adjustment.
 export const PaletteIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
         <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
@@ -420,7 +413,6 @@ export const PaletteIcon: React.FC<{ className?: string }> = ({ className }) => 
     </IconWrapper>
 );
 
-// FIX: Add FlipHorizontalIcon for image flipping.
 export const FlipHorizontalIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M12 22V2" />
@@ -429,10 +421,145 @@ export const FlipHorizontalIcon: React.FC<{ className?: string }> = ({ className
   </IconWrapper>
 );
 
-// FIX: Add TerminalIcon for ASCII art generation.
 export const TerminalIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <polyline points="4 17 10 11 4 5" />
     <line x1="12" y1="19" x2="20" y2="19" />
   </IconWrapper>
+);
+
+export const PipetteIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m2 22 1-1h3l9-9"/>
+        <path d="M3 21v-3l9-9"/>
+        <path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8-3.8-3.8Z"/>
+    </IconWrapper>
+);
+
+export const ZoomInIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <line x1="11" y1="8" x2="11" y2="14"/>
+        <line x1="8" y1="11" x2="14" y2="11"/>
+    </IconWrapper>
+);
+
+export const FrameIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <line x1="22" y1="6" x2="2" y2="6"/>
+        <line x1="22" y1="18" x2="2" y2="18"/>
+        <line x1="6" y1="2" x2="6" y2="22"/>
+        <line x1="18" y1="2" x2="18" y2="22"/>
+    </IconWrapper>
+);
+
+export const AppWindowIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M10 4v4"/>
+        <path d="M2 8h20"/>
+        <path d="M6 4v4"/>
+    </IconWrapper>
+);
+
+export const LayoutGridIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+        <line x1="3" y1="9" x2="21" y2="9"/>
+        <line x1="9" y1="21" x2="9" y2="3"/>
+    </IconWrapper>
+);
+
+export const FileJson2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+      <path d="M14 2v6h6" />
+      <path d="M5 17a1 1 0 0 0 1-1v-1a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Z" />
+      <path d="M9 17a1 1 0 0 0 1-1v-1a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Z" />
+    </IconWrapper>
+);
+
+export const GaugeIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <path d="m12 14 4-4" />
+      <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+    </IconWrapper>
+);
+
+export const Wand2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.21 1.21 0 0 0 1.72 0L21.64 5.36a1.21 1.21 0 0 0 0-1.72Z" />
+    </IconWrapper>
+);
+
+export const TypeIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <polyline points="4 7 4 4 20 4 20 7" />
+      <line x1="9" y1="20" x2="15" y2="20" />
+      <line x1="12" y1="4" x2="12" y2="20" />
+    </IconWrapper>
+);
+
+export const CheckSquareIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <polyline points="9 11 12 14 22 4" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+    </IconWrapper>
+);
+
+export const GridIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+      <line x1="3" y1="9" x2="21" y2="9" />
+      <line x1="3" y1="15" x2="21" y2="15" />
+      <line x1="9" y1="3" x2="9" y2="21" />
+      <line x1="15" y1="3" x2="15" y2="21" />
+    </IconWrapper>
+);
+
+export const FileImageIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+        <polyline points="14 2 14 8 20 8" />
+        <circle cx="10" cy="15" r="2" />
+        <path d="m20 17-5.09-5.09a2 2 0 0 0-2.82 0L10 14" />
+    </IconWrapper>
+);
+
+export const FlipVertical2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m17 2-5 5-5-5h10"/>
+        <path d="m17 22-5-5-5 5h10"/>
+        <path d="M12 2v20"/>
+    </IconWrapper>
+);
+
+export const Move3dIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M5 3v18h18"/>
+        <path d="m5 11 9-9"/>
+        <path d="m5 19 9-9"/>
+        <path d="m14 3 9 9"/>
+    </IconWrapper>
+);
+
+export const DropletIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5s-3 3.5-3 5.5a7 7 0 0 0 7 7z" />
+    </IconWrapper>
+);
+
+export const SunIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2" />
+        <path d="M12 20v2" />
+        <path d="m4.93 4.93 1.41 1.41" />
+        <path d="m17.66 17.66 1.41 1.41" />
+        <path d="M2 12h2" />
+        <path d="M20 12h2" />
+        <path d="m6.34 17.66-1.41 1.41" />
+        <path d="m19.07 4.93-1.41 1.41" />
+    </IconWrapper>
 );
