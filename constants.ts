@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -27,6 +27,7 @@ import FileExtensionChanger from './tools/file/FileExtensionChanger';
 import DocxToTextExtractor from './tools/file/DocxToTextExtractor';
 import PptxToTextExtractor from './tools/file/PptxToTextExtractor';
 import FileSizeConverter from './tools/file/FileSizeConverter';
+import FileTypeChecker from './tools/file/FileTypeChecker';
 import PercentageCalculator from './tools/calculators/PercentageCalculator';
 import PasswordGenerator from './tools/calculators/PasswordGenerator';
 import UnitConverter from './tools/calculators/UnitConverter';
@@ -78,6 +79,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'DOCX to Text Extractor', description: 'Extracts plain text content from a DOCX file.', category: 'File Converters & Utilities', instructions: "Easily pull all the text out of a Microsoft Word (.docx) document, stripping away all formatting, images, and tables. This is perfect for when you just need the raw content.\n1. Upload your .docx file.\n2. The tool will process the document in your browser and extract all readable text.\n3. The extracted text will be displayed in a textbox, ready for you to copy." },
   { name: 'PPTX to Text Extractor', description: 'Extracts text content from a PPTX file.', category: 'File Converters & Utilities', instructions: "Extract all the text from the slides of a PowerPoint (.pptx) presentation. This tool is great for getting a text-only version of a presentation for easy searching or repurposing.\n1. Upload your .pptx file.\n2. The text from all slides will be extracted and combined.\n3. The extracted text appears in the output box, with text from each slide separated by a divider." },
   { name: 'File Size Converter', description: 'Converts file size between Bytes, KB, MB, GB.', category: 'File Converters & Utilities', instructions: "Quickly convert between different units of digital information size. This is useful for programmers, system administrators, or anyone needing to understand and compare file sizes.\n1. Enter the size value in the 'From' field.\n2. Select the unit you are converting from (e.g., Megabytes).\n3. Select the unit you want to convert to (e.g., Kilobytes).\n4. The converted size appears instantly in the 'To' field." },
+  { name: 'File Type Checker', description: 'Confirms the actual file type based on headers, not just extension.', category: 'File Converters & Utilities', instructions: "A file's extension can be misleading. This tool checks a file's 'magic bytes'—a unique signature in its header—to reveal its true format, helping you verify file integrity and avoid security risks.\n1. Upload any file.\n2. The tool reads the first few bytes of the file and compares them against a database of known file types.\n3. It will display the detected file type alongside the filename's extension for comparison." },
 
   // PDF & Document Tools
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "Easily combine reports, presentations, or separate chapters into a single, organized PDF document without needing any desktop software.\n1. Upload two or more PDF files by clicking 'Add PDFs'.\n2. Drag and drop the file previews in the list to arrange them in the exact order you want.\n3. Click the 'Merge PDFs' button to start the process.\n4. Your new, single PDF document will be generated and ready for download." },
@@ -162,6 +164,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return PptxToTextExtractor;
     case 'file-size-converter':
         return FileSizeConverter;
+    case 'file-type-checker':
+        return FileTypeChecker;
 
     // Calculators
     case 'percentage-calculator':
@@ -217,6 +221,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'docx-to-text-extractor': return DocxToTextExtractorIcon;
     case 'pptx-to-text-extractor': return PptxToTextExtractorIcon;
     case 'file-size-converter': return FileSizeConverterIcon;
+    case 'file-type-checker': return FileTypeCheckerIcon;
 
     // PDF & Document Tools
     case 'merge-pdf': return MergePdfIcon;
