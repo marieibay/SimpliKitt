@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { trackEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
@@ -16,17 +16,6 @@ const BulkImageCompressor: React.FC = () => {
   const [progress, setProgress] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [zipUrl, setZipUrl] = useState<string | null>(null);
-  const [isLibReady, setIsLibReady] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.fflate) {
-        setIsLibReady(true);
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
     if (fileRejections.length > 0) {
@@ -151,8 +140,8 @@ const BulkImageCompressor: React.FC = () => {
                     />
                  </div>
             </div>
-            <button onClick={handleCompress} disabled={!isLibReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-              {!isLibReady ? 'Loading Library...' : `Compress ${files.length} Image(s)`}
+            <button onClick={handleCompress} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
+              Compress {files.length} Image(s)
             </button>
         </div>
       )}

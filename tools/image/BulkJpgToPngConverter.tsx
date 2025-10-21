@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { trackEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
@@ -15,21 +15,10 @@ const BulkJpgToPngConverter: React.FC = () => {
   const [progress, setProgress] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [zipUrl, setZipUrl] = useState<string | null>(null);
-  const [isLibReady, setIsLibReady] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.fflate) {
-        setIsLibReady(true);
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
     if (fileRejections.length > 0) {
-      setError("Some files were not JPGs and were ignored.");
+      setError("Some files were not valid JPG/JPEG types and were ignored.");
     } else {
       setError(null);
     }
@@ -42,7 +31,7 @@ const BulkJpgToPngConverter: React.FC = () => {
     accept: { 'image/jpeg': ['.jpg', '.jpeg'] },
   });
 
-  const convertJpgToPng = (file: File): Promise<Blob | null> => {
+  const convertToPng = (file: File): Promise<Blob | null> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -80,20 +69,20 @@ const BulkJpgToPngConverter: React.FC = () => {
     setError(null);
 
     try {
-      const processedFiles: Record<string, Uint8Array> = {};
+      const convertedFiles: Record<string, Uint8Array> = {};
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         setProgress(`Converting ${i + 1} of ${files.length}: ${file.name}`);
-        const pngBlob = await convertJpgToPng(file);
+        const pngBlob = await convertToPng(file);
         if (pngBlob) {
           const buffer = await pngBlob.arrayBuffer();
-          const baseName = file.name.replace(/\.[^/.]+$/, "");
-          processedFiles[`${baseName}.png`] = new Uint8Array(buffer);
+          const baseName = file.name.replace(/\.(jpg|jpeg)$/i, "");
+          convertedFiles[`${baseName}.png`] = new Uint8Array(buffer);
         }
       }
 
       setProgress('Creating ZIP file...');
-      window.fflate.zip(processedFiles, (err: any, data: Uint8Array) => {
+      window.fflate.zip(convertedFiles, (err: any, data: Uint8Array) => {
         if (err) throw err;
         const blob = new Blob([data], { type: 'application/zip' });
         setZipUrl(URL.createObjectURL(blob));
@@ -118,10 +107,9 @@ const BulkJpgToPngConverter: React.FC = () => {
     <div className="space-y-6">
       {!isProcessing && !zipUrl && (
         <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
-          <input {...getInputProps()} />
-          <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
-          <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop JPG/JPEG files here</p>
-          <p className="text-sm text-gray-500">or click to select</p>
+            <input {...getInputProps()} />
+            <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
+            <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop JPG files here, or click to select</p>
         </div>
       )}
 
@@ -133,8 +121,8 @@ const BulkJpgToPngConverter: React.FC = () => {
             <ul className="space-y-1 text-sm text-gray-600 max-h-40 overflow-y-auto border rounded-lg p-2 bg-gray-50">
                 {files.map((file, i) => <li key={`${file.name}-${i}`} className="truncate">{file.name}</li>)}
             </ul>
-            <button onClick={handleConvert} disabled={!isLibReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-              {!isLibReady ? 'Loading Library...' : `Convert ${files.length} JPG(s) to PNG`}
+            <button onClick={handleConvert} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
+              Convert {files.length} JPG(s) to PNG
             </button>
         </div>
       )}

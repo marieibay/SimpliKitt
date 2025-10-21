@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { trackEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
@@ -15,17 +15,6 @@ const BatchFileRenamer: React.FC = () => {
   const [startNumber, setStartNumber] = useState('1');
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isLibReady, setIsLibReady] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.fflate) {
-        setIsLibReady(true);
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles(prevFiles => [...prevFiles, ...acceptedFiles]);
@@ -144,8 +133,8 @@ const BatchFileRenamer: React.FC = () => {
           {error && <p className="text-center text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>}
           
           <div className="flex justify-center items-center gap-4 pt-4 border-t">
-            <button onClick={handleDownload} disabled={isProcessing || !isLibReady} className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300">
-              {isProcessing ? 'Processing...' : !isLibReady ? 'Loading Library...' : 'Rename & Download ZIP'}
+            <button onClick={handleDownload} disabled={isProcessing} className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300">
+              {isProcessing ? 'Processing...' : 'Rename & Download ZIP'}
             </button>
             <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-600 hover:underline">
               Reset

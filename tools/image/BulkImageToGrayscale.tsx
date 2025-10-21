@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { trackEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
@@ -15,17 +15,6 @@ const BulkImageToGrayscale: React.FC = () => {
   const [progress, setProgress] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [zipUrl, setZipUrl] = useState<string | null>(null);
-  const [isLibReady, setIsLibReady] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (window.fflate) {
-        setIsLibReady(true);
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
     if (fileRejections.length > 0) {
@@ -42,7 +31,7 @@ const BulkImageToGrayscale: React.FC = () => {
     accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
   });
 
-  const convertToGrayscale = (file: File): Promise<Blob | null> => {
+  const toGrayscale = (file: File): Promise<Blob | null> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -59,12 +48,13 @@ const BulkImageToGrayscale: React.FC = () => {
           const data = imageData.data;
           for (let i = 0; i < data.length; i += 4) {
             const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-            data[i] = avg;     // red
+            data[i] = avg; // red
             data[i + 1] = avg; // green
             data[i + 2] = avg; // blue
           }
           ctx.putImageData(imageData, 0, 0);
-          canvas.toBlob((blob) => resolve(blob), 'image/png');
+
+          canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.92);
         };
         img.onerror = reject;
         img.src = e.target?.result as string;
@@ -89,20 +79,20 @@ const BulkImageToGrayscale: React.FC = () => {
     setError(null);
 
     try {
-      const processedFiles: Record<string, Uint8Array> = {};
+      const grayscaleFiles: Record<string, Uint8Array> = {};
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        setProgress(`Processing ${i + 1} of ${files.length}: ${file.name}`);
-        const grayscaleBlob = await convertToGrayscale(file);
+        setProgress(`Converting ${i + 1} of ${files.length}: ${file.name}`);
+        const grayscaleBlob = await toGrayscale(file);
         if (grayscaleBlob) {
           const buffer = await grayscaleBlob.arrayBuffer();
           const baseName = file.name.replace(/\.[^/.]+$/, "");
-          processedFiles[`${baseName}-grayscale.png`] = new Uint8Array(buffer);
+          grayscaleFiles[`${baseName}-grayscale.jpg`] = new Uint8Array(buffer);
         }
       }
 
       setProgress('Creating ZIP file...');
-      window.fflate.zip(processedFiles, (err: any, data: Uint8Array) => {
+      window.fflate.zip(grayscaleFiles, (err: any, data: Uint8Array) => {
         if (err) throw err;
         const blob = new Blob([data], { type: 'application/zip' });
         setZipUrl(URL.createObjectURL(blob));
@@ -127,10 +117,9 @@ const BulkImageToGrayscale: React.FC = () => {
     <div className="space-y-6">
       {!isProcessing && !zipUrl && (
         <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
-          <input {...getInputProps()} />
-          <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
-          <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop images here, or click to select</p>
-          <p className="text-sm text-gray-500">Supports JPG, PNG, WEBP</p>
+            <input {...getInputProps()} />
+            <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
+            <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop images here, or click to select</p>
         </div>
       )}
 
@@ -142,8 +131,8 @@ const BulkImageToGrayscale: React.FC = () => {
             <ul className="space-y-1 text-sm text-gray-600 max-h-40 overflow-y-auto border rounded-lg p-2 bg-gray-50">
                 {files.map((file, i) => <li key={`${file.name}-${i}`} className="truncate">{file.name}</li>)}
             </ul>
-            <button onClick={handleConvert} disabled={!isLibReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-              {!isLibReady ? 'Loading Library...' : `Convert ${files.length} Image(s) to Grayscale`}
+            <button onClick={handleConvert} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
+              Convert {files.length} Image(s) to Grayscale
             </button>
         </div>
       )}

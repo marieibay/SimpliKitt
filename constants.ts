@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, BulkImageResizerIcon, BulkImageCompressorIcon, BulkImageToBase64Icon, BulkImageToGrayscaleIcon, BulkImageConverterIcon, ImageCropperIcon, ImageWatermarkIcon, ImageRotatorIcon, ImageBlurFilterIcon, ImageSepiaFilterIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, BulkImageResizerIcon, BulkImageCompressorIcon, BulkImageToBase64Icon, BulkImageToGrayscaleIcon, BulkImageConverterIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -49,11 +49,6 @@ import BulkImageToBase64 from './tools/image/BulkImageToBase64';
 import BulkImageToGrayscale from './tools/image/BulkImageToGrayscale';
 import BulkJpgToPngConverter from './tools/image/BulkJpgToPngConverter';
 import BulkPngToJpgConverter from './tools/image/BulkPngToJpgConverter';
-import ImageCropper from './tools/image/ImageCropper';
-import ImageWatermark from './tools/image/ImageWatermark';
-import ImageRotator from './tools/image/ImageRotator';
-import ImageBlurFilter from './tools/image/ImageBlurFilter';
-import ImageSepiaFilter from './tools/image/ImageSepiaFilter';
 
 
 const slugify = (text: string) =>
@@ -113,15 +108,10 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'PNG to SVG Converter', description: 'Convert PNG images into pixel-based SVG format.', category: 'Image Tools', instructions: "This unique tool converts each pixel of a PNG into a tiny vector square in an SVG file. It's ideal for pixel art or low-resolution images, allowing them to be scaled to any size without becoming blurry.\n1. Upload a PNG image file.\n2. Click the 'Convert to SVG' button to begin the pixel-by-pixel conversion.\n3. The result will be a scalable vector graphic that perfectly represents your original image's pixels.\n4. Click 'Download SVG' to save the new file." },
   { name: 'Bulk Image Resizer', description: 'Resize multiple images (JPG, PNG) in a single batch.', category: 'Image Tools', instructions: "Save time by resizing many images at once. All resized images are bundled into a ZIP file for easy download.\n1. Upload all the images you want to resize.\n2. Enter your desired new width or height in pixels. Check 'Keep aspect ratio' to prevent distortion.\n3. Click 'Resize Images'. The tool will process each image and show its progress.\n4. Once complete, click 'Download ZIP' to get an archive containing all your resized images." },
   { name: 'Bulk Image Compressor', description: 'Compress multiple images with a single quality setting.', category: 'Image Tools', instructions: "Optimize a whole folder of images in one go. This is perfect for preparing images for a website or gallery.\n1. Upload all the images you want to compress.\n2. Use the quality slider to choose your desired compression level. A lower quality means a smaller file size.\n3. Click 'Compress Images'. The tool will process each image individually.\n4. When finished, click 'Download ZIP' to save an archive of all your optimized images." },
-  { name: 'Image to Base64 (Bulk)', description: 'Encodes multiple images to Base64 and downloads a JSON file.', category: 'Image Tools' },
-  { name: 'Image to Grayscale (Bulk)', description: 'Converts multiple images to black and white and downloads a ZIP.', category: 'Image Tools' },
-  { name: 'JPG to PNG Converter (Bulk)', description: 'Converts multiple JPG images to PNG format in a batch.', category: 'Image Tools' },
-  { name: 'PNG to JPG Converter (Bulk)', description: 'Converts multiple PNG images to JPG format in a batch.', category: 'Image Tools' },
-  { name: 'Image Cropper', description: 'Crops an image to a fixed ratio (1:1, 16:9, etc.).', category: 'Image Tools' },
-  { name: 'Image Watermark', description: 'Draws an uploaded logo over the image.', category: 'Image Tools' },
-  { name: 'Image Rotator', description: 'Rotates image by any user-defined angle.', category: 'Image Tools' },
-  { name: 'Image Blur Filter', description: 'Applies a Gaussian blur effect.', category: 'Image Tools' },
-  { name: 'Image Sepia Filter', description: 'Applies a sepia tone effect.', category: 'Image Tools' },
+  { name: 'Image to Base64 (Bulk)', description: 'Encodes multiple images to Base64 and provides a JSON file.', category: 'Image Tools', instructions: "Efficiently encode a batch of images into Base64 strings for easy embedding in code or data transfer.\n1. Upload all the images you want to encode.\n2. Click 'Encode Images'. The tool will process each image and show its progress.\n3. Once complete, click 'Download JSON' to get a file containing a mapping of filenames to their Base64 data strings." },
+  { name: 'Image to Grayscale (Bulk)', description: 'Converts multiple color images to black and white.', category: 'Image Tools', instructions: "Quickly apply a grayscale (black and white) filter to a batch of images. This is great for creating a uniform artistic style or preparing images for print.\n1. Upload all the color images you want to convert.\n2. Click 'Convert to Grayscale'. The tool will process each image.\n3. When finished, click 'Download ZIP' to save an archive of all your grayscale images." },
+  { name: 'JPG to PNG Converter (Bulk)', description: 'Converts multiple JPG images to PNG format.', category: 'Image Tools', instructions: "Batch convert your JPG photos to the PNG format. PNG is a lossless format that supports transparency, making it ideal for web graphics and logos.\n1. Upload all the JPG images you want to convert.\n2. Click 'Convert to PNG'. The tool will process each image.\n3. Once complete, click 'Download ZIP' to get an archive containing all your new PNG images." },
+  { name: 'PNG to JPG Converter (Bulk)', description: 'Converts multiple PNG images to JPG format.', category: 'Image Tools', instructions: "Batch convert your PNG graphics to the JPG format. JPG files are generally smaller, making them perfect for photos on websites and in emails. Transparency in PNGs will be converted to a white background.\n1. Upload all the PNG images you want to convert.\n2. Click 'Convert to JPG'. The tool will process each image.\n3. When finished, click 'Download ZIP' to save an archive of all your new JPG images." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -167,16 +157,6 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return BulkJpgToPngConverter;
     case 'png-to-jpg-converter-bulk':
         return BulkPngToJpgConverter;
-    case 'image-cropper':
-        return ImageCropper;
-    case 'image-watermark':
-        return ImageWatermark;
-    case 'image-rotator':
-        return ImageRotator;
-    case 'image-blur-filter':
-        return ImageBlurFilter;
-    case 'image-sepia-filter':
-        return ImageSepiaFilter;
 
     // Text & List Tools
     case 'case-converter':
@@ -292,11 +272,6 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-to-grayscale-bulk': return BulkImageToGrayscaleIcon;
     case 'jpg-to-png-converter-bulk': return BulkImageConverterIcon;
     case 'png-to-jpg-converter-bulk': return BulkImageConverterIcon;
-    case 'image-cropper': return ImageCropperIcon;
-    case 'image-watermark': return ImageWatermarkIcon;
-    case 'image-rotator': return ImageRotatorIcon;
-    case 'image-blur-filter': return ImageBlurFilterIcon;
-    case 'image-sepia-filter': return ImageSepiaFilterIcon;
       
     default:
       return WrenchIcon;

@@ -287,14 +287,11 @@ export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ classNam
 
 export const BulkImageResizerIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M5 3a2 2 0 0 0-2 2"/>
-    <path d="M19 3a2 2 0 0 1 2 2"/>
-    <path d="M21 19a2 2 0 0 1-2 2"/>
-    <path d="M3 19a2 2 0 0 0 2 2"/>
-    <path d="M5 7v10"/>
-    <path d="M19 7v10"/>
-    <path d="M7 5h10"/>
-    <path d="M7 19h10"/>
+    <rect width="18" height="14" x="3" y="3" rx="2"/>
+    <path d="M4 21h1"/>
+    <path d="M9 21h1"/>
+    <path d="M14 21h1"/>
+    <path d="M19 21h1"/>
   </IconWrapper>
 );
 
@@ -307,72 +304,35 @@ export const BulkImageCompressorIcon: React.FC<{ className?: string }> = ({ clas
   </IconWrapper>
 );
 
-export const LockIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </IconWrapper>
-);
-
 export const BulkImageToBase64Icon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
         <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
         <polyline points="14 2 14 8 20 8"/>
-        <path d="M12 18h1"/>
-        <path d="M15 18h1"/>
-        <path d="M9 18h1"/>
+        <path d="M10 12h1"/>
+        <path d="M13 12h1"/>
+        <path d="M10 18h4"/>
+        <path d="M10 15h4"/>
     </IconWrapper>
 );
 
 export const BulkImageToGrayscaleIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="m12 2-7.07 17.07"/>
+        <path d="m12 22 4-4"/>
+        <path d="m12.3 9.7 4.5-4.5a2.1 2.1 0 1 1 3 3L15.3 12.8"/>
+        <path d="M21 21H3v-2h2"/>
+        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M12 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="M7 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+        <path d="m18 8 2 2"/>
     </IconWrapper>
 );
 
 export const BulkImageConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="m3 2 8 8-8 8"/>
-        <path d="m13 2 8 8-8 8"/>
-    </IconWrapper>
-);
-
-export const ImageCropperIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/>
-        <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/>
-    </IconWrapper>
-);
-
-export const ImageWatermarkIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 12c-1.66 0-3-1.43-3-3.2 0-1.72 1.2-2.8 3-2.8 1.8 0 3 1.08 3 2.8 0 1.77-1.34 3.2-3 3.2z"/>
-    </IconWrapper>
-);
-
-export const ImageRotatorIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
-        <path d="M21 3v5h-5"/>
-    </IconWrapper>
-);
-
-export const ImageBlurFilterIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2} viewBox="0 0 24 24">
-        <path d="M7 16.3c-2.2 0-4-1.8-4-4s1.8-4 4-4c.7 0 1.3.2 1.9.5"/>
-        <path d="M10.2 21.8c-2.2 0-4-1.8-4-4 0-.7.2-1.3.5-1.9"/>
-        <path d="M13.5 6.1c0-2.2 1.8-4 4-4s4 1.8 4 4c0 .7-.2 1.3-.5 1.9"/>
-        <path d="M17 8.3c2.2 0 4 1.8 4 4s-1.8 4-4 4c-.7 0-1.3-.2-1.9-.5"/>
-        <path d="M13.8 13.8c2.2 0 4 1.8 4 4s-1.8 4-4 4c-.7 0-1.3-.2-1.9-.5"/>
-        <path d="M10.5 17.9c0-2.2 1.8-4 4-4s4 1.8 4 4c0 .7-.2 1.3-.5 1.9"/>
-    </IconWrapper>
-);
-
-export const ImageSepiaFilterIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-        <circle cx="12" cy="13" r="3"/>
+        <path d="m3 2 8 2 4-4 8 8-4 4 2 8-8-2-4 4-8-8 4-4-2-8Z"/>
+        <path d="M12 12h.01"/>
     </IconWrapper>
 );

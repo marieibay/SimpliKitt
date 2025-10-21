@@ -3,10 +3,6 @@ import { useDropzone } from 'react-dropzone';
 import { trackEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
-interface Base64Result {
-  [filename: string]: string;
-}
-
 const BulkImageToBase64: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,19 +22,19 @@ const BulkImageToBase64: React.FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [], 'image/gif': [] },
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
   });
 
-  const fileToBase64 = (file: File): Promise<string> => {
+  const fileToBase64 = (file: File): Promise<{ name: string; base64: string }> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
+      reader.onload = () => resolve({ name: file.name, base64: reader.result as string });
       reader.onerror = error => reject(error);
       reader.readAsDataURL(file);
     });
   };
 
-  const handleConvert = async () => {
+  const handleEncode = async () => {
     if (files.length === 0) {
       setError("Please add at least one image.");
       return;
@@ -49,11 +45,12 @@ const BulkImageToBase64: React.FC = () => {
     setError(null);
 
     try {
-      const results: Base64Result = {};
+      const results: Record<string, string> = {};
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         setProgress(`Encoding ${i + 1} of ${files.length}: ${file.name}`);
-        results[file.name] = await fileToBase64(file);
+        const { name, base64 } = await fileToBase64(file);
+        results[name] = base64;
       }
 
       setProgress('Creating JSON file...');
@@ -61,6 +58,7 @@ const BulkImageToBase64: React.FC = () => {
       const blob = new Blob([jsonString], { type: 'application/json' });
       setJsonUrl(URL.createObjectURL(blob));
       trackEvent('bulk_images_to_base64', { fileCount: files.length });
+
     } catch (err: any) {
       setError(`An error occurred: ${err.message}`);
     } finally {
@@ -79,14 +77,11 @@ const BulkImageToBase64: React.FC = () => {
   return (
     <div className="space-y-6">
       {!isProcessing && !jsonUrl && (
-        <>
-          <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
+        <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
             <input {...getInputProps()} />
             <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
             <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop images here, or click to select</p>
-            <p className="text-sm text-gray-500">Supports JPG, PNG, WEBP, GIF</p>
-          </div>
-        </>
+        </div>
       )}
 
       {error && <p className="text-center text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>}
@@ -97,8 +92,8 @@ const BulkImageToBase64: React.FC = () => {
             <ul className="space-y-1 text-sm text-gray-600 max-h-40 overflow-y-auto border rounded-lg p-2 bg-gray-50">
                 {files.map((file, i) => <li key={`${file.name}-${i}`} className="truncate">{file.name}</li>)}
             </ul>
-            <button onClick={handleConvert} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
-              {`Encode ${files.length} Image(s) to Base64`}
+            <button onClick={handleEncode} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
+              Encode {files.length} Image(s)
             </button>
         </div>
       )}
@@ -115,8 +110,8 @@ const BulkImageToBase64: React.FC = () => {
             <h3 className="text-xl font-bold text-gray-800">Encoding Complete!</h3>
             <p className="text-gray-600">Your Base64 strings have been saved in a JSON file.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-                <a href={jsonUrl} download="base64-images.json" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
-                    Download JSON File
+                <a href={jsonUrl} download="base64_images.json" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                    Download JSON
                 </a>
                 <button onClick={handleReset} className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition">
                     Start Over
