@@ -74,41 +74,94 @@
 </head>
   <body class="bg-gray-50 antialiased">
     <div id="root">
-      <div style="text-align: center; padding: 4rem 1rem; color: #4b5563;">
-        <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827;">SimpliKitt - Instant, No-Cost Digital Tools</h1>
-        <p style="margin-top: 1rem; font-size: 1.125rem;">Loading our suite of free, private, and browser-based utilities...</p>
-        <p style="margin-top: 0.5rem; font-size: 1rem;">Your data never leaves your device.</p>
-        
-        <div style="margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto; text-align: left;">
-            <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; margin-bottom: 1rem;">Tool Categories</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">Image Tools</h3>
-                    <p style="font-size: 0.9rem;">Edit, convert, and optimize images for the web.</p>
-                </div>
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">Text & List Tools</h3>
-                    <p style="font-size: 0.9rem;">Format, clean, and analyze text and lists with ease.</p>
-                </div>
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">PDF & Document Tools</h3>
-                    <p style="font-size: 0.9rem;">Merge, split, secure, and convert your PDF documents.</p>
-                </div>
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">File Converters & Utilities</h3>
-                    <p style="font-size: 0.9rem;">Convert formats, merge files, and calculate checksums.</p>
-                </div>
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">Calculators & Time Tools</h3>
-                    <p style="font-size: 0.9rem;">Solve math, convert units, and generate passwords.</p>
-                </div>
-                <div style="padding: 1rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
-                    <h3 style="font-size: 1.125rem; font-weight: 600; color: #1f2937;">Web & Developer Tools</h3>
-                    <p style="font-size: 0.9rem;">JSON, URL, hash, and code helpers for developers.</p>
-                </div>
+      <header class="sticky top-0 bg-white/80 backdrop-blur-lg shadow-sm z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-20">
+            <div class="flex items-center space-x-8">
+              <div class="flex items-center space-x-2 group">
+                <img src="https://i.imgur.com/GtWkrQE.png" alt="SimpliKitt Logo" class="h-8 w-8" />
+                <span class="text-2xl font-bold text-gray-800 tracking-tight hidden sm:block">SimpliKitt</span>
+              </div>
             </div>
+            <div class="flex items-center gap-4">
+              <div class="relative">
+                <div class="w-40 sm:w-48 lg:w-64 px-4 py-2 h-10 rounded-full border border-gray-300 bg-gray-100"></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
+
+      <main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <section class="text-center py-16 md:py-24">
+          <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+            Instant, No-Cost Digital Tools
+          </h1>
+          <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-600">
+            Solve everyday digital problems with our suite of free, private, and browser-based utilities. No uploads, no sign-ups, just instant results.
+          </p>
+          <div class="mt-8">
+            <a href="#/tools" class="inline-block bg-blue-600 text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-700">
+              Explore All Tools
+            </a>
+          </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="py-12">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <!-- Image Tools Card -->
+            <div style="background-color: #f97316;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/2fSinTK.png" alt="Image Tools icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">Image Tools</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">Edit, convert, and optimize images for the web.</p>
+              </div>
+            </div>
+            <!-- Text & List Tools Card -->
+            <div style="background-color: #3b82f6;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/pWLz7Qk.png" alt="Text & List Tools icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">Text & List Tools</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">Format, clean, and analyze text and lists with ease.</p>
+              </div>
+            </div>
+            <!-- PDF Card -->
+            <div style="background-color: #22c55e;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/fcPM5or.png" alt="PDF icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">PDF & Document Tools</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">Merge, split, secure, and convert your PDF documents.</p>
+              </div>
+            </div>
+            <!-- File Converters Card -->
+            <div style="background-color: #a855f7;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/hCEBg9R.png" alt="File Converters icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">File Converters & Utilities</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">Convert formats, merge files, and calculate checksums.</p>
+              </div>
+            </div>
+            <!-- Calculators Card -->
+            <div style="background-color: #22d3ee;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/Aj5fAOO.png" alt="Calculators icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">Calculators & Time Tools</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">Solve math, convert units, and generate passwords.</p>
+              </div>
+            </div>
+            <!-- Web Dev Card -->
+            <div style="background-color: #4f46e5;" class="relative block h-full rounded-2xl p-4 flex flex-col overflow-hidden shadow-lg">
+              <div class="flex-1 flex items-center justify-center mb-4"><img src="https://i.imgur.com/2KCBdel.png" alt="Web Dev icon" class="w-16 h-16 object-contain" /></div>
+              <div class="bg-white rounded-xl p-3">
+                <h3 class="font-bold text-gray-800 text-base truncate">Web & Developer Tools</h3>
+                <p class="text-sm text-gray-500 mt-1 h-14 leading-tight overflow-hidden">JSON, URL, hash, and code helpers for developers.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js"></script>
     <script src="https://unpkg.com/fflate@0.8.1/umd/index.js"></script>
