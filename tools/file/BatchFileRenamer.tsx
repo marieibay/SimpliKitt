@@ -5,7 +5,7 @@ import { UploadIcon } from '../../components/Icons';
 
 declare global {
   interface Window {
-    fflate: any;
+    JSZip: any;
   }
 }
 
@@ -35,7 +35,8 @@ const BatchFileRenamer: React.FC = () => {
       setError("Please add files to rename.");
       return;
     }
-    if (!window.fflate) {
+    const JSZip = (window as any).JSZip;
+    if (!JSZip) {
         setError("ZIP compression library failed to load. Please refresh and try again.");
         return;
     }
@@ -44,29 +45,20 @@ const BatchFileRenamer: React.FC = () => {
     setError(null);
 
     try {
-      const filesToZip: Record<string, Uint8Array> = {};
-
-      const readPromises = files.map((file, index) =>
-        file.arrayBuffer().then(buffer => {
-          filesToZip[newFileNames[index]] = new Uint8Array(buffer);
-        })
-      );
-      
-      await Promise.all(readPromises);
-
-      window.fflate.zip(filesToZip, (err: any, data: Uint8Array) => {
-        if (err) {
-          throw err;
-        }
-        const blob = new Blob([data], { type: 'application/zip' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'renamed_files.zip';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
+      const zip = new JSZip();
+      files.forEach((file, index) => {
+          zip.file(newFileNames[index], file);
       });
+
+      const content = await zip.generateAsync({ type: 'blob' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = 'renamed_files.zip';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
+      
       trackEvent('files_renamed_and_zipped', { fileCount: files.length });
 
     } catch (err: any) {

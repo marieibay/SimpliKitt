@@ -4,7 +4,7 @@ import { trackEvent } from '../../analytics';
 
 declare global {
   interface Window {
-    fflate: any;
+    JSZip: any;
   }
 }
 
@@ -15,8 +15,9 @@ const PptxToTextExtractor: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   const handleFile = async (file: File) => {
-    if (!window.fflate) {
-      setError("File processing library (fflate) is not available. Please refresh the page.");
+    const JSZip = (window as any).JSZip;
+    if (!JSZip) {
+      setError("File processing library (JSZip) is not available. Please refresh the page.");
       return;
     }
     setIsProcessing(true);
@@ -25,25 +26,29 @@ const PptxToTextExtractor: React.FC = () => {
 
     try {
       const buffer = await file.arrayBuffer();
-      const unzipped = window.fflate.unzipSync(new Uint8Array(buffer));
+      const zip = await JSZip.loadAsync(buffer);
       let fullText = '';
       
-      const slideFiles = Object.keys(unzipped)
-        .filter(filename => filename.startsWith('ppt/slides/slide'))
+      const slideFiles = Object.keys(zip.files)
+        .filter(filename => filename.startsWith('ppt/slides/slide') && filename.endsWith('.xml'))
         .sort((a, b) => {
             const numA = parseInt(a.match(/(\d+)\.xml$/)?.[1] || '0');
             const numB = parseInt(b.match(/(\d+)\.xml$/)?.[1] || '0');
             return numA - numB;
         });
 
-      slideFiles.forEach((filename, index) => {
-        const slideContent = window.fflate.strFromU8(unzipped[filename]);
-        const textNodes = slideContent.match(/<a:t>.*?<\/a:t>/g) || [];
-        const slideText = textNodes.map(node => node.replace(/<.*?>/g, '')).join(' ');
-        if (slideText.trim()) {
-          fullText += `--- Slide ${index + 1} ---\n${slideText}\n\n`;
+      let slideIndex = 1;
+      for (const filename of slideFiles) {
+        const fileInZip = zip.file(filename);
+        if (fileInZip) {
+            const slideContent = await fileInZip.async("string");
+            const textNodes = slideContent.match(/<a:t>.*?<\/a:t>/g) || [];
+            const slideText = textNodes.map(node => node.replace(/<.*?>/g, '')).join(' ');
+            if (slideText.trim()) {
+              fullText += `--- Slide ${slideIndex++} ---\n${slideText}\n\n`;
+            }
         }
-      });
+      }
       
       setExtractedText(fullText.trim());
       trackEvent('pptx_text_extracted', { characterCount: fullText.length, slideCount: slideFiles.length });

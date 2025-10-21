@@ -6,7 +6,7 @@ import { trackEvent } from '../../analytics';
 declare global {
   interface Window {
     pdfjsLib: any;
-    fflate: any;
+    JSZip: any;
   }
 }
 
@@ -94,45 +94,35 @@ const PdfToJpgConverter: React.FC = () => {
     }
   };
   
-  const handleDownloadAllAsZip = () => {
+  const handleDownloadAllAsZip = async () => {
     if (convertedImages.length === 0) return;
-    if (!window.fflate) {
+    const JSZip = (window as any).JSZip;
+    if (!JSZip) {
         setError("ZIP compression library failed to load. Please refresh and try again.");
         return;
     }
 
-    const filesToZip: Record<string, Uint8Array> = {};
+    const zip = new JSZip();
+    
+    for (const image of convertedImages) {
+        const response = await fetch(image.dataUrl);
+        const blob = await response.blob();
+        zip.file(image.filename, blob);
+    }
+    
+    const content = await zip.generateAsync({ type: 'blob' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(content);
+    const zipFileName = `${file?.name.replace(/\.pdf$/i, '') || 'images'}.zip`;
+    link.download = zipFileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
 
-    const promises = convertedImages.map(image => {
-        return fetch(image.dataUrl)
-            .then(res => res.blob())
-            .then(blob => blob.arrayBuffer())
-            .then(buffer => {
-                filesToZip[image.filename] = new Uint8Array(buffer);
-            });
-    });
-
-    Promise.all(promises).then(() => {
-        trackEvent('downloaded_converted_images_zip', {
-            imageCount: convertedImages.length,
-            format: outputFormat
-        });
-        window.fflate.zip(filesToZip, (err: any, data: Uint8Array) => {
-            if (err) {
-                setError('Failed to create ZIP file.');
-                console.error(err);
-                return;
-            }
-            const blob = new Blob([data], { type: 'application/zip' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            const zipFileName = `${file?.name.replace(/\.pdf$/i, '') || 'images'}.zip`;
-            link.download = zipFileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(link.href);
-        });
+    trackEvent('downloaded_converted_images_zip', {
+        imageCount: convertedImages.length,
+        format: outputFormat
     });
   };
 
