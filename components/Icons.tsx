@@ -13,6 +13,89 @@ const IconWrapper: React.FC<{ children: React.ReactNode; className?: string; str
   </svg>
 );
 
+// FIX: Add MenuIcon for mobile navigation.
+export const MenuIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+  </IconWrapper>
+);
+
+// FIX: Add CloseIcon for mobile navigation.
+export const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+  </IconWrapper>
+);
+
+// FIX: Add UploadIcon for file dropzones.
+export const UploadIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={1}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+  </IconWrapper>
+);
+
+// FIX: Add TsvToCsvIcon for TSV to CSV converter tool.
+export const TsvToCsvIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 13l-3 3m0 0l-3-3m3 3V8" />
+    </IconWrapper>
+);
+
+// FIX: Add BatchFileRenamerIcon for the batch file renamer tool.
+export const BatchFileRenamerIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 12h6" />
+    </IconWrapper>
+);
+
+// FIX: Add FileExtensionChangerIcon for the file extension changer tool.
+export const FileExtensionChangerIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+    </IconWrapper>
+);
+
+// FIX: Add DocxToTextExtractorIcon for the DOCX text extractor tool.
+export const DocxToTextExtractorIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <line x1="10" y1="9" x2="8" y2="9"></line>
+    </IconWrapper>
+);
+
+// FIX: Add PptxToTextExtractorIcon for the PPTX text extractor tool.
+export const PptxToTextExtractorIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path d="M4 22h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2Z"></path>
+        <path d="M4 15h16"></path>
+        <path d="M16 4 12 15 8 4"></path>
+    </IconWrapper>
+);
+
+// FIX: Add FileSizeConverterIcon for the file size converter tool.
+export const FileSizeConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+        <path d="M14 3v4a2 2 0 0 0 2 2h4"></path>
+        <path d="M12 18v-6"></path>
+        <path d="m15 15-3 3-3-3"></path>
+    </IconWrapper>
+);
+
+// FIX: Add FileTypeCheckerIcon for the file type checker tool.
+export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <circle cx="11.5" cy="14.5" r="2.5"></circle>
+        <path d="M13.25 16.25 15 18"></path>
+    </IconWrapper>
+);
+
 export const WrenchIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -227,74 +310,76 @@ export const BulkImageIcon: React.FC<{ className?: string }> = ({ className }) =
   </IconWrapper>
 );
 
-export const MenuIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-    </IconWrapper>
-);
-
-export const CloseIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </IconWrapper>
-);
-
-export const TsvToCsvIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const ShrinkIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M4 12h16"/><path d="m16 8-4 4 4 4"/><path d="M8 8l-4 4 4 4"/>
+        <path d="m15 15 6 6m-6-6v4.8m0-4.8h4.8"/>
+        <path d="M9 19.8V15m0 0H4.2"/>
+        <path d="M9 15 3 21"/>
+        <path d="M15 4.2V9m0 0h4.8"/>
+        <path d="M15 9 21 3"/>
+        <path d="M9 4.2V9m0 0H4.2"/>
+        <path d="M9 9 3 3"/>
     </IconWrapper>
 );
 
-export const BatchFileRenamerIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const BinaryIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+        <path d="M6 20h4"/>
+        <path d="M14 20h4"/>
+        <path d="M6 14h4"/>
+        <path d="M14 14h4"/>
+        <path d="M6 8h4"/>
+        <path d="M14 8h4"/>
+        <path d="m6 2-4 4 4 4"/>
+        <path d="m14 2-4 4 4 4"/>
     </IconWrapper>
 );
 
-export const UploadIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={1}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-    </IconWrapper>
-);
-
-export const FileExtensionChangerIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <IconWrapper className={className}>
-    <path d="m18 5-3-3H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2"/>
-    <path d="M8 18h1"/>
-    <path d="M18.4 9.6a2 2 0 1 1 3 3L17 17l-4 1 1-4Z"/>
-  </IconWrapper>
-);
-
-export const DocxToTextExtractorIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const ContrastIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/>
-        <line x1="16" y1="17" x2="8" y2="17"/>
-        <polyline points="10 9 9 9 8 9"/>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 18a6 6 0 0 0 0-12v12z"/>
     </IconWrapper>
 );
 
-export const PptxToTextExtractorIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="M7 21h10"/>
-        <path d="M12 16v5"/>
+        <path d="m22 13-1.41-1.41a2 2 0 0 0-2.82 0L15.36 14a2 2 0 0 1-2.82 0L10.12 11.6a2 2 0 0 0-2.82 0L2 17"/>
+        <path d="M14 2H6a2 2 0 0 0-2 2v10"/>
+        <path d="m18 6 4 4h-6a2 2 0 0 1-2-2V2"/>
     </IconWrapper>
 );
 
-export const FileSizeConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M22 12H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
-        <line x1="6" y1="16" x2="6.01" y2="16"/>
-        <line x1="10" y1="16" x2="10.01" y2="16"/>
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
     </IconWrapper>
 );
 
-export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const RotateCwIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <circle cx="11.5" cy="14.5" r="2.5"/>
-        <line x1="13.25" y1="16.25" x2="15" y2="18"/>
+        <path d="M21 2v6h-6"/>
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+    </IconWrapper>
+);
+
+export const EyeOffIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07L3 3l18 18-4.24-4.24-4.52-4.52-1.34-1.34Z"/>
+    </IconWrapper>
+);
+
+export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+        <circle cx="12" cy="13" r="3"/>
+    </IconWrapper>
+);
+
+export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m12 3-1.9 5.8-5.8 1.9 5.8 1.9L12 18l1.9-5.8 5.8-1.9-5.8-1.9L12 3z"/>
+        <path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/>
     </IconWrapper>
 );

@@ -1,0 +1,128 @@
+import React, { useState, useRef, useCallback } from 'react';
+import FileUpload from '../../components/FileUpload';
+import { trackEvent } from '../../analytics';
+
+const ImageSharpenFilter: React.FC = () => {
+    const [image, setImage] = useState<HTMLImageElement | null>(null);
+    const [resultUrl, setResultUrl] = useState<string | null>(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    const handleFile = (file: File) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+                setImage(img);
+                setResultUrl(null);
+            };
+            img.src = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const applySharpen = useCallback(() => {
+        if (!image || !canvasRef.current) return;
+        setIsProcessing(true);
+        
+        // Use timeout to allow UI update
+        setTimeout(() => {
+            const canvas = canvasRef.current!;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            if (!ctx) {
+                setIsProcessing(false);
+                return;
+            }
+
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.drawImage(image, 0, 0);
+
+            const weights = [0, -1, 0, -1, 5, -1, 0, -1, 0];
+            const srcData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const dstData = ctx.createImageData(canvas.width, canvas.height);
+            const src = srcData.data;
+            const dst = dstData.data;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    for (let c = 0; c < 3; c++) { // R, G, B
+                        let out = 0;
+                        for (let cy = 0; cy < 3; cy++) {
+                            for (let cx = 0; cx < 3; cx++) {
+                                out += src[((y + cy - 1) * width + (x + cx - 1)) * 4 + c] * weights[cy * 3 + cx];
+                            }
+                        }
+                        const dstI = (y * width + x) * 4 + c;
+                        dst[dstI] = Math.max(0, Math.min(255, out));
+                    }
+                    dst[(y * width + x) * 4 + 3] = src[(y * width + x) * 4 + 3]; // Alpha
+                }
+            }
+
+            ctx.putImageData(dstData, 0, 0);
+            setResultUrl(canvas.toDataURL('image/png'));
+            setIsProcessing(false);
+            trackEvent('image_filter_applied', { filter: 'sharpen' });
+        }, 50);
+
+    }, [image]);
+
+    const handleDownload = () => {
+        if (!resultUrl) return;
+        const link = document.createElement('a');
+        link.href = resultUrl;
+        link.download = 'sharpened-image.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    const handleReset = () => {
+        setImage(null);
+        setResultUrl(null);
+    };
+
+    if (!image) {
+        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png', 'image/webp']} />;
+    }
+
+    return (
+        <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div className="p-2 border rounded-lg bg-gray-100 flex items-center justify-center min-h-[300px]">
+                    <img src={image.src} alt="Original" className="max-w-full max-h-[400px]" />
+                </div>
+                <div className="p-2 border rounded-lg bg-gray-100 flex items-center justify-center min-h-[300px]">
+                    {isProcessing ? (
+                        <p>Sharpening...</p>
+                    ) : resultUrl ? (
+                        <img src={resultUrl} alt="Sharpened preview" className="max-w-full max-h-[400px]" />
+                    ) : (
+                        <p className="text-gray-500">Result will appear here</p>
+                    )}
+                    <canvas ref={canvasRef} className="hidden" />
+                </div>
+            </div>
+
+            <div className="flex justify-center gap-4">
+                {!resultUrl ? (
+                    <button onClick={applySharpen} disabled={isProcessing} className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300">
+                        {isProcessing ? 'Processing...' : 'Apply Sharpen Filter'}
+                    </button>
+                ) : (
+                    <button onClick={handleDownload} className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                        Download Sharpened Image
+                    </button>
+                )}
+                 <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-600 hover:underline">
+                    Use another image
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default ImageSharpenFilter;

@@ -103,4 +103,14 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-to-base64</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/png-to-svg-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-cropper</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/bulk-image-compressor</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/bulk-image-to-base64</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/bulk-image-to-grayscale</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/bulk-jpg-to-png-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/bulk-png-to-jpg-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-watermark-logo</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-rotator-custom-angle</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-blur-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-sepia-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-sharpen-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

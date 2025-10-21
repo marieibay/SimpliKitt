@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -45,6 +45,16 @@ import QrCodeGenerator from './tools/web/QrCodeGenerator';
 import PngToSvgConverter from './tools/image/PngToSvgConverter';
 import ImageCropper from './tools/image/ImageCropper';
 import BulkImageResizer from './tools/image/BulkImageResizer';
+import BulkImageCompressor from './tools/image/BulkImageCompressor';
+import BulkImageToBase64 from './tools/image/BulkImageToBase64';
+import BulkImageToGrayscale from './tools/image/BulkImageToGrayscale';
+import BulkJpgToPngConverter from './tools/image/BulkJpgToPngConverter';
+import BulkPngToJpgConverter from './tools/image/BulkPngToJpgConverter';
+import ImageWatermark from './tools/image/ImageWatermark';
+import ImageRotator from './tools/image/ImageRotator';
+import ImageBlurFilter from './tools/image/ImageBlurFilter';
+import ImageSepiaFilter from './tools/image/ImageSepiaFilter';
+import ImageSharpenFilter from './tools/image/ImageSharpenFilter';
 
 const slugify = (text: string) =>
   text
@@ -98,11 +108,21 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // Image Tools
   { name: 'Image Resizer', description: 'Shrink or scale images without quality loss.', category: 'Image Tools', instructions: "Large images can slow down your website. Use this tool to resize images to the exact dimensions you need for web pages, profile pictures, or email attachments, helping your site load faster.\n1. Upload an image file (JPG, PNG, etc.).\n2. Enter your desired new width or height in pixels. Lock the aspect ratio to prevent the image from being stretched or distorted.\n3. Click 'Resize' to process the image.\n4. Download your perfectly resized image." },
   { name: 'Bulk Image Resizer', description: 'Allows resizing of multiple images in a single batch.', category: 'Image Tools', instructions: "1. Upload multiple image files (JPG, PNG, etc.).\n2. Set your desired maximum width or height. The aspect ratio will be maintained by default.\n3. Click 'Resize Images' to process the entire batch.\n4. All your resized images will be bundled into a single ZIP file for easy download." },
-  { name: 'JPG & PNG Converter', description: 'Convert between JPG and PNG formats.', category: 'Image Tools', instructions: "Choose the right format for your needs. JPG is great for photos and offers smaller file sizes, while PNG supports transparency and is better for graphics with sharp lines.\n1. Upload a JPG or PNG image.\n2. The tool will automatically detect the format and offer to convert it to the other type.\n3. Click 'Convert' and then download the new image file." },
   { name: 'Image Compressor', description: 'Reduce image file size with optimization.', category: 'Image Tools', instructions: "Significantly reduce the file size of your images with minimal loss in quality. This is one of the most effective ways to speed up your website's loading time.\n1. Upload a JPG or PNG image.\n2. Use the quality slider to adjust the compression level. A lower quality results in a smaller file size. You can see the file size change in real-time.\n3. Preview the result to ensure the quality is acceptable.\n4. Download your newly optimized image." },
+  { name: 'Bulk Image Compressor', description: 'Allows compressing multiple images with a single setting.', category: 'Image Tools', instructions: "1. Upload multiple JPG or PNG images.\n2. Use the quality slider to set the desired compression level.\n3. Click 'Compress Images' to process the entire batch.\n4. Download a ZIP file containing all your optimized images." },
   { name: 'Image to Base64', description: 'Encode images to Base64 strings.', category: 'Image Tools', instructions: "Convert an image into a single string of text (Base64). This is a common technique for developers to embed small images directly into code (like CSS or HTML) instead of loading them as separate files, which can sometimes improve performance.\n1. Upload any image file.\n2. The tool will instantly convert the image data into a Base64 text string.\n3. The full Base64 string will be displayed for you to copy." },
+  { name: 'Bulk Image to Base64', description: 'Encodes multiple images to Base64.', category: 'Image Tools', instructions: "1. Upload multiple image files.\n2. Click 'Convert to Base64' to process all files.\n3. A single text file containing all the Base64 strings (prefixed with their original filenames) will be generated for you to download." },
+  { name: 'Bulk Image to Grayscale', description: 'Converts multiple images to black and white.', category: 'Image Tools', instructions: "1. Upload multiple color images.\n2. Click 'Convert to Grayscale' to apply the filter to all images.\n3. Download a ZIP file containing the black and white versions of your images." },
+  { name: 'JPG to PNG Converter', description: 'Convert between JPG and PNG formats.', category: 'Image Tools', instructions: "Choose the right format for your needs. JPG is great for photos and offers smaller file sizes, while PNG supports transparency and is better for graphics with sharp lines.\n1. Upload a JPG or PNG image.\n2. The tool will automatically detect the format and offer to convert it to the other type.\n3. Click 'Convert' and then download the new image file." },
+  { name: 'Bulk JPG to PNG Converter', description: 'Converts multiple JPGs to PNG.', category: 'Image Tools', instructions: "1. Upload your JPG files.\n2. Click the 'Convert to PNG' button.\n3. A ZIP file containing all the newly converted PNG images will be downloaded." },
+  { name: 'Bulk PNG to JPG Converter', description: 'Converts multiple PNGs to JPG.', category: 'Image Tools', instructions: "1. Upload your PNG files.\n2. Click the 'Convert to JPG' button. Transparency will be replaced with a white background.\n3. A ZIP file containing all the newly converted JPG images will be downloaded." },
   { name: 'PNG to SVG Converter', description: 'Convert PNG images into pixel-based SVG format.', category: 'Image Tools', instructions: "This unique tool converts each pixel of a PNG into a tiny vector square in an SVG file. It's ideal for pixel art or low-resolution images, allowing them to be scaled to any size without becoming blurry.\n1. Upload a PNG image file.\n2. Click the 'Convert to SVG' button to begin the pixel-by-pixel conversion.\n3. The result will be a scalable vector graphic that perfectly represents your original image's pixels.\n4. Click 'Download SVG' to save the new file." },
   { name: 'Image Cropper', description: 'Crops an image to a fixed ratio (1:1, 16:9, etc.).', category: 'Image Tools', instructions: "1. Upload an image file (JPG, PNG, etc.).\n2. Select a desired aspect ratio (e.g., 16:9 for thumbnails, 1:1 for profile pictures).\n3. Adjust the crop area by dragging it or resizing it using the handles.\n4. Click 'Crop Image' to see the result.\n5. Click 'Download Cropped Image' to save the final image." },
+  { name: 'Image Watermark (Logo)', description: 'Draws an uploaded logo over the image.', category: 'Image Tools', instructions: "1. Upload your main image.\n2. Upload your logo image (preferably a PNG with a transparent background).\n3. Drag the logo to position it. Use the sliders to adjust its size and opacity.\n4. Click 'Apply Watermark' to see a preview.\n5. Click 'Download Image' to save your watermarked image." },
+  { name: 'Image Rotator (Custom Angle)', description: 'Rotates image by any user-defined angle.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the slider to rotate the image to any angle between -180 and 180 degrees.\n3. The canvas will automatically adjust to fit the rotated image without clipping.\n4. Click 'Download Rotated Image' to save the result." },
+  { name: 'Image Blur Filter', description: 'Applies a Gaussian blur effect.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Blur Intensity' slider to adjust the strength of the blur effect in real-time.\n3. Click 'Download Blurred Image' to save the edited image." },
+  { name: 'Image Sepia Filter', description: 'Applies a sepia tone effect.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Use the 'Sepia Intensity' slider to adjust the strength of the vintage sepia tone.\n3. Click 'Download Sepia Image' to save your new photo." },
+  { name: 'Image Sharpen Filter', description: 'Applies a basic sharpening filter.', category: 'Image Tools', instructions: "1. Upload an image.\n2. Click the 'Apply Sharpen Filter' button to enhance the details and edges of your image.\n3. Click 'Download Sharpened Image' to save the result." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -130,16 +150,36 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageResizer;
     case 'bulk-image-resizer':
       return BulkImageResizer;
-    case 'jpg-and-png-converter':
-      return JpgPngConverter;
     case 'image-compressor':
       return ImageCompressor;
+    case 'bulk-image-compressor':
+      return BulkImageCompressor;
     case 'image-to-base64':
       return ImageToBase64;
+    case 'bulk-image-to-base64':
+      return BulkImageToBase64;
+    case 'bulk-image-to-grayscale':
+      return BulkImageToGrayscale;
+    case 'jpg-to-png-converter':
+      return JpgPngConverter;
+    case 'bulk-jpg-to-png-converter':
+      return BulkJpgToPngConverter;
+    case 'bulk-png-to-jpg-converter':
+      return BulkPngToJpgConverter;
     case 'png-to-svg-converter':
       return PngToSvgConverter;
     case 'image-cropper':
       return ImageCropper;
+    case 'image-watermark-logo':
+      return ImageWatermark;
+    case 'image-rotator-custom-angle':
+      return ImageRotator;
+    case 'image-blur-filter':
+      return ImageBlurFilter;
+    case 'image-sepia-filter':
+      return ImageSepiaFilter;
+    case 'image-sharpen-filter':
+      return ImageSharpenFilter;
 
     // Text & List Tools
     case 'case-converter':
@@ -246,11 +286,21 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     // Image Tools
     case 'image-resizer': return ImageResizerIcon;
     case 'bulk-image-resizer': return BulkImageIcon;
-    case 'jpg-and-png-converter': return JpgPngConverterIcon;
+    case 'jpg-to-png-converter': return JpgPngConverterIcon;
     case 'image-compressor': return ImageCompressorIcon;
+    case 'bulk-image-compressor': return ShrinkIcon;
     case 'image-to-base64': return ImageToBase64Icon;
+    case 'bulk-image-to-base64': return BinaryIcon;
+    case 'bulk-image-to-grayscale': return ContrastIcon;
+    case 'bulk-jpg-to-png-converter': return BulkImageConversionIcon;
+    case 'bulk-png-to-jpg-converter': return BulkImageConversionIcon;
     case 'png-to-svg-converter': return PngToSvgIcon;
     case 'image-cropper': return CropIcon;
+    case 'image-watermark-logo': return ShieldCheckIcon;
+    case 'image-rotator-custom-angle': return RotateCwIcon;
+    case 'image-blur-filter': return EyeOffIcon;
+    case 'image-sepia-filter': return CameraIcon;
+    case 'image-sharpen-filter': return SparklesIcon;
       
     default:
       return WrenchIcon;
