@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -43,6 +43,7 @@ import PdfToJpgConverter from './tools/pdf/PdfToJpgConverter';
 import ImageToPdfConverter from './tools/pdf/ImageToPdfConverter';
 import QrCodeGenerator from './tools/web/QrCodeGenerator';
 import PngToSvgConverter from './tools/image/PngToSvgConverter';
+import ImageCropper from './tools/image/ImageCropper';
 
 const slugify = (text: string) =>
   text
@@ -99,6 +100,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Compressor', description: 'Reduce image file size with optimization.', category: 'Image Tools', instructions: "Significantly reduce the file size of your images with minimal loss in quality. This is one of the most effective ways to speed up your website's loading time.\n1. Upload a JPG or PNG image.\n2. Use the quality slider to adjust the compression level. A lower quality results in a smaller file size. You can see the file size change in real-time.\n3. Preview the result to ensure the quality is acceptable.\n4. Download your newly optimized image." },
   { name: 'Image to Base64', description: 'Encode images to Base64 strings.', category: 'Image Tools', instructions: "Convert an image into a single string of text (Base64). This is a common technique for developers to embed small images directly into code (like CSS or HTML) instead of loading them as separate files, which can sometimes improve performance.\n1. Upload any image file.\n2. The tool will instantly convert the image data into a Base64 text string.\n3. The full Base64 string will be displayed for you to copy." },
   { name: 'PNG to SVG Converter', description: 'Convert PNG images into pixel-based SVG format.', category: 'Image Tools', instructions: "This unique tool converts each pixel of a PNG into a tiny vector square in an SVG file. It's ideal for pixel art or low-resolution images, allowing them to be scaled to any size without becoming blurry.\n1. Upload a PNG image file.\n2. Click the 'Convert to SVG' button to begin the pixel-by-pixel conversion.\n3. The result will be a scalable vector graphic that perfectly represents your original image's pixels.\n4. Click 'Download SVG' to save the new file." },
+  { name: 'Image Cropper', description: 'Crops an image to a fixed ratio (1:1, 16:9, etc.).', category: 'Image Tools', instructions: "1. Upload an image file (JPG, PNG, etc.).\n2. Select a desired aspect ratio (e.g., 16:9 for thumbnails, 1:1 for profile pictures).\n3. Adjust the crop area by dragging it or resizing it using the handles.\n4. Click 'Crop Image' to see the result.\n5. Click 'Download Cropped Image' to save the final image." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -132,6 +134,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageToBase64;
     case 'png-to-svg-converter':
       return PngToSvgConverter;
+    case 'image-cropper':
+      return ImageCropper;
 
     // Text & List Tools
     case 'case-converter':
@@ -241,6 +245,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-compressor': return ImageCompressorIcon;
     case 'image-to-base64': return ImageToBase64Icon;
     case 'png-to-svg-converter': return PngToSvgIcon;
+    case 'image-cropper': return CropIcon;
       
     default:
       return WrenchIcon;

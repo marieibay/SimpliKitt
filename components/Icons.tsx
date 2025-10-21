@@ -213,6 +213,13 @@ export const PngToSvgIcon: React.FC<{ className?: string }> = ({ className }) =>
   </IconWrapper>
 );
 
+export const CropIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M6.13 1L6 16a2 2 0 0 0 2 2h15" />
+    <path d="M1 6.13L16 6a2 2 0 0 1 2 2v15" />
+  </IconWrapper>
+);
+
 export const MenuIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
