@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ALL_TOOLS, CATEGORIES } from '../constants';
 import { trackEvent } from '../analytics';
-
-const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
-const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
+import { updateMetaTags, resetMetaTags } from '../utils/meta';
 
 const ToolPage: React.FC = () => {
   const { toolSlug } = useParams<{ toolSlug: string }>();
@@ -12,20 +10,12 @@ const ToolPage: React.FC = () => {
 
   useEffect(() => {
     if (tool) {
-      document.title = `${tool.name} - SimpliKitt`;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', tool.description);
-      }
+      updateMetaTags(`${tool.name} - SimpliKitt`, tool.description);
       trackEvent('tool_viewed', { toolName: tool.name, toolSlug: tool.slug });
     }
 
     return () => {
-      document.title = defaultTitle;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', defaultDescription);
-      }
+      resetMetaTags();
     };
   }, [tool]);
 

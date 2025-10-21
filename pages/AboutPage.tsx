@@ -1,24 +1,14 @@
 import React, { useEffect } from 'react';
-
-const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
-const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
+import { updateMetaTags, resetMetaTags } from '../utils/meta';
 
 const AboutPage: React.FC = () => {
   useEffect(() => {
     const title = 'About SimpliKitt - Our Mission and Privacy-First Philosophy';
     const description = 'Learn about SimpliKitt\'s mission to provide free, private, client-side digital tools. Understand our commitment to your privacy and how our browser-based utilities work.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
+    updateMetaTags(title, description);
     
     return () => {
-      document.title = defaultTitle;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', defaultDescription);
-      }
+      resetMetaTags();
     };
   }, []);
 

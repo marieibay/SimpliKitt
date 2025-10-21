@@ -1,27 +1,17 @@
 import React, { useEffect } from 'react';
 import { CATEGORIES } from '../constants';
 import ToolCard from '../components/ToolCard';
-
-const defaultTitle = 'SimpliKitt - Instant, No-Cost Digital Tools';
-const defaultDescription = 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.';
+import { updateMetaTags, resetMetaTags } from '../utils/meta';
 
 
 const AllToolsPage: React.FC = () => {
   useEffect(() => {
     const title = 'All Tools - SimpliKitt';
     const description = 'Browse the complete collection of free, instant, and privacy-first digital utilities for images, text, PDF, files, and development. All tools run in your browser.';
-    document.title = title;
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', description);
-    }
+    updateMetaTags(title, description);
 
     return () => {
-      document.title = defaultTitle;
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription) {
-        metaDescription.setAttribute('content', defaultDescription);
-      }
+      resetMetaTags();
     };
   }, []);
 

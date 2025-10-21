@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CATEGORIES } from '../constants';
 import CategoryCard from '../components/CategoryCard';
+import { updateMetaTags, resetMetaTags, defaultTitle, defaultDescription } from '../utils/meta';
 
 const HomePage: React.FC = () => {
   useEffect(() => {
-    document.title = 'SimpliKitt - Instant, No-Cost Digital Tools';
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private. SimpliKitt offers simple solutions for common digital problems without requiring software installation or account creation.');
-    }
+    updateMetaTags(defaultTitle, defaultDescription);
+    return () => {
+      resetMetaTags();
+    };
   }, []);
 
   return (
