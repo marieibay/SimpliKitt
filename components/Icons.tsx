@@ -284,3 +284,22 @@ export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ classNam
         <line x1="13.25" y1="16.25" x2="15" y2="18"/>
     </IconWrapper>
 );
+
+export const BulkImageResizerIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect width="18" height="14" x="3" y="3" rx="2"/>
+    <path d="M4 21h1"/>
+    <path d="M9 21h1"/>
+    <path d="M14 21h1"/>
+    <path d="M19 21h1"/>
+  </IconWrapper>
+);
+
+export const BulkImageCompressorIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+      <path d="M4 22V4c0-.5.2-1 .5-1.4C4.8 2.2 5.3 2 5.8 2h8.4c.5 0 1 .2 1.4.6.4.4.6.9.6 1.4v3.6"/>
+      <path d="M16 6h6v16h-6"/>
+      <path d="M8 14h6"/>
+      <path d="M8 10h2"/>
+  </IconWrapper>
+);
