@@ -103,4 +103,8 @@
   <url><loc>https://www.simplikitt.com/#/tool/png-to-svg-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/bulk-image-resizer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/bulk-image-compressor</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-base64-bulk</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-grayscale-bulk</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/jpg-to-png-converter-bulk</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/png-to-jpg-converter-bulk</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

@@ -287,11 +287,14 @@ export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ classNam
 
 export const BulkImageResizerIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <rect width="18" height="14" x="3" y="3" rx="2"/>
-    <path d="M4 21h1"/>
-    <path d="M9 21h1"/>
-    <path d="M14 21h1"/>
-    <path d="M19 21h1"/>
+    <path d="M5 3a2 2 0 0 0-2 2"/>
+    <path d="M19 3a2 2 0 0 1 2 2"/>
+    <path d="M21 19a2 2 0 0 1-2 2"/>
+    <path d="M3 19a2 2 0 0 0 2 2"/>
+    <path d="M5 7v10"/>
+    <path d="M19 7v10"/>
+    <path d="M7 5h10"/>
+    <path d="M7 19h10"/>
   </IconWrapper>
 );
 
@@ -302,4 +305,35 @@ export const BulkImageCompressorIcon: React.FC<{ className?: string }> = ({ clas
       <path d="M8 14h6"/>
       <path d="M8 10h2"/>
   </IconWrapper>
+);
+
+export const LockIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+    </IconWrapper>
+);
+
+export const BulkImageToBase64Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <path d="M12 18h1"/>
+        <path d="M15 18h1"/>
+        <path d="M9 18h1"/>
+    </IconWrapper>
+);
+
+export const BulkImageToGrayscaleIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="m12 2-7.07 17.07"/>
+    </IconWrapper>
+);
+
+export const BulkImageConverterIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m3 2 8 8-8 8"/>
+        <path d="m13 2 8 8-8 8"/>
+    </IconWrapper>
 );

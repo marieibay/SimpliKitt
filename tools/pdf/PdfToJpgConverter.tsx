@@ -22,13 +22,25 @@ const PdfToJpgConverter: React.FC = () => {
   const [convertedImages, setConvertedImages] = useState<ConvertedImage[]>([]);
   const [outputFormat, setOutputFormat] = useState<'jpeg' | 'png'>('jpeg');
   const [error, setError] = useState<string | null>(null);
+  const [libsReady, setLibsReady] = useState({ pdf: false, zip: false });
 
   useEffect(() => {
-    // Set workerSrc for pdf.js safely after component mounts
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
-    }
-  }, []);
+    const interval = setInterval(() => {
+      const pdfReady = !!window.pdfjsLib;
+      const zipReady = !!window.fflate;
+      
+      if (pdfReady && !libsReady.pdf) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
+      }
+      
+      setLibsReady({ pdf: pdfReady, zip: zipReady });
+
+      if (pdfReady && zipReady) {
+        clearInterval(interval);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [libsReady.pdf]);
 
   const handleFile = (selectedFile: File) => {
     setFile(selectedFile);
@@ -142,6 +154,14 @@ const PdfToJpgConverter: React.FC = () => {
     setError(null);
     setIsProcessing(false);
   };
+  
+  if (!libsReady.pdf) {
+    return (
+      <div className="text-center p-8 border-2 border-dashed border-gray-200 rounded-lg">
+        <p className="text-lg font-semibold text-gray-700 mt-1">Loading PDF library...</p>
+      </div>
+    );
+  }
 
   if (isProcessing) {
     return (
@@ -177,9 +197,10 @@ const PdfToJpgConverter: React.FC = () => {
               <div className="flex flex-col sm:flex-row justify-center gap-3 pt-2">
                 <button 
                   onClick={handleDownloadAllAsZip}
-                  className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
+                  disabled={!libsReady.zip}
+                  className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition disabled:opacity-50"
                 >
-                  Download All as ZIP
+                  {!libsReady.zip ? 'Loading ZIP library...' : 'Download All as ZIP'}
                 </button>
                 <button 
                   onClick={handleReset}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent } from '../../analytics';
 
@@ -13,6 +13,17 @@ const PptxToTextExtractor: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isLibReady, setIsLibReady] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (window.fflate) {
+        setIsLibReady(true);
+        clearInterval(interval);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleFile = async (file: File) => {
     if (!window.fflate) {
@@ -70,7 +81,13 @@ const PptxToTextExtractor: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {extractedText === null && !isProcessing && (
+      {!isLibReady && (
+        <div className="text-center p-8 border-2 border-dashed rounded-lg">
+          <p className="text-lg font-semibold text-gray-700">Loading library...</p>
+        </div>
+      )}
+    
+      {isLibReady && extractedText === null && !isProcessing && (
         <FileUpload
           onFileUpload={handleFile}
           acceptedMimeTypes={['application/vnd.openxmlformats-officedocument.presentationml.presentation']}

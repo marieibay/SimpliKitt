@@ -9,9 +9,8 @@ declare global {
   }
 }
 
-const BulkImageCompressor: React.FC = () => {
+const BulkJpgToPngConverter: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const [quality, setQuality] = useState(0.8);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +29,7 @@ const BulkImageCompressor: React.FC = () => {
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
     if (fileRejections.length > 0) {
-      setError("Some files were not valid image types and were ignored.");
+      setError("Some files were not JPGs and were ignored.");
     } else {
       setError(null);
     }
@@ -40,10 +39,10 @@ const BulkImageCompressor: React.FC = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/jpeg': [], 'image/png': [], 'image/webp': [] },
+    accept: { 'image/jpeg': ['.jpg', '.jpeg'] },
   });
 
-  const compressImage = (file: File, quality: number): Promise<Blob | null> => {
+  const convertJpgToPng = (file: File): Promise<Blob | null> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -56,7 +55,7 @@ const BulkImageCompressor: React.FC = () => {
           if (!ctx) return reject(new Error('Could not get canvas context'));
 
           ctx.drawImage(img, 0, 0);
-          canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality);
+          canvas.toBlob((blob) => resolve(blob), 'image/png');
         };
         img.onerror = reject;
         img.src = e.target?.result as string;
@@ -66,9 +65,9 @@ const BulkImageCompressor: React.FC = () => {
     });
   };
 
-  const handleCompress = async () => {
+  const handleConvert = async () => {
     if (files.length === 0) {
-      setError("Please add at least one image.");
+      setError("Please add at least one JPG image.");
       return;
     }
     if (!window.fflate) {
@@ -81,24 +80,24 @@ const BulkImageCompressor: React.FC = () => {
     setError(null);
 
     try {
-      const compressedFiles: Record<string, Uint8Array> = {};
+      const processedFiles: Record<string, Uint8Array> = {};
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        setProgress(`Compressing ${i + 1} of ${files.length}: ${file.name}`);
-        const compressedBlob = await compressImage(file, quality);
-        if (compressedBlob) {
-          const buffer = await compressedBlob.arrayBuffer();
+        setProgress(`Converting ${i + 1} of ${files.length}: ${file.name}`);
+        const pngBlob = await convertJpgToPng(file);
+        if (pngBlob) {
+          const buffer = await pngBlob.arrayBuffer();
           const baseName = file.name.replace(/\.[^/.]+$/, "");
-          compressedFiles[`${baseName}-compressed.jpg`] = new Uint8Array(buffer);
+          processedFiles[`${baseName}.png`] = new Uint8Array(buffer);
         }
       }
 
       setProgress('Creating ZIP file...');
-      window.fflate.zip(compressedFiles, (err: any, data: Uint8Array) => {
+      window.fflate.zip(processedFiles, (err: any, data: Uint8Array) => {
         if (err) throw err;
         const blob = new Blob([data], { type: 'application/zip' });
         setZipUrl(URL.createObjectURL(blob));
-        trackEvent('bulk_images_compressed', { fileCount: files.length, quality });
+        trackEvent('bulk_jpg_to_png', { fileCount: files.length });
       });
     } catch (err: any) {
       setError(`An error occurred: ${err.message}`);
@@ -118,14 +117,12 @@ const BulkImageCompressor: React.FC = () => {
   return (
     <div className="space-y-6">
       {!isProcessing && !zipUrl && (
-        <>
-          <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
-            <input {...getInputProps()} />
-            <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
-            <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop images here, or click to select</p>
-            <p className="text-sm text-gray-500">Supports JPG, PNG, WEBP</p>
-          </div>
-        </>
+        <div {...getRootProps()} className={`p-10 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
+          <input {...getInputProps()} />
+          <UploadIcon className="w-12 h-12 text-gray-400 mx-auto" />
+          <p className="mt-2 text-lg font-semibold text-gray-700">Drag & drop JPG/JPEG files here</p>
+          <p className="text-sm text-gray-500">or click to select</p>
+        </div>
       )}
 
       {error && <p className="text-center text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>}
@@ -136,23 +133,8 @@ const BulkImageCompressor: React.FC = () => {
             <ul className="space-y-1 text-sm text-gray-600 max-h-40 overflow-y-auto border rounded-lg p-2 bg-gray-50">
                 {files.map((file, i) => <li key={`${file.name}-${i}`} className="truncate">{file.name}</li>)}
             </ul>
-             <div className="p-4 bg-gray-50 border rounded-lg space-y-4">
-                 <div>
-                    <label htmlFor="quality" className="block text-sm font-medium text-gray-700">Quality: {Math.round(quality * 100)}% (Smaller file &harr; Higher quality)</label>
-                    <input 
-                        id="quality"
-                        type="range" 
-                        min="0.1" 
-                        max="1" 
-                        step="0.05" 
-                        value={quality} 
-                        onChange={(e) => setQuality(parseFloat(e.target.value))}
-                        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
-                    />
-                 </div>
-            </div>
-            <button onClick={handleCompress} disabled={!isLibReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
-              {!isLibReady ? 'Loading Library...' : `Compress ${files.length} Image(s)`}
+            <button onClick={handleConvert} disabled={!isLibReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:opacity-50">
+              {!isLibReady ? 'Loading Library...' : `Convert ${files.length} JPG(s) to PNG`}
             </button>
         </div>
       )}
@@ -166,10 +148,10 @@ const BulkImageCompressor: React.FC = () => {
 
       {zipUrl && (
          <div className="text-center space-y-4 p-6 bg-green-50 rounded-lg border border-green-200">
-            <h3 className="text-xl font-bold text-gray-800">Processing Complete!</h3>
-            <p className="text-gray-600">Your compressed images have been bundled into a ZIP file.</p>
+            <h3 className="text-xl font-bold text-gray-800">Conversion Complete!</h3>
+            <p className="text-gray-600">Your new PNG images have been bundled into a ZIP file.</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
-                <a href={zipUrl} download="compressed-images.zip" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                <a href={zipUrl} download="converted-png-images.zip" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
                     Download ZIP
                 </a>
                 <button onClick={handleReset} className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition">
@@ -182,4 +164,4 @@ const BulkImageCompressor: React.FC = () => {
   );
 };
 
-export default BulkImageCompressor;
+export default BulkJpgToPngConverter;
