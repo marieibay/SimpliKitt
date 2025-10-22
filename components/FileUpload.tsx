@@ -6,15 +6,16 @@ interface FileUploadProps {
   acceptedMimeTypes: string[];
   title?: string;
   description?: string;
+  externalError?: string | null;
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes, title, description }) => {
-  const [error, setError] = useState<string | null>(null);
+const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes, title, description, externalError }) => {
+  const [internalError, setInternalError] = useState<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
-    setError(null);
+    setInternalError(null);
     if (fileRejections.length > 0) {
-      setError(`File type not accepted. Please upload one of: ${acceptedMimeTypes.join(', ')}`);
+      setInternalError(`File type not accepted. Please upload one of: ${acceptedMimeTypes.join(', ')}`);
       return;
     }
     if (acceptedFiles.length > 0) {
@@ -28,11 +29,13 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes
     multiple: false,
   });
 
+  const displayError = externalError || internalError;
+
   return (
     <div
       {...getRootProps()}
       className={`p-8 border-2 border-dashed rounded-lg text-center cursor-pointer transition-colors ${
-        isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
+        isDragActive ? 'border-blue-500 bg-blue-50' : (displayError ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400')
       }`}
     >
       <input {...getInputProps()} />
@@ -42,7 +45,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload, acceptedMimeTypes
         </svg>
         <p className="text-lg font-semibold text-gray-700">{title || "Drag 'n' drop a file here, or click to select"}</p>
         <p className="text-sm text-gray-500">{description || `Accepted formats: ${acceptedMimeTypes.join(', ')}`}</p>
-        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+        {displayError && <p className="mt-2 text-sm text-red-600">{displayError}</p>}
       </div>
     </div>
   );

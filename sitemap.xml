@@ -153,6 +153,8 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-color-replacer-single</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-reflection-generator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-layer-merger-2-layers</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://www.simplikitt.com/#/tool/image-zoom-previewer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-zoom-previewer-local</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-histogram-viewer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/docx-to-pdf-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/pdf-to-docx-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

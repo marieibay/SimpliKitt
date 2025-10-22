@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileEditIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -97,6 +97,8 @@ import ImageReflectionGenerator from './tools/image/ImageReflectionGenerator';
 import ImageLayerMerger from './tools/image/ImageLayerMerger';
 import ImageZoomPreviewer from './tools/image/ImageZoomPreviewer';
 import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
+import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
+import PdfToDocxConverter from './tools/pdf/PdfToDocxConverter';
 
 
 const slugify = (text: string) =>
@@ -141,6 +143,9 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "This tool lets you select only the pages you need from a large PDF, creating a smaller, more focused document. It's perfect for separating chapters, pulling out specific slides, or removing unnecessary pages.\n1. Upload your PDF file.\n2. In the input box, enter the page numbers or ranges you want to extract (e.g., '1, 3-5, 8').\n3. Click 'Extract Pages & Download' to begin.\n4. A new PDF containing only your selected pages will be downloaded automatically." },
   { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "Turn each page of your PDF into a separate image file, which is great for presentations, sharing on social media, or embedding in other documents.\n1. Upload your PDF document.\n2. Select your desired output image format (JPEG for smaller files, PNG for higher quality).\n3. The tool will convert each page of the PDF into an image.\n4. All generated images will be bundled together and downloaded as a single ZIP file." },
   { name: 'Image to PDF Converter', description: 'Combine multiple images into a single PDF.', category: 'PDF & Document Tools', instructions: "Compile photos, scans, or screenshots into a single, easy-to-share PDF document. This is ideal for creating photo albums, portfolios, or submitting scanned documents.\n1. Upload one or more image files (JPG, PNG, etc.).\n2. Drag and drop the images to reorder them as they should appear in the PDF.\n3. Adjust page size (e.g., A4, Letter) and orientation (Portrait, Landscape) as needed.\n4. Click 'Create PDF' and download your combined file." },
+  { name: 'DOCX to PDF Converter', description: 'Converts DOCX file to a simple, text-based PDF format.', category: 'PDF & Document Tools' },
+  { name: 'PDF to DOCX Converter', description: 'Extracts text from a PDF file into a DOCX document.', category: 'PDF & Document Tools' },
+
 
   // Text & List Tools
   { name: 'Word & Char Counter', description: 'Check content length for essays or tweets.', category: 'Text & List Tools', instructions: "Quickly get statistics on your text. This is essential for writers, students, and social media managers who need to meet specific length requirements.\n1. Paste or type your text into the text area.\n2. The tool will instantly and automatically update the counts for words, characters (with and without spaces), and paragraphs.\n3. No buttons are needed; the results update in real-time as you type." },
@@ -206,7 +211,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Color Replacer (Single)', description: 'Replaces one specific color with another in the image.', category: 'Image Tools' },
   { name: 'Image Reflection Generator', description: 'Creates a realistic ground reflection effect.', category: 'Image Tools' },
   { name: 'Image Layer Merger (2 Layers)', description: 'Merges two uploaded images with blend modes.', category: 'Image Tools' },
-  { name: 'Image Zoom Previewer', description: 'Allows zooming into a local image file for detail checking.', category: 'Image Tools' },
+  { name: 'Image Zoom Previewer (Local)', description: 'Allows zooming into a local image file for detail checking.', category: 'Image Tools' },
   { name: 'Image Histogram Viewer', description: 'Displays the color histogram of the uploaded image.', category: 'Image Tools' },
 ];
 
@@ -345,7 +350,7 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageReflectionGenerator;
     case 'image-layer-merger-2-layers':
         return ImageLayerMerger;
-    case 'image-zoom-previewer':
+    case 'image-zoom-previewer-local':
         return ImageZoomPreviewer;
     case 'image-histogram-viewer':
         return ImageHistogramViewer;
@@ -404,6 +409,10 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return PdfToJpgConverter;
     case 'image-to-pdf-converter':
       return ImageToPdfConverter;
+    case 'docx-to-pdf-converter':
+      return DocxToPdfConverter;
+    case 'pdf-to-docx-converter':
+      return PdfToDocxConverter;
 
     default:
       return PlaceholderTool;
@@ -446,6 +455,8 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'extract-pdf-pages': return SplitPdfIcon;
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
     case 'image-to-pdf-converter': return JpgToPdfConverterIcon;
+    case 'docx-to-pdf-converter': return DocxToTextExtractorIcon;
+    case 'pdf-to-docx-converter': return FileEditIcon;
 
     // Text & List Tools
     case 'word-and-char-counter': return WordCounterIcon;
@@ -511,7 +522,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-color-replacer-single': return Paintbrush2Icon;
     case 'image-reflection-generator': return PictureInPicture2Icon;
     case 'image-layer-merger-2-layers': return Layers2Icon;
-    case 'image-zoom-previewer': return ZoomInIcon;
+    case 'image-zoom-previewer-local': return ZoomInIcon;
     case 'image-histogram-viewer': return BarChart2Icon;
       
     default:

@@ -29,6 +29,9 @@
       body {
         font-family: 'Inter', sans-serif;
       }
+      .prose {
+        max-width: 100% !important;
+      }
     </style>
   <script type="importmap">
 {
@@ -46,7 +49,8 @@
     "fast-png": "https://unpkg.com/fast-png@6.1.0/dist/index.js",
     "@babel/runtime/helpers/typeof": "https://unpkg.com/@babel/runtime@7.23.2/helpers/esm/typeof.js",
     "@babel/runtime/helpers/slicedToArray": "https://unpkg.com/@babel/runtime@7.23.2/helpers/esm/slicedToArray.js",
-    "@vercel/analytics/": "https://aistudiocdn.com/@vercel/analytics@^1.5.0/"
+    "@vercel/analytics/": "https://aistudiocdn.com/@vercel/analytics@^1.5.0/",
+    "docx": "https://unpkg.com/docx@8.5.0/build/index.mjs"
   }
 }
 </script>
@@ -172,6 +176,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1/build/qrcode.min.js"></script>
     <script src="https://unpkg.com/mammoth@1.7.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.min.js"></script>
