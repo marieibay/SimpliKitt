@@ -12,7 +12,6 @@ const ImageWatermark: React.FC = () => {
     const dragStartPos = useRef({ x: 0, y: 0 });
     const dragStartWatermarkPos = useRef({ x: 0, y: 0 });
 
-    // FIX: Wrap drawCanvas in useCallback to prevent infinite re-renders from useEffect.
     const drawCanvas = useCallback(() => {
         if (!canvasRef.current || !mainImage) return;
         const canvas = canvasRef.current;
@@ -52,41 +51,48 @@ const ImageWatermark: React.FC = () => {
         setResult(null);
     };
 
-    const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const startDrag = (clientX: number, clientY: number) => {
         if (!watermarkImage || !canvasRef.current) return;
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        const mouseX = (e.clientX - rect.left) * scaleX;
-        const mouseY = (e.clientY - rect.top) * scaleY;
+        const canvasX = (clientX - rect.left) * scaleX;
+        const canvasY = (clientY - rect.top) * scaleY;
 
         const wmWidth = watermarkImage.width * watermark.scale;
         const wmHeight = watermarkImage.height * watermark.scale;
 
-        if (mouseX >= watermark.x && mouseX <= watermark.x + wmWidth && mouseY >= watermark.y && mouseY <= watermark.y + wmHeight) {
+        if (canvasX >= watermark.x && canvasX <= watermark.x + wmWidth && canvasY >= watermark.y && canvasY <= watermark.y + wmHeight) {
             setIsDragging(true);
-            dragStartPos.current = { x: mouseX, y: mouseY };
+            dragStartPos.current = { x: canvasX, y: canvasY };
             dragStartWatermarkPos.current = { x: watermark.x, y: watermark.y };
         }
     };
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const handleDrag = (clientX: number, clientY: number) => {
         if (!isDragging || !canvasRef.current) return;
         const canvas = canvasRef.current;
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        const mouseX = (e.clientX - rect.left) * scaleX;
-        const mouseY = (e.clientY - rect.top) * scaleY;
+        const canvasX = (clientX - rect.left) * scaleX;
+        const canvasY = (clientY - rect.top) * scaleY;
 
-        const dx = mouseX - dragStartPos.current.x;
-        const dy = mouseY - dragStartPos.current.y;
+        const dx = canvasX - dragStartPos.current.x;
+        const dy = canvasY - dragStartPos.current.y;
 
         setWatermark(prev => ({ ...prev, x: dragStartWatermarkPos.current.x + dx, y: dragStartWatermarkPos.current.y + dy }));
     };
 
-    const handleMouseUp = () => setIsDragging(false);
+    const endDrag = () => setIsDragging(false);
+    
+    const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (e.touches.length > 0) startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    };
+    const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+        if (e.touches.length > 0) handleDrag(e.touches[0].clientX, e.touches[0].clientY);
+    };
 
     const handleDownload = () => {
         if (!canvasRef.current) return;
@@ -124,11 +130,15 @@ const ImageWatermark: React.FC = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="md:col-span-2 flex justify-center items-center bg-gray-100 p-2 rounded-lg border">
-                        <canvas ref={canvasRef} className="max-w-full h-auto cursor-grab"
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
+                        <canvas ref={canvasRef} className="max-w-full h-auto cursor-grab active:cursor-grabbing"
+                            onMouseDown={e => startDrag(e.clientX, e.clientY)}
+                            onMouseMove={e => handleDrag(e.clientX, e.clientY)}
+                            onMouseUp={endDrag}
+                            onMouseLeave={endDrag}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={endDrag}
+                            onTouchCancel={endDrag}
                         />
                     </div>
                     <div className="space-y-4 bg-gray-50 p-4 rounded-lg">

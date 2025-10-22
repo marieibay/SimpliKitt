@@ -68,38 +68,55 @@ const ImageWarpingTool: React.FC = () => {
         drawWarped();
     }, [image, corners, drawWarped]);
     
-    const handleMouseDown = (index: number) => {
+    const handleInteractionStart = (index: number) => {
         setDraggingPoint(index);
     };
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const handleInteractionMove = (clientX: number, clientY: number) => {
         if (draggingPoint === null || !containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
         setCorners(c => c.map((p, i) => i === draggingPoint ? { x, y } : p));
     };
 
-    const handleMouseUp = () => {
+    const handleInteractionEnd = () => {
         setDraggingPoint(null);
     };
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        handleInteractionMove(e.clientX, e.clientY);
+    };
+    
+    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (e.touches.length > 0) {
+            handleInteractionMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    };
+
 
     if (!image) {
         return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png', 'image/webp']} />;
     }
 
-    // Since a full canvas warp is very complex, we will show a preview using CSS transform
-    // and note that the final download is not yet implemented.
     return (
         <div className="space-y-6">
             <p className="text-center text-sm bg-yellow-50 border border-yellow-200 p-3 rounded-md">Note: This is a simplified demonstration. True perspective warping on canvas is highly complex and not fully implemented for download.</p>
-            <div ref={containerRef} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp}
-                 className="relative w-full max-w-lg mx-auto border cursor-grab">
+            <div ref={containerRef} 
+                 onMouseMove={handleMouseMove} 
+                 onMouseUp={handleInteractionEnd} 
+                 onMouseLeave={handleInteractionEnd}
+                 onTouchMove={handleTouchMove}
+                 onTouchEnd={handleInteractionEnd}
+                 onTouchCancel={handleInteractionEnd}
+                 className="relative w-full max-w-lg mx-auto border cursor-grab touch-none">
                 <canvas ref={canvasRef} className="block max-w-full h-auto" />
                 {corners.map((p, i) => (
-                    <div key={i} onMouseDown={() => handleMouseDown(i)}
+                    <div key={i} 
+                         onMouseDown={() => handleInteractionStart(i)}
+                         onTouchStart={() => handleInteractionStart(i)}
                          style={{ left: p.x - 8, top: p.y - 8 }}
-                         className="absolute w-4 h-4 bg-blue-500 rounded-full border-2 border-white cursor-pointer"
+                         className="absolute w-6 h-6 bg-blue-500 rounded-full border-2 border-white cursor-pointer"
                     />
                 ))}
             </div>

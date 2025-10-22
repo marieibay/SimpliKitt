@@ -49,30 +49,30 @@ const PercentageCalculator: React.FC = () => {
     switch (mode) {
       case 'percentOf':
         return (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
             <span className="text-gray-700">What is</span>
-            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="10" />
+            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="10" />
             <span className="text-gray-700">% of</span>
-            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="50" />
+            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="50" />
             <span className="text-gray-700">?</span>
           </div>
         );
       case 'isWhatPercent':
         return (
-          <div className="flex items-center space-x-2">
-            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="5" />
+          <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
+            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="5" />
             <span className="text-gray-700">is what percent of</span>
-            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="50" />
+            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="50" />
             <span className="text-gray-700">?</span>
           </div>
         );
       case 'change':
         return (
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
             <span className="text-gray-700">From</span>
-            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="40" />
+            <input type="number" value={valA} onChange={(e) => setValA(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="40" />
             <span className="text-gray-700">to</span>
-            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-24 p-2 border rounded-md" placeholder="50" />
+            <input type="number" value={valB} onChange={(e) => setValB(e.target.value)} className="w-28 p-2 border rounded-md" placeholder="50" />
             <span className="text-gray-700">?</span>
           </div>
         );

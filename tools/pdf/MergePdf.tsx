@@ -66,7 +66,7 @@ const MergePdf: React.FC = () => {
   };
   
   const handleDragSort = () => {
-    if (draggedItem.current === null || dragOverItem.current === null) return;
+    if (draggedItem.current === null || dragOverItem.current === null || draggedItem.current === dragOverItem.current) return;
     const newFiles = [...files];
     const draggedFile = newFiles.splice(draggedItem.current, 1)[0];
     newFiles.splice(dragOverItem.current, 0, draggedFile);
@@ -118,7 +118,22 @@ const MergePdf: React.FC = () => {
                             onDragEnter={() => (dragOverItem.current = index)}
                             onDragEnd={handleDragSort}
                             onDragOver={(e) => e.preventDefault()}
-                            className="flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm cursor-grab"
+                            onTouchStart={() => (draggedItem.current = index)}
+                            onTouchMove={(e) => {
+                                const touchY = e.touches[0].clientY;
+                                const listItems = (e.currentTarget as HTMLLIElement).parentElement?.children;
+                                if (!listItems) return;
+                                for (let i = 0; i < listItems.length; i++) {
+                                    const item = listItems[i] as HTMLLIElement;
+                                    const rect = item.getBoundingClientRect();
+                                    if (touchY > rect.top && touchY < rect.bottom) {
+                                        dragOverItem.current = i;
+                                        break;
+                                    }
+                                }
+                            }}
+                            onTouchEnd={handleDragSort}
+                            className="flex items-center justify-between p-3 bg-white border rounded-lg shadow-sm cursor-grab active:cursor-grabbing touch-none"
                         >
                             <div className="flex items-center space-x-3">
                                 <span className="text-gray-500">{index + 1}.</span>

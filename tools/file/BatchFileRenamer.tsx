@@ -103,8 +103,8 @@ const BatchFileRenamer: React.FC = () => {
           </div>
 
           <h3 className="text-lg font-medium text-gray-800">Rename Preview ({files.length} files)</h3>
-          <div className="max-h-60 overflow-y-auto border rounded-lg">
-            <table className="w-full text-sm text-left">
+          <div className="max-h-60 overflow-y-auto border rounded-lg overflow-x-auto">
+            <table className="w-full text-sm text-left min-w-[500px]">
               <thead className="bg-gray-50 sticky top-0">
                 <tr>
                   <th className="px-4 py-2">Original Name</th>
