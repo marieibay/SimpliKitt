@@ -685,4 +685,5 @@ export const Paintbrush2Icon: React.FC<{ className?: string }> = ({ className })
         <path d="M18 12.2c.5-.5.5-1.4 0-1.8l-2.6-2.6c-.4-.4-1.2-.4-1.6 0L12 10"/>
         <path d="m11 11 2.5 2.5"/>
         <path d="M5 21h14"/>
-    </Ico...
+    </IconWrapper>
+);

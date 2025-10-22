@@ -7,13 +7,17 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
-  const { slug, name, shortDescription, icon, cardColor } = category;
+  const { slug, name, shortDescription, icon, cardColor, tools } = category;
 
   return (
     <Link
       to={`/category/${slug}`}
       className={`group relative block h-full ${cardColor} rounded-2xl p-4 flex flex-col overflow-hidden transition-transform transform hover:-translate-y-1 shadow-lg hover:shadow-xl`}
     >
+      <div className="absolute top-4 right-4 bg-black/20 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+        {tools.length} tools
+      </div>
+
       <div className="flex-1 flex items-center justify-center mb-4">
         <img src={icon} alt={`${name} icon`} className="w-16 h-16 object-contain" />
       </div>
