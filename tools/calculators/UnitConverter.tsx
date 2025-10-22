@@ -49,7 +49,6 @@ const UnitConverter: React.FC = () => {
   const [fromUnit, setFromUnit] = useState('meters');
   const [toUnit, setToUnit] = useState('feet');
   const [inputValue, setInputValue] = useState('1');
-  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
   const prevInputRef = useRef<string | undefined>(undefined);
 
   const availableUnits = UNITS[category].units;

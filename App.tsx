@@ -12,11 +12,13 @@ import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TosPage from './pages/TosPage';
 import ScrollToTop from './components/ScrollToTop';
+import GoogleAnalyticsReporter from './components/GoogleAnalyticsReporter';
 
 const App: React.FC = () => {
   return (
     <HashRouter>
       <ScrollToTop />
+      <GoogleAnalyticsReporter />
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />

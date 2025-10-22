@@ -5,9 +5,7 @@ const DateDifferenceCalculator: React.FC = () => {
   const today = new Date().toISOString().split('T')[0];
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(today);
-  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
   const prevStartDate = useRef<string | undefined>(undefined);
-  // FIX: Initialize useRef with an explicit value to prevent "Expected 1 arguments, but got 0" error.
   const prevEndDate = useRef<string | undefined>(undefined);
 
   const difference = useMemo(() => {

@@ -12,7 +12,6 @@ const MergePdf: React.FC = () => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      // FIX: Add explicit type to 'file' parameter to resolve type inference issue.
       const selectedFiles = Array.from(e.target.files).filter(
         (file: File) => file.type === 'application/pdf'
       );

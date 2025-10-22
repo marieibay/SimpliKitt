@@ -81,10 +81,6 @@ const ImageCropper: React.FC = () => {
     const dx = currentX - interactionRef.current.startX;
     const dy = currentY - interactionRef.current.startY;
     
-    // FIX: The original destructuring with a spread operator `{ ...interactionRef.current.startCrop }`
-    // was confusing the linter/compiler, causing the "Initializer provides no value" error. 
-    // Simplified to direct destructuring which is functionally equivalent here since the 
-    // properties are primitive types (numbers) and are copied by value.
     let { x, y, width, height } = interactionRef.current.startCrop;
 
     switch (interactionRef.current.type) {
