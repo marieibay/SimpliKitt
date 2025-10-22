@@ -65,7 +65,7 @@ const ImageOpacityAdjuster: React.FC = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg border min-h-[300px] bg-[url('https://i.imgur.com/lEJUf2x.png')]">
+            <div className="flex justify-center items-center bg-white p-4 rounded-lg border min-h-[300px] bg-[repeating-conic-gradient(theme(colors.gray.200)_0%_25%,transparent_25%_50%)] [background-size:20px_20px]">
                 {resultUrl ? (
                     <img src={resultUrl} alt="Opacity preview" className="max-w-full max-h-[400px]" />
                 ) : (
