@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -95,6 +95,8 @@ import ImageTilingPreviewer from './tools/image/ImageTilingPreviewer';
 import ImageColorReplacer from './tools/image/ImageColorReplacer';
 import ImageReflectionGenerator from './tools/image/ImageReflectionGenerator';
 import ImageLayerMerger from './tools/image/ImageLayerMerger';
+import ImageZoomPreviewer from './tools/image/ImageZoomPreviewer';
+import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
 
 
 const slugify = (text: string) =>
@@ -204,6 +206,8 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Color Replacer (Single)', description: 'Replaces one specific color with another in the image.', category: 'Image Tools' },
   { name: 'Image Reflection Generator', description: 'Creates a realistic ground reflection effect.', category: 'Image Tools' },
   { name: 'Image Layer Merger (2 Layers)', description: 'Merges two uploaded images with blend modes.', category: 'Image Tools' },
+  { name: 'Image Zoom Previewer', description: 'Allows zooming into a local image file for detail checking.', category: 'Image Tools' },
+  { name: 'Image Histogram Viewer', description: 'Displays the color histogram of the uploaded image.', category: 'Image Tools' },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -341,6 +345,10 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageReflectionGenerator;
     case 'image-layer-merger-2-layers':
         return ImageLayerMerger;
+    case 'image-zoom-previewer':
+        return ImageZoomPreviewer;
+    case 'image-histogram-viewer':
+        return ImageHistogramViewer;
 
 
     // Text & List Tools
@@ -503,6 +511,8 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-color-replacer-single': return Paintbrush2Icon;
     case 'image-reflection-generator': return PictureInPicture2Icon;
     case 'image-layer-merger-2-layers': return Layers2Icon;
+    case 'image-zoom-previewer': return ZoomInIcon;
+    case 'image-histogram-viewer': return BarChart2Icon;
       
     default:
       return WrenchIcon;
