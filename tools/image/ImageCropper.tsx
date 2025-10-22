@@ -1,340 +1,228 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackGtagEvent } from '../../analytics';
 
-const ASPECT_RATIOS = [
-  { name: 'Free', value: undefined },
-  { name: '1:1', value: 1 / 1 },
-  { name: '16:9', value: 16 / 9 },
-  { name: '4:3', value: 4 / 3 },
-  { name: '3:2', value: 3 / 2 },
-  { name: '9:16', value: 9 / 16 },
-];
+const aspectRatios: { [key: string]: number | null } = {
+    'Free': null,
+    '1:1': 1,
+    '16:9': 16 / 9,
+    '4:3': 4 / 3,
+    '3:2': 3 / 2,
+    '9:16': 9 / 16,
+};
 
-const MIN_CROP_SIZE = 20;
+type Handle = 'tl' | 'tr' | 'bl' | 'br' | 't' | 'b' | 'l' | 'r' | 'move';
 
 const ImageCropper: React.FC = () => {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0, width: 0, height: 0 });
-  const [aspect, setAspect] = useState<number | undefined>(undefined);
-  const [croppedImageUrl, setCroppedImageUrl] = useState<string | null>(null);
-  const [isCropped, setIsCropped] = useState(false);
+    const [image, setImage] = useState<HTMLImageElement | null>(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0, width: 0, height: 0 });
+    const [aspect, setAspect] = useState<string>('Free');
+    const [resultUrl, setResultUrl] = useState<string | null>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const interactionRef = useRef<{
+        isDragging: boolean;
+        handle: Handle | null;
+        startX: number;
+        startY: number;
+        startCrop: typeof crop;
+    }>({ isDragging: false, handle: null, startX: 0, startY: 0, startCrop: { x: 0, y: 0, width: 0, height: 0 } });
+    const scaleRef = useRef(1);
 
-  const imageRef = useRef<HTMLImageElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const interactionRef = useRef<{
-    type: string | null,
-    startX: number,
-    startY: number,
-    startCrop: typeof crop
-  }>({ type: null, startX: 0, startY: 0, startCrop: crop });
-
-
-  const handleFile = (file: File) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setImageSrc(e.target?.result as string);
-      setCroppedImageUrl(null);
-      setIsCropped(false);
+    const handleFile = (file: File) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = new Image();
+            img.onload = () => {
+                setImage(img);
+                const initialWidth = img.width / 2;
+                const initialHeight = img.height / 2;
+                setCrop({ x: (img.width - initialWidth) / 2, y: (img.height - initialHeight) / 2, width: initialWidth, height: initialHeight });
+                setResultUrl(null);
+            };
+            img.src = e.target?.result as string;
+        };
+        reader.readAsDataURL(file);
     };
-    reader.readAsDataURL(file);
-  };
-  
-  const initCrop = useCallback(() => {
-    if (imageRef.current) {
-      const { width: imgWidth, height: imgHeight } = imageRef.current.getBoundingClientRect();
-      let newWidth = imgWidth * 0.8;
-      let newHeight = imgHeight * 0.8;
 
-      if(aspect) {
-        if(imgWidth / aspect > imgHeight) { // constrained by height
-            newHeight = imgHeight * 0.8;
-            newWidth = newHeight * aspect;
-        } else { // constrained by width
-            newWidth = imgWidth * 0.8;
-            newHeight = newWidth / aspect;
+    const draw = useCallback(() => {
+        if (!image || !canvasRef.current) return;
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+        
+        const displayWidth = Math.min(canvas.parentElement!.clientWidth, image.width);
+        scaleRef.current = displayWidth / image.width;
+        canvas.width = displayWidth;
+        canvas.height = image.height * scaleRef.current;
+        
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        const sCrop = {
+            x: crop.x * scaleRef.current,
+            y: crop.y * scaleRef.current,
+            width: crop.width * scaleRef.current,
+            height: crop.height * scaleRef.current
+        };
+
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(sCrop.x, sCrop.y, sCrop.width, sCrop.height);
+
+        ctx.drawImage(image, crop.x, crop.y, crop.width, crop.height, sCrop.x, sCrop.y, sCrop.width, sCrop.height);
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(sCrop.x, sCrop.y, sCrop.width, sCrop.height);
+
+        // Draw handles
+        ctx.fillStyle = '#007bff';
+        const handleSize = 12;
+        const h = handleSize / 2;
+        const handles = {
+            tl: [sCrop.x - h, sCrop.y - h], tr: [sCrop.x + sCrop.width - h, sCrop.y - h],
+            bl: [sCrop.x - h, sCrop.y + sCrop.height - h], br: [sCrop.x + sCrop.width - h, sCrop.y + sCrop.height - h],
+            t: [sCrop.x + sCrop.width / 2 - h, sCrop.y - h], b: [sCrop.x + sCrop.width / 2 - h, sCrop.y + sCrop.height - h],
+            l: [sCrop.x - h, sCrop.y + sCrop.height / 2 - h], r: [sCrop.x + sCrop.width - h, sCrop.y + sCrop.height / 2 - h],
+        };
+        Object.values(handles).forEach(([x, y]) => ctx.fillRect(x, y, handleSize, handleSize));
+
+    }, [image, crop]);
+
+    useEffect(() => {
+        draw();
+        window.addEventListener('resize', draw);
+        return () => window.removeEventListener('resize', draw);
+    }, [draw]);
+
+    const getHandleAt = (x: number, y: number): Handle | null => {
+        const sCrop = { x: crop.x * scaleRef.current, y: crop.y * scaleRef.current, width: crop.width * scaleRef.current, height: crop.height * scaleRef.current };
+        const handleSize = 20; // larger for touch
+        const h = handleSize / 2;
+        
+        const check = (hx: number, hy: number) => x > hx - h && x < hx + h && y > hy - h && y < hy + h;
+
+        if (check(sCrop.x, sCrop.y)) return 'tl';
+        if (check(sCrop.x + sCrop.width, sCrop.y)) return 'tr';
+        if (check(sCrop.x, sCrop.y + sCrop.height)) return 'bl';
+        if (check(sCrop.x + sCrop.width, sCrop.y + sCrop.height)) return 'br';
+        if (aspectRatios[aspect] === null) {
+            if (check(sCrop.x + sCrop.width / 2, sCrop.y)) return 't';
+            if (check(sCrop.x + sCrop.width / 2, sCrop.y + sCrop.height)) return 'b';
+            if (check(sCrop.x, sCrop.y + sCrop.height / 2)) return 'l';
+            if (check(sCrop.x + sCrop.width, sCrop.y + sCrop.height / 2)) return 'r';
         }
-      }
-
-      setCrop({
-        x: (imgWidth - newWidth) / 2,
-        y: (imgHeight - newHeight) / 2,
-        width: newWidth,
-        height: newHeight,
-      });
-    }
-  }, [aspect]);
-
-  useEffect(() => {
-    if(imageSrc) {
-        initCrop();
-    }
-  }, [aspect, imageSrc, initCrop]);
-  
-  const updateCropPosition = (clientX: number, clientY: number) => {
-    if (!interactionRef.current.type || !containerRef.current) return;
+        if (x > sCrop.x && x < sCrop.x + sCrop.width && y > sCrop.y && y < sCrop.y + sCrop.height) return 'move';
+        return null;
+    };
     
-    const rect = containerRef.current.getBoundingClientRect();
-    const currentX = clientX - rect.left;
-    const currentY = clientY - rect.top;
-    
-    const dx = currentX - interactionRef.current.startX;
-    const dy = currentY - interactionRef.current.startY;
-    
-    let { x, y, width, height } = interactionRef.current.startCrop;
+    const handleInteractionStart = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!canvasRef.current) return;
+        e.preventDefault();
+        const rect = canvasRef.current.getBoundingClientRect();
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
 
-    switch (interactionRef.current.type) {
-      case 'move':
-        x += dx;
-        y += dy;
-        break;
-      case 'se':
-        width += dx;
-        height += dy;
-        break;
-      case 'sw':
-        width -= dx;
-        height += dy;
-        x += dx;
-        break;
-      case 'ne':
-        width += dx;
-        height -= dy;
-        y += dy;
-        break;
-      case 'nw':
-        width -= dx;
-        height -= dy;
-        x += dx;
-        y += dy;
-        break;
-      case 'n':
-        height -= dy;
-        y += dy;
-        break;
-      case 's':
-        height += dy;
-        break;
-      case 'w':
-        width -= dx;
-        x += dx;
-        break;
-      case 'e':
-        width += dx;
-        break;
-    }
-
-    if (aspect) {
-        if (['e', 'w', 'ne', 'nw', 'se', 'sw'].includes(interactionRef.current.type)) {
-            const newHeight = width / aspect;
-            if (interactionRef.current.type.includes('n')) {
-                y += height - newHeight;
-            }
-            height = newHeight;
-        } else {
-            const newWidth = height * aspect;
-            if (interactionRef.current.type.includes('w')) {
-                x += width - newWidth;
-            }
-            width = newWidth;
+        const handle = getHandleAt(x, y);
+        if (handle) {
+            interactionRef.current = { isDragging: true, handle, startX: clientX, startY: clientY, startCrop: { ...crop } };
         }
-    }
-    
-    if (width < MIN_CROP_SIZE) width = MIN_CROP_SIZE;
-    if (height < MIN_CROP_SIZE) height = MIN_CROP_SIZE;
-    
-    const { width: imgWidth, height: imgHeight } = rect;
-    if (x < 0) x = 0;
-    if (y < 0) y = 0;
-    if (x + width > imgWidth) x = imgWidth - width;
-    if (y + height > imgHeight) y = imgHeight - height;
-
-    setCrop({ x, y, width, height });
-  }
-
-  const handleMouseMove = (e: MouseEvent) => {
-    e.preventDefault();
-    updateCropPosition(e.clientX, e.clientY);
-  };
-  
-  const handleTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
-    if (e.touches.length > 0) {
-      updateCropPosition(e.touches[0].clientX, e.touches[0].clientY);
-    }
-  };
-
-  const handleMouseUp = () => {
-    interactionRef.current.type = null;
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('mouseup', handleMouseUp);
-  };
-  
-  const handleTouchEnd = () => {
-    interactionRef.current.type = null;
-    window.removeEventListener('touchmove', handleTouchMove);
-    window.removeEventListener('touchend', handleTouchEnd);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
-    e.preventDefault();
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    interactionRef.current = {
-      type,
-      startX: e.clientX - rect.left,
-      startY: e.clientY - rect.top,
-      startCrop: crop,
     };
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-  };
+    
+    const handleInteractionMove = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!interactionRef.current.isDragging || !image) return;
+        e.preventDefault();
+        
+        const { handle, startX, startY, startCrop: s } = interactionRef.current;
+        const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+        const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>, type: string) => {
-    e.preventDefault();
-    if (!containerRef.current || e.touches.length === 0) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const touch = e.touches[0];
-    interactionRef.current = {
-      type,
-      startX: touch.clientX - rect.left,
-      startY: touch.clientY - rect.top,
-      startCrop: crop,
+        let dx = (clientX - startX) / scaleRef.current;
+        let dy = (clientY - startY) / scaleRef.current;
+        let newCrop = { ...s };
+
+        const ar = aspectRatios[aspect];
+
+        switch(handle) {
+            case 'tl': dx = Math.min(dx, s.width - 20); dy = Math.min(dy, s.height - 20); if(ar) { dx = dy * ar; } newCrop = { x: s.x + dx, y: s.y + dy, width: s.width - dx, height: s.height - dy }; break;
+            case 'tr': dx = Math.max(dx, -(s.width - 20)); dy = Math.min(dy, s.height - 20); if(ar) { dx = -dy * ar; } newCrop = { x: s.x, y: s.y + dy, width: s.width + dx, height: s.height - dy }; break;
+            case 'bl': dx = Math.min(dx, s.width - 20); dy = Math.max(dy, -(s.height - 20)); if(ar) { dx = -dy * ar; } newCrop = { x: s.x + dx, y: s.y, width: s.width - dx, height: s.height + dy }; break;
+            case 'br': dx = Math.max(dx, -(s.width - 20)); dy = Math.max(dy, -(s.height - 20)); if(ar) { dx = dy * ar; } newCrop = { x: s.x, y: s.y, width: s.width + dx, height: s.height + dy }; break;
+            case 't': newCrop = { ...s, y: s.y + dy, height: s.height - dy }; break;
+            case 'b': newCrop = { ...s, height: s.height + dy }; break;
+            case 'l': newCrop = { ...s, x: s.x + dx, width: s.width - dx }; break;
+            case 'r': newCrop = { ...s, width: s.width + dx }; break;
+            case 'move': newCrop = { ...s, x: s.x + dx, y: s.y + dy }; break;
+        }
+
+        // Enforce aspect ratio
+        if (ar) {
+            if (handle === 'tl' || handle === 'bl') { newCrop.x += newCrop.width - newCrop.height * ar; }
+            newCrop.width = newCrop.height * ar;
+        }
+
+        // Clamp to image bounds
+        newCrop.x = Math.max(0, newCrop.x);
+        newCrop.y = Math.max(0, newCrop.y);
+        newCrop.width = Math.min(newCrop.width, image.width - newCrop.x);
+        newCrop.height = Math.min(newCrop.height, image.height - newCrop.y);
+
+        setCrop(newCrop);
     };
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd);
-  };
 
-  const handleMouseDownOnHandle = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
-    e.stopPropagation();
-    handleMouseDown(e, type);
-  };
-
-  const handleTouchStartOnHandle = (e: React.TouchEvent<HTMLDivElement>, type: string) => {
-    e.stopPropagation();
-    handleTouchStart(e, type);
-  };
-
-  const handleCrop = () => {
-    if (!imageRef.current) return;
-    const img = imageRef.current;
-    const scaleX = img.naturalWidth / img.width;
-    const scaleY = img.naturalHeight / img.height;
-
-    const canvas = document.createElement('canvas');
-    canvas.width = crop.width * scaleX;
-    canvas.height = crop.height * scaleY;
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) return;
+    const handleInteractionEnd = () => {
+        interactionRef.current.isDragging = false;
+    };
     
-    ctx.drawImage(
-      img,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-    
-    const url = canvas.toDataURL('image/png');
-    setCroppedImageUrl(url);
-    setIsCropped(true);
-    trackEvent('image_cropped', { aspect: aspect || 'free' });
-  };
-  
-  const handleReset = () => {
-    setImageSrc(null);
-    setCroppedImageUrl(null);
-    setCrop({ x: 0, y: 0, width: 0, height: 0 });
-    setIsCropped(false);
-  };
-  
-  // View 1: No image uploaded yet
-  if (!imageSrc) {
-    return (
-      <div className="space-y-6">
-        <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png', 'image/webp']} />
-      </div>
-    );
-  }
+    const handleCrop = () => {
+        if(!image) return;
+        const canvas = document.createElement('canvas');
+        canvas.width = crop.width;
+        canvas.height = crop.height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(image, crop.x, crop.y, crop.width, crop.height, 0, 0, crop.width, crop.height);
+        setResultUrl(canvas.toDataURL());
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Cropper',
+            tool_name: 'image-cropper',
+            is_download: true,
+            aspect_ratio: aspect
+        });
+    };
 
-  // View 3: Cropped result is ready
-  if (isCropped && croppedImageUrl) {
+    if (!image) {
+        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png']} />;
+    }
+
     return (
-      <div className="text-center space-y-4">
-        <h3 className="text-xl font-semibold">Cropped Result</h3>
-        <div className="flex justify-center p-2 bg-gray-100 rounded-lg">
-            <img src={croppedImageUrl} alt="Cropped" className="max-w-full mx-auto border-2 rounded-lg shadow-lg" />
-        </div>
-        <div className="flex justify-center gap-4 pt-4">
-          <a href={croppedImageUrl} download="cropped-image.png"
-            className="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
-            Download Cropped Image
-          </a>
-           <button onClick={handleReset} className="px-6 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition">
-                Start Over
-            </button>
-        </div>
-      </div>
-    );
-  }
-  
-  // View 2: Cropping interface
-  return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-center gap-2 p-2 bg-gray-100 rounded-md">
-        {ASPECT_RATIOS.map(ar => (
-          <button key={ar.name} onClick={() => setAspect(ar.value)}
-            className={`px-3 py-1 text-sm font-medium rounded-md transition ${aspect === ar.value ? 'bg-blue-600 text-white' : 'bg-white hover:bg-gray-200'}`}>
-            {ar.name}
-          </button>
-        ))}
-      </div>
-      
-      <div ref={containerRef} className="relative select-none w-full max-w-2xl mx-auto overflow-hidden rounded-lg" style={{ touchAction: 'none' }}>
-        <img ref={imageRef} src={imageSrc} alt="Source" className="w-full h-auto block" onLoad={initCrop}/>
-        <div
-          className="absolute border-2 border-white/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.5)] cursor-move"
-          style={{
-            top: `${crop.y}px`,
-            left: `${crop.x}px`,
-            width: `${crop.width}px`,
-            height: `${crop.height}px`,
-          }}
-          onMouseDown={(e) => handleMouseDown(e, 'move')}
-          onTouchStart={(e) => handleTouchStart(e, 'move')}
-          >
-            {/* Corner Handles */}
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'nw')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'nw')} className="absolute -top-3 -left-3 w-6 h-6 bg-blue-500 rounded-full cursor-nwse-resize border-2 border-white"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'ne')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'ne')} className="absolute -top-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-nesw-resize border-2 border-white"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'sw')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'sw')} className="absolute -bottom-3 -left-3 w-6 h-6 bg-blue-500 rounded-full cursor-nesw-resize border-2 border-white"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'se')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'se')} className="absolute -bottom-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-nwse-resize border-2 border-white"></div>
-            {/* Side Handles for Free mode */}
-            {aspect === undefined && (
-              <>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'n')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'n')} className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 's')} onTouchStart={(e) => handleTouchStartOnHandle(e, 's')} className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'w')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'w')} className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'e')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'e')} className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
-              </>
+        <div className="space-y-6">
+             <div className="flex flex-wrap justify-center gap-2">
+                {Object.keys(aspectRatios).map(r => (
+                    <button key={r} onClick={() => setAspect(r)} className={`px-4 py-2 text-sm rounded-lg ${aspect === r ? 'bg-blue-600 text-white' : 'bg-white border hover:bg-gray-100'}`}>
+                        {r}
+                    </button>
+                ))}
+            </div>
+            <div className="flex justify-center touch-none"
+                 onMouseDown={handleInteractionStart} onMouseMove={handleInteractionMove} onMouseUp={handleInteractionEnd} onMouseLeave={handleInteractionEnd}
+                 onTouchStart={handleInteractionStart} onTouchMove={handleInteractionMove} onTouchEnd={handleInteractionEnd}>
+                <canvas ref={canvasRef} className="max-w-full h-auto cursor-move" />
+            </div>
+            <div className="text-center">
+                 <button onClick={handleCrop} className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">Crop Image</button>
+            </div>
+            {resultUrl && (
+                <div className="text-center space-y-4">
+                    <h3 className="text-xl font-bold">Cropped Result</h3>
+                    <img src={resultUrl} alt="Cropped" className="mx-auto max-w-full h-auto border" />
+                    <a href={resultUrl} download="cropped-image.png" className="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Download Cropped Image</a>
+                </div>
             )}
         </div>
-      </div>
-
-      <div className="flex justify-center gap-4">
-        <button onClick={handleCrop} className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
-          Crop Image
-        </button>
-        <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-600 hover:underline">
-          Start Over
-        </button>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ImageCropper;

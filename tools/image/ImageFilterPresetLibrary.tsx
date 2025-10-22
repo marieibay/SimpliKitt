@@ -2,20 +2,22 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent } from '../../analytics';
 
-const FILTERS = {
-  'Normal': 'none',
-  '1977': 'sepia(.5) hue-rotate(-30deg) saturate(1.4) contrast(0.9)',
-  'Clarendon': 'contrast(1.2) saturate(1.35)',
-  'Gingham': 'contrast(0.9) brightness(1.1)',
-  'Lark': 'contrast(.9) saturate(1.1) brightness(1.1)',
-  'Moon': 'grayscale(1) contrast(1.1) brightness(1.1)',
-  'Slumber': 'saturate(0.66) brightness(1.05) sepia(0.2)',
+const filters = {
+    'None': 'none',
+    'Grayscale': 'grayscale(100%)',
+    'Sepia': 'sepia(100%)',
+    'Invert': 'invert(100%)',
+    'Contrast': 'contrast(150%)',
+    'Saturate': 'saturate(200%)',
+    'Vintage': 'sepia(60%) contrast(110%) brightness(90%)',
+    'Cool': 'contrast(110%) saturate(150%) hue-rotate(-15deg)',
+    'Warm': 'sepia(40%) contrast(110%) saturate(120%)'
 };
-type FilterName = keyof typeof FILTERS;
 
 const ImageFilterPresetLibrary: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
-    const [activeFilter, setActiveFilter] = useState<FilterName>('Normal');
+    const [activeFilter, setActiveFilter] = useState('None');
+    const [resultUrl, setResultUrl] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const handleFile = (file: File) => {
@@ -36,52 +38,41 @@ const ImageFilterPresetLibrary: React.FC = () => {
 
         canvas.width = image.width;
         canvas.height = image.height;
-        ctx.filter = FILTERS[activeFilter];
+        ctx.filter = filters[activeFilter as keyof typeof filters];
         ctx.drawImage(image, 0, 0);
+
+        setResultUrl(canvas.toDataURL());
     }, [image, activeFilter]);
 
     useEffect(() => {
-        applyFilter();
+        if (image) applyFilter();
     }, [image, activeFilter, applyFilter]);
 
-    const handleFilterSelect = (filterName: FilterName) => {
-        setActiveFilter(filterName);
-        trackEvent('image_filter_preset_applied', { filter: filterName });
-    }
-
     const handleDownload = () => {
-        if (!canvasRef.current) return;
+        if (!resultUrl) return;
+        trackEvent('image_preset_filter_applied', { filter: activeFilter });
         const link = document.createElement('a');
-        link.href = canvasRef.current.toDataURL('image/png');
+        link.href = resultUrl;
         link.download = `filtered-${activeFilter.toLowerCase()}.png`;
         link.click();
     };
-    
+
     if (!image) {
-        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png', 'image/webp']} />;
+        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/*']} />;
     }
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg border">
-                <canvas ref={canvasRef} className="max-w-full max-h-[500px]" />
+            <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg border min-h-[300px]">
+                {resultUrl ? <img src={resultUrl} alt="Preview" className="max-w-full max-h-[500px]" /> : <p>Loading...</p>}
+                <canvas ref={canvasRef} className="hidden" />
             </div>
-
-            <div>
-                <h3 className="text-lg font-semibold mb-3">Filter Presets</h3>
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
-                    {(Object.keys(FILTERS) as FilterName[]).map(name => (
-                        <div key={name} onClick={() => handleFilterSelect(name)} className="text-center cursor-pointer">
-                            <div className={`rounded-lg overflow-hidden border-2 ${activeFilter === name ? 'border-blue-600' : 'border-transparent'}`}>
-                                <img src={image.src} style={{ filter: FILTERS[name] }} className="w-full h-24 object-cover" />
-                            </div>
-                            <p className={`text-sm mt-1 font-medium ${activeFilter === name ? 'text-blue-600' : 'text-gray-600'}`}>{name}</p>
-                        </div>
-                    ))}
-                </div>
+            <div className="flex flex-wrap justify-center gap-2">
+                {Object.keys(filters).map(name => (
+                    <button key={name} onClick={() => setActiveFilter(name)} className={`px-4 py-2 text-sm rounded-lg ${activeFilter === name ? 'bg-blue-600 text-white' : 'bg-white border hover:bg-gray-100'}`}>{name}</button>
+                ))}
             </div>
-
-            <div className="flex justify-center gap-4 pt-4 border-t">
+            <div className="flex justify-center gap-4">
                 <button onClick={handleDownload} className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Download Image</button>
                 <button onClick={() => setImage(null)} className="px-4 py-2 text-sm text-gray-600 hover:underline">Use another image</button>
             </div>

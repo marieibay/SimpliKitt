@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Google Analytics Measurement ID
@@ -12,33 +12,37 @@ declare global {
 
 const GoogleAnalyticsReporter: React.FC = () => {
   const location = useLocation();
+  const isInitialPageLoad = useRef(true);
 
   useEffect(() => {
-    // 1. Safety Check: Ensure gtag is available (it's loaded from index.html)
+    // The initial page_view is sent automatically by the gtag('config', ...)
+    // command in index.html. This hook is for tracking subsequent SPA navigations.
+    if (isInitialPageLoad.current) {
+      isInitialPageLoad.current = false;
+      return;
+    }
+    
     if (typeof window.gtag !== 'function') {
       console.warn("Google Analytics gtag function not found.");
       return;
     }
 
-    // 2. CORRECTION: Use 'event' to track subsequent virtual page views
-    // The 'page_view' event is what GA4 expects for these route changes.
-    window.gtag('event', 'page_view', {
-      
-      // Use 'send_to' to specify the target property
-      send_to: GA_MEASUREMENT_ID, 
-      
-      // The page_path changes with every route navigation (e.g., /tools/resizer)
-      page_path: location.pathname + location.search,
-      
-      // It's also good practice to send the dynamic page title
-      page_title: document.title, 
+    // For HashRouter, the path is in location.hash. We need to extract it.
+    // location.hash will be like "#/tool/image-resizer", we want "/tool/image-resizer"
+    const path = location.hash.substring(1) || '/';
+
+    // For SPA navigations, the recommended approach is to send a 'config'
+    // command with the updated page_path. This automatically triggers a page_view.
+    window.gtag('config', GA_MEASUREMENT_ID, {
+      page_path: path,
+      page_title: document.title,
     });
 
-    console.log(`[GA] Page view tracked for: ${location.pathname + location.search}`);
+    console.log(`[GA] SPA Page view tracked for: ${path}`);
     
-  }, [location]); // useEffect runs every time the location object changes
+  }, [location]);
 
-  return null; // This component is for logic only, it renders nothing
+  return null; // This component renders nothing
 };
 
 export default GoogleAnalyticsReporter;

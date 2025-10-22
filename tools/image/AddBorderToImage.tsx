@@ -4,8 +4,8 @@ import { trackEvent } from '../../analytics';
 
 const AddBorderToImage: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
-    const [borderWidth, setBorderWidth] = useState(20);
-    const [borderColor, setBorderColor] = useState('#ffffff');
+    const [borderWidth, setBorderWidth] = useState(10);
+    const [borderColor, setBorderColor] = useState('#000000');
     const [resultUrl, setResultUrl] = useState<string | null>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -19,43 +19,37 @@ const AddBorderToImage: React.FC = () => {
         reader.readAsDataURL(file);
     };
 
-    const addBorder = useCallback(() => {
+    const draw = useCallback(() => {
         if (!image || !canvasRef.current) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
         
-        const newWidth = image.width + borderWidth * 2;
-        const newHeight = image.height + borderWidth * 2;
-        
-        canvas.width = newWidth;
-        canvas.height = newHeight;
+        canvas.width = image.width + borderWidth * 2;
+        canvas.height = image.height + borderWidth * 2;
         
         ctx.fillStyle = borderColor;
-        ctx.fillRect(0, 0, newWidth, newHeight);
-        
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(image, borderWidth, borderWidth);
-        
+
         setResultUrl(canvas.toDataURL('image/png'));
     }, [image, borderWidth, borderColor]);
-    
+
     useEffect(() => {
-        addBorder();
-    }, [image, borderWidth, borderColor, addBorder]);
+        draw();
+    }, [draw]);
 
     const handleDownload = () => {
         if (!resultUrl) return;
-        trackEvent('image_border_added', { width: borderWidth, color: borderColor });
+        trackEvent('image_border_added');
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'bordered-image.png';
         link.click();
     };
 
-    const handleReset = () => setImage(null);
-
     if (!image) {
-        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/jpeg', 'image/png', 'image/webp']} />;
+        return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['image/*']} />;
     }
 
     return (
@@ -67,15 +61,15 @@ const AddBorderToImage: React.FC = () => {
             <div className="space-y-6 bg-gray-50 p-4 rounded-lg">
                 <div>
                     <label className="block text-sm font-medium">Border Width: {borderWidth}px</label>
-                    <input type="range" min="1" max="100" value={borderWidth} onChange={e => setBorderWidth(parseInt(e.target.value))} className="w-full" />
+                    <input type="range" min="1" max="100" value={borderWidth} onChange={e => setBorderWidth(+e.target.value)} className="w-full" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium">Border Color</label>
                     <input type="color" value={borderColor} onChange={e => setBorderColor(e.target.value)} className="w-full h-10 p-1 border rounded-md" />
                 </div>
                 <div className="pt-4 space-y-3">
-                    <button onClick={handleDownload} disabled={!resultUrl} className="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Download Image</button>
-                    <button onClick={handleReset} className="w-full text-sm text-blue-600 hover:underline">Use another image</button>
+                    <button onClick={handleDownload} className="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Download Image</button>
+                    <button onClick={() => setImage(null)} className="w-full text-sm text-blue-600 hover:underline">Use another image</button>
                 </div>
             </div>
         </div>

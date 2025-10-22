@@ -1,138 +1,89 @@
+
 import React, { useState, useEffect } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackGtagEvent } from '../../analytics';
 
 const PasswordGenerator: React.FC = () => {
-  const [password, setPassword] = useState('');
-  const [length, setLength] = useState(16);
-  const [includeUppercase, setIncludeUppercase] = useState(true);
-  const [includeLowercase, setIncludeLowercase] = useState(true);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(false);
-  const [copied, setCopied] = useState(false);
+    const [password, setPassword] = useState('');
+    const [length, setLength] = useState(16);
+    const [includeUppercase, setIncludeUppercase] = useState(true);
+    const [includeNumbers, setIncludeNumbers] = useState(true);
+    const [includeSymbols, setIncludeSymbols] = useState(true);
+    const [copied, setCopied] = useState(false);
 
-  const generatePassword = () => {
-    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const lower = 'abcdefghijklmnopqrstuvwxyz';
-    const numbers = '0123456789';
-    const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+    const generatePassword = () => {
+        const lower = 'abcdefghijklmnopqrstuvwxyz';
+        const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const numbers = '0123456789';
+        const symbols = '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+        
+        let charPool = lower;
+        if (includeUppercase) charPool += upper;
+        if (includeNumbers) charPool += numbers;
+        if (includeSymbols) charPool += symbols;
 
-    let charset = '';
-    if (includeUppercase) charset += upper;
-    if (includeLowercase) charset += lower;
-    if (includeNumbers) charset += numbers;
-    if (includeSymbols) charset += symbols;
+        let newPassword = '';
+        for (let i = 0; i < length; i++) {
+            newPassword += charPool.charAt(Math.floor(Math.random() * charPool.length));
+        }
+        setPassword(newPassword);
+        trackGtagEvent('tool_used', {
+            event_category: 'Calculators & Time Tools',
+            event_label: 'Password Generator',
+            tool_name: 'password-generator',
+            is_download: false,
+            password_length: length,
+            include_uppercase: includeUppercase,
+            include_numbers: includeNumbers,
+            include_symbols: includeSymbols,
+        });
+    };
 
-    if (charset === '') {
-      setPassword('Select at least one character type');
-      return;
-    }
+    useEffect(() => {
+        generatePassword();
+    }, [length, includeUppercase, includeNumbers, includeSymbols]);
 
-    let newPassword = '';
-    for (let i = 0; i < length; i++) {
-      newPassword += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    setPassword(newPassword);
-  };
+    const handleCopy = () => {
+        navigator.clipboard.writeText(password);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
-  useEffect(() => {
-    generatePassword();
-  }, [length, includeUppercase, includeLowercase, includeNumbers, includeSymbols]);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(password);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  
-  const getStrength = () => {
-      let score = 0;
-      if (length >= 12) score++;
-      if (length >= 16) score++;
-      if (includeUppercase && includeLowercase) score++;
-      if (includeNumbers) score++;
-      if (includeSymbols) score++;
-      
-      if (score >= 5) return { text: 'Very Strong', color: 'bg-green-500' };
-      if (score === 4) return { text: 'Strong', color: 'bg-yellow-500' };
-      if (score === 3) return { text: 'Medium', color: 'bg-orange-500' };
-      return { text: 'Weak', color: 'bg-red-500' };
-  }
-  
-  const strength = getStrength();
-  
-  const handleGenerateClick = () => {
-    generatePassword();
-    trackEvent('password_regenerated', {
-      length,
-      includeUppercase,
-      includeLowercase,
-      includeNumbers,
-      includeSymbols,
-      strength: strength.text,
-    });
-  };
-
-
-  return (
-    <div className="max-w-md mx-auto space-y-6">
-      <div className="relative">
-        <input
-          type="text"
-          readOnly
-          value={password}
-          className="w-full p-4 pr-24 text-lg font-mono bg-gray-100 border border-gray-300 rounded-lg"
-        />
-        <button onClick={handleCopy} className="absolute top-1/2 right-2 transform -translate-y-1/2 px-3 py-1 bg-gray-200 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-300">
-          {copied ? 'Copied!' : 'Copy'}
-        </button>
-      </div>
-
-      <div className="space-y-4 p-4 border rounded-lg">
-        <div className="space-y-2">
-          <label htmlFor="length" className="text-sm font-medium">Password Length: {length}</label>
-          <input
-            type="range"
-            id="length"
-            min="6"
-            max="32"
-            value={length}
-            onChange={(e) => setLength(parseInt(e.target.value))}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-          />
+    return (
+        <div className="max-w-md mx-auto space-y-6">
+            <div className="relative">
+                <input
+                    type="text"
+                    readOnly
+                    value={password}
+                    className="w-full p-4 pr-20 text-center font-mono text-lg bg-gray-100 border rounded-lg"
+                />
+                <button onClick={handleCopy} className="absolute top-1/2 right-2 -translate-y-1/2 px-3 py-1 bg-gray-200 text-sm rounded hover:bg-gray-300">
+                    {copied ? 'Copied!' : 'Copy'}
+                </button>
+            </div>
+            <div className="space-y-4 p-4 bg-gray-50 border rounded-lg">
+                <div>
+                    <label className="block text-sm font-medium">Password Length: {length}</label>
+                    <input type="range" min="8" max="64" value={length} onChange={e => setLength(Number(e.target.value))} className="w-full mt-1" />
+                </div>
+                <div className="flex items-center">
+                    <input id="uppercase" type="checkbox" checked={includeUppercase} onChange={e => setIncludeUppercase(e.target.checked)} className="h-4 w-4 rounded" />
+                    <label htmlFor="uppercase" className="ml-2 text-sm">Include Uppercase Letters (A-Z)</label>
+                </div>
+                <div className="flex items-center">
+                    <input id="numbers" type="checkbox" checked={includeNumbers} onChange={e => setIncludeNumbers(e.target.checked)} className="h-4 w-4 rounded" />
+                    <label htmlFor="numbers" className="ml-2 text-sm">Include Numbers (0-9)</label>
+                </div>
+                 <div className="flex items-center">
+                    <input id="symbols" type="checkbox" checked={includeSymbols} onChange={e => setIncludeSymbols(e.target.checked)} className="h-4 w-4 rounded" />
+                    <label htmlFor="symbols" className="ml-2 text-sm">Include Symbols (!@#$...)</label>
+                </div>
+            </div>
+            <button onClick={generatePassword} className="w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+                Generate New Password
+            </button>
         </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" checked={includeUppercase} onChange={() => setIncludeUppercase(!includeUppercase)} className="h-4 w-4 rounded"/>
-            <span>Uppercase (A-Z)</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" checked={includeLowercase} onChange={() => setIncludeLowercase(!includeLowercase)} className="h-4 w-4 rounded"/>
-            <span>Lowercase (a-z)</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" checked={includeNumbers} onChange={() => setIncludeNumbers(!includeNumbers)} className="h-4 w-4 rounded"/>
-            <span>Numbers (0-9)</span>
-          </label>
-          <label className="flex items-center space-x-2">
-            <input type="checkbox" checked={includeSymbols} onChange={() => setIncludeSymbols(!includeSymbols)} className="h-4 w-4 rounded"/>
-            <span>Symbols (!@#)</span>
-          </label>
-        </div>
-
-         <div className="pt-2">
-            <p className="text-sm font-medium">Strength: <span className={`px-2 py-0.5 rounded-full text-xs text-white ${strength.color}`}>{strength.text}</span></p>
-        </div>
-      </div>
-      
-       <button 
-          onClick={handleGenerateClick}
-          className="w-full px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
-        >
-          Generate New Password
-        </button>
-    </div>
-  );
+    );
 };
 
 export default PasswordGenerator;

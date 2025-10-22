@@ -1,6 +1,7 @@
+
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackGtagEvent } from '../../analytics';
 
 const ImageColorPicker: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -21,9 +22,10 @@ const ImageColorPicker: React.FC = () => {
                 if (mainCanvasRef.current) {
                     const canvas = mainCanvasRef.current;
                     const ctx = canvas.getContext('2d');
+                    if (!ctx) return;
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    ctx?.drawImage(img, 0, 0);
+                    ctx.drawImage(img, 0, 0);
                 }
             };
             img.src = e.target?.result as string;
@@ -35,7 +37,7 @@ const ImageColorPicker: React.FC = () => {
     const rgbToHsl = (r: number, g: number, b: number) => {
         r /= 255; g /= 255; b /= 255;
         const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h = 0, s, l = (max + min) / 2;
+        let h = 0, s = 0, l = (max + min) / 2;
         if (max !== min) {
             const d = max - min;
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -45,7 +47,7 @@ const ImageColorPicker: React.FC = () => {
                 case b: h = (r - g) / d + 4; break;
             }
             h /= 6;
-        } else { h = s = 0; }
+        }
         return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
     };
 
@@ -78,23 +80,58 @@ const ImageColorPicker: React.FC = () => {
         setPickedColor({ r: pixelData[0], g: pixelData[1], b: pixelData[2] });
 
     }, []);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    
+    const handleInteractionMove = (clientX: number, clientY: number) => {
         if (!mainCanvasRef.current) return;
         const rect = mainCanvasRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        setMousePos({ x, y });
-        updateLoupe(x, y);
+        
+        const mouseX = clientX - rect.left;
+        const mouseY = clientY - rect.top;
+
+        const canvasX = Math.round(mouseX * (mainCanvasRef.current.width / rect.width));
+        const canvasY = Math.round(mouseY * (mainCanvasRef.current.height / rect.height));
+        
+        const clampedX = Math.max(0, Math.min(canvasX, mainCanvasRef.current.width - 1));
+        const clampedY = Math.max(0, Math.min(canvasY, mainCanvasRef.current.height - 1));
+
+        setMousePos({ x: mouseX, y: mouseY });
+        updateLoupe(clampedX, clampedY);
+    };
+
+    const handleClick = () => {
+        if (pickedColor) {
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image Color Picker (Magnifier)',
+                tool_name: 'image-color-picker-magnifier',
+                is_download: false,
+                picked_color_hex: rgbToHex(pickedColor.r, pickedColor.g, pickedColor.b),
+            });
+        }
     };
     
-    const handleClick = () => {
-        trackEvent('color_picked_from_image', { color: pickedColor ? rgbToHex(pickedColor.r, pickedColor.g, pickedColor.b) : '' });
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setIsLoupeVisible(true);
+        if (e.touches.length > 0) {
+            handleInteractionMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    };
+    const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        if (e.touches.length > 0) {
+            handleInteractionMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    };
+    const handleTouchEnd = () => {
+        setIsLoupeVisible(false);
+        handleClick();
     };
     
     const CopyButton: React.FC<{ value: string }> = ({ value }) => {
         const [copied, setCopied] = useState(false);
-        const handleCopy = () => {
+        const handleCopy = (e: React.MouseEvent) => {
+            e.stopPropagation();
             navigator.clipboard.writeText(value);
             setCopied(true);
             setTimeout(() => setCopied(false), 1500);
@@ -114,10 +151,18 @@ const ImageColorPicker: React.FC = () => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 relative" onMouseEnter={() => setIsLoupeVisible(true)} onMouseLeave={() => setIsLoupeVisible(false)} onMouseMove={handleMouseMove} onClick={handleClick}>
+            <div className="md:col-span-2 relative touch-none" 
+                onMouseEnter={() => setIsLoupeVisible(true)} 
+                onMouseLeave={() => setIsLoupeVisible(false)} 
+                onMouseMove={e => handleInteractionMove(e.clientX, e.clientY)} 
+                onClick={handleClick}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
                 <canvas ref={mainCanvasRef} className="max-w-full h-auto cursor-crosshair rounded-lg border" />
                 {isLoupeVisible && (
-                    <div style={{ left: mousePos.x + 15, top: mousePos.y + 15 }} className="absolute pointer-events-none">
+                    <div style={{ left: mousePos.x + 15, top: mousePos.y + 15, position: 'absolute', pointerEvents: 'none', zIndex: 10 }}>
                         <canvas ref={loupeCanvasRef} className="border-4 border-white rounded-full shadow-lg" />
                     </div>
                 )}
@@ -126,7 +171,7 @@ const ImageColorPicker: React.FC = () => {
                 <h3 className="text-lg font-semibold">Picked Color</h3>
                 {pickedColor && (
                     <div className="space-y-3">
-                        <div className="w-full h-16 rounded-md" style={{ backgroundColor: hex }} />
+                        <div className="w-full h-16 rounded-md border" style={{ backgroundColor: hex }} />
                         <div className="space-y-2 text-sm">
                             <div className="flex justify-between items-center font-mono"><span className="font-semibold">HEX:</span> {hex} <CopyButton value={hex} /></div>
                             <div className="flex justify-between items-center font-mono"><span className="font-semibold">RGB:</span> {rgb} <CopyButton value={rgb} /></div>
@@ -134,7 +179,7 @@ const ImageColorPicker: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <p className="text-xs text-gray-500">Hover over the image to pick a color. Click to track the event.</p>
+                <p className="text-xs text-gray-500">Hover or tap-and-drag on the image to pick a color.</p>
                  <button onClick={() => setImage(null)} className="text-sm text-blue-600 hover:underline pt-4">Use another image</button>
             </div>
         </div>

@@ -1,153 +1,117 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { trackEvent } from '../../analytics';
 
-const UNITS = {
-  length: {
-    name: 'Length',
-    base: 'meters',
-    units: {
-      meters: 1,
-      kilometers: 1000,
-      centimeters: 0.01,
-      millimeters: 0.001,
-      miles: 1609.34,
-      yards: 0.9144,
-      feet: 0.3048,
-      inches: 0.0254,
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { trackGtagEvent } from '../../analytics';
+
+const units = {
+    length: {
+        meter: 1,
+        kilometer: 1000,
+        centimeter: 0.01,
+        millimeter: 0.001,
+        mile: 1609.34,
+        yard: 0.9144,
+        foot: 0.3048,
+        inch: 0.0254,
     },
-  },
-  mass: {
-    name: 'Mass',
-    base: 'grams',
-    units: {
-      grams: 1,
-      kilograms: 1000,
-      milligrams: 0.001,
-      pounds: 453.592,
-      ounces: 28.3495,
+    mass: {
+        gram: 1,
+        kilogram: 1000,
+        milligram: 0.001,
+        pound: 453.592,
+        ounce: 28.3495,
     },
-  },
-  volume: {
-    name: 'Volume',
-    base: 'liters',
-    units: {
-      liters: 1,
-      milliliters: 0.001,
-      'cubic-meters': 1000,
-      gallons: 3.78541,
-      quarts: 0.946353,
-      pints: 0.473176,
-      cups: 0.236588,
+    volume: {
+        liter: 1,
+        milliliter: 0.001,
+        gallon: 3.78541,
+        quart: 0.946353,
+        pint: 0.473176,
+        cup: 0.236588,
     },
-  },
 };
 
-type UnitCategory = keyof typeof UNITS;
+type Category = keyof typeof units;
+type Unit<C extends Category> = keyof typeof units[C];
 
 const UnitConverter: React.FC = () => {
-  const [category, setCategory] = useState<UnitCategory>('length');
-  const [fromUnit, setFromUnit] = useState('meters');
-  const [toUnit, setToUnit] = useState('feet');
-  const [inputValue, setInputValue] = useState('1');
-  const prevInputRef = useRef<string | undefined>(undefined);
-
-  const availableUnits = UNITS[category].units;
-
-  const result = useMemo(() => {
-    const value = parseFloat(inputValue);
-    if (isNaN(value)) return '';
-
-    const fromFactor = availableUnits[fromUnit as keyof typeof availableUnits];
-    const toFactor = availableUnits[toUnit as keyof typeof availableUnits];
+    const [category, setCategory] = useState<Category>('length');
+    const [fromUnit, setFromUnit] = useState<keyof typeof units['length']>('meter');
+    const [toUnit, setToUnit] = useState<keyof typeof units['length']>('foot');
+    const [fromValue, setFromValue] = useState('1');
+    const hasTrackedRef = useRef<boolean>(false);
     
-    if (!fromFactor || !toFactor) return '';
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newCategory = e.target.value as Category;
+        setCategory(newCategory);
+        const newUnits = Object.keys(units[newCategory]);
+        setFromUnit(newUnits[0] as any);
+        setToUnit(newUnits[1] as any);
+    };
 
-    const valueInBase = value * fromFactor;
-    const convertedValue = valueInBase / toFactor;
+    const toValue = useMemo(() => {
+        const from = parseFloat(fromValue);
+        if (isNaN(from)) {
+            hasTrackedRef.current = false;
+            return '';
+        }
 
-    return convertedValue.toLocaleString(undefined, { maximumFractionDigits: 6 });
-  }, [inputValue, fromUnit, toUnit, category]);
-
-  useEffect(() => {
-    // Fire event only when a valid conversion occurs and the input value has changed
-    if (result && inputValue !== prevInputRef.current) {
-        trackEvent('unit_converted', { category, from: fromUnit, to: toUnit });
-    }
-    prevInputRef.current = inputValue;
-  }, [result, inputValue, category, fromUnit, toUnit]);
-
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newCategory = e.target.value as UnitCategory;
-    setCategory(newCategory);
-    const newUnits = Object.keys(UNITS[newCategory].units);
-    setFromUnit(newUnits[0]);
-    setToUnit(newUnits[1] || newUnits[0]);
-  };
-
-  return (
-    <div className="max-w-xl mx-auto space-y-6">
-      <div className="p-4 bg-gray-50 rounded-lg">
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-          Measurement Type
-        </label>
-        <select
-          id="category"
-          value={category}
-          onChange={handleCategoryChange}
-          className="w-full p-2 border border-gray-300 rounded-md"
-        >
-          {Object.entries(UNITS).map(([key, value]) => (
-            <option key={key} value={key}>{value.name}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-        <div className="md:col-span-1">
-          <label htmlFor="fromValue" className="block text-sm font-medium text-gray-700 mb-1">From</label>
-          <input
-            id="fromValue"
-            type="number"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          <select
-            value={fromUnit}
-            onChange={(e) => setFromUnit(e.target.value)}
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md bg-white"
-          >
-            {Object.keys(availableUnits).map(unit => (
-              <option key={unit} value={unit}>{unit}</option>
-            ))}
-          </select>
-        </div>
+        const fromFactor = units[category][fromUnit as Unit<typeof category>];
+        const toFactor = units[category][toUnit as Unit<typeof category>];
         
-        <div className="text-center text-2xl font-semibold text-gray-500">=</div>
+        const valueInBase = from * fromFactor;
+        const result = valueInBase / toFactor;
+        
+        return result.toLocaleString(undefined, { maximumFractionDigits: 6 });
+    }, [fromValue, fromUnit, toUnit, category]);
 
-        <div className="md:col-span-1">
-          <label htmlFor="toValue" className="block text-sm font-medium text-gray-700 mb-1">To</label>
-          <input
-            id="toValue"
-            type="text"
-            readOnly
-            value={result}
-            className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
-          />
-          <select
-            value={toUnit}
-            onChange={(e) => setToUnit(e.target.value)}
-            className="w-full mt-1 p-2 border border-gray-300 rounded-md bg-white"
-          >
-            {Object.keys(availableUnits).map(unit => (
-              <option key={unit} value={unit}>{unit}</option>
-            ))}
-          </select>
+    useEffect(() => {
+        if (toValue !== '' && !hasTrackedRef.current) {
+            trackGtagEvent('tool_used', {
+                event_category: 'Calculators & Time Tools',
+                event_label: 'Unit Converter',
+                tool_name: 'unit-converter',
+                is_download: false,
+                category: category,
+                from_unit: fromUnit,
+                to_unit: toUnit,
+            });
+            hasTrackedRef.current = true;
+        }
+    }, [toValue, category, fromUnit, toUnit]);
+
+    useEffect(() => {
+        hasTrackedRef.current = false;
+    }, [fromValue, fromUnit, toUnit, category]);
+
+    const unitOptions = Object.keys(units[category]);
+
+    return (
+        <div className="max-w-lg mx-auto space-y-6">
+            <div>
+                <label className="block text-sm font-medium">Category</label>
+                <select value={category} onChange={handleCategoryChange} className="w-full p-2 mt-1 border-gray-300 rounded-md">
+                    {Object.keys(units).map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
+                </select>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div className="md:col-span-1">
+                    <label className="block text-sm font-medium">From</label>
+                    <input type="number" value={fromValue} onChange={e => setFromValue(e.target.value)} className="w-full p-2 mt-1 border-gray-300 rounded-md" />
+                    <select value={fromUnit} onChange={e => setFromUnit(e.target.value as any)} className="w-full p-2 mt-1 border-gray-300 rounded-md">
+                        {unitOptions.map(unit => <option key={unit} value={unit}>{unit}</option>)}
+                    </select>
+                </div>
+                <div className="text-center font-bold text-2xl">=</div>
+                <div className="md:col-span-1">
+                    <label className="block text-sm font-medium">To</label>
+                    <input type="text" readOnly value={toValue} className="w-full p-2 mt-1 border-gray-300 rounded-md bg-gray-100" />
+                     <select value={toUnit} onChange={e => setToUnit(e.target.value as any)} className="w-full p-2 mt-1 border-gray-300 rounded-md">
+                        {unitOptions.map(unit => <option key={unit} value={unit}>{unit}</option>)}
+                    </select>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default UnitConverter;
