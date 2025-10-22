@@ -39,11 +39,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://www.simplikitt.com/#/category/color-utilities</loc>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://www.simplikitt.com/#/category/text-and-list-tools</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -89,6 +89,12 @@ import ImageHueShifter from './tools/image/ImageHueShifter';
 import ImageNoiseGenerator from './tools/image/ImageNoiseGenerator';
 import Base64ToImageDecoder from './tools/image/Base64ToImageDecoder';
 import BatchImageRotator from './tools/image/BatchImageRotator';
+import ImageShadowGenerator from './tools/image/ImageShadowGenerator';
+import ImageToBlackAndWhiteAdjustable from './tools/image/ImageToBlackAndWhiteAdjustable';
+import ImageTilingPreviewer from './tools/image/ImageTilingPreviewer';
+import ImageColorReplacer from './tools/image/ImageColorReplacer';
+import ImageReflectionGenerator from './tools/image/ImageReflectionGenerator';
+import ImageLayerMerger from './tools/image/ImageLayerMerger';
 
 
 const slugify = (text: string) =>
@@ -192,6 +198,12 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Noise Generator', description: 'Adds random pixel noise to the image.', category: 'Image Tools' },
   { name: 'Base64 to Image Decoder', description: 'Decodes a Base64 string back to a downloadable image.', category: 'Image Tools' },
   { name: 'Batch Image Rotator', description: 'Rotates multiple images simultaneously.', category: 'Image Tools' },
+  { name: 'Image Shadow Generator', description: 'Adds a simple drop shadow effect to the image edges.', category: 'Image Tools' },
+  { name: 'Image to Black & White (Adjustable)', description: 'Converts to B&W with a customizable intensity slider.', category: 'Image Tools' },
+  { name: 'Image Tiling Previewer', description: 'Shows how an image looks when tiled as a background.', category: 'Image Tools' },
+  { name: 'Image Color Replacer (Single)', description: 'Replaces one specific color with another in the image.', category: 'Image Tools' },
+  { name: 'Image Reflection Generator', description: 'Creates a realistic ground reflection effect.', category: 'Image Tools' },
+  { name: 'Image Layer Merger (2 Layers)', description: 'Merges two uploaded images with blend modes.', category: 'Image Tools' },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -317,6 +329,18 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return Base64ToImageDecoder;
     case 'batch-image-rotator':
         return BatchImageRotator;
+    case 'image-shadow-generator':
+        return ImageShadowGenerator;
+    case 'image-to-black-and-white-adjustable':
+        return ImageToBlackAndWhiteAdjustable;
+    case 'image-tiling-previewer':
+        return ImageTilingPreviewer;
+    case 'image-color-replacer-single':
+        return ImageColorReplacer;
+    case 'image-reflection-generator':
+        return ImageReflectionGenerator;
+    case 'image-layer-merger-2-layers':
+        return ImageLayerMerger;
 
 
     // Text & List Tools
@@ -472,8 +496,13 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-hue-shifter': return OrbitIcon;
     case 'image-noise-generator': return WavesIcon;
     case 'base64-to-image-decoder': return FileCode2Icon;
-    // FIX: Replaced non-existent Rotate3dIcon with RotateCwIcon.
-    case 'batch-image-rotator': return RotateCwIcon;
+    case 'batch-image-rotator': return RefreshCcwIcon;
+    case 'image-shadow-generator': return BoxSelectIcon;
+    case 'image-to-black-and-white-adjustable': return CircleHalfIcon;
+    case 'image-tiling-previewer': return LayoutDashboardIcon;
+    case 'image-color-replacer-single': return Paintbrush2Icon;
+    case 'image-reflection-generator': return PictureInPicture2Icon;
+    case 'image-layer-merger-2-layers': return Layers2Icon;
       
     default:
       return WrenchIcon;

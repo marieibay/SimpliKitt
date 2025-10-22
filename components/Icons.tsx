@@ -687,3 +687,19 @@ export const Paintbrush2Icon: React.FC<{ className?: string }> = ({ className })
         <path d="M5 21h14"/>
     </IconWrapper>
 );
+
+
+export const PictureInPicture2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4"/>
+        <rect width="10" height="7" x="12" y="13" rx="1"/>
+    </IconWrapper>
+);
+
+export const Layers2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.07a2 2 0 0 0-1.01 1.73v8.4a2 2 0 0 0 1.01 1.73l8.53 3.88a2 2 0 0 0 1.66 0l8.53-3.88a2 2 0 0 0 1.01-1.73v-8.4a2 2 0 0 0-1.01-1.73Z"/>
+        <path d="m6.08 9.5-3.5 1.6 8.54 3.9 8.54-3.9-3.5-1.6"/>
+        <path d="M2.56 6.07 12 2l9.44 4.07"/>
+    </IconWrapper>
+);
