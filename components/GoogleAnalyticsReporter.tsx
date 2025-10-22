@@ -33,7 +33,7 @@ const GoogleAnalyticsReporter: React.FC = () => {
 
     // For SPA navigations, the recommended approach is to send a 'config'
     // command with the updated page_path. This automatically triggers a page_view.
-    window.gtag('config', GA_MEASUREMENT_ID, {
+    window.gtag('event', GA_MEASUREMENT_ID, {
       page_path: path,
       page_title: document.title,
     });
