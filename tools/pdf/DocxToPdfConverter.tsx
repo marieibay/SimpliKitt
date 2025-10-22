@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { trackEvent } from '../../analytics';
-import { UploadIcon } from '../../components/Icons';
+import { UploadIcon, InfoIcon } from '../../components/Icons';
 
 // Declare global libraries
 declare const mammoth: any;
@@ -45,7 +45,8 @@ const DocxToPdfConverter: React.FC = () => {
       filename: `${file.name.replace(/\.docx$/, '')}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+      pagebreak: { mode: ['css', 'avoid-all'] }
     };
 
     trackEvent('file_converted_downloaded', { from: 'docx-html', to: 'pdf' });
@@ -66,9 +67,12 @@ const DocxToPdfConverter: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-800 rounded-r-lg">
-          <p className="font-semibold">Note:</p>
-          <p className="text-sm">This tool preserves most formatting including headings, lists, tables, and images. Complex layouts may differ slightly from the original document.</p>
+      <div className="flex items-start gap-3 p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg">
+          <InfoIcon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+          <div>
+              <p className="font-semibold">How it works:</p>
+              <p className="text-sm">This tool preserves most formatting and avoids cutting images across pages. The preview below is a single scroll, but your downloaded PDF will be correctly paginated.</p>
+          </div>
       </div>
 
       {!htmlContent ? (
@@ -108,11 +112,24 @@ const DocxToPdfConverter: React.FC = () => {
                     Convert another file
                 </button>
             </div>
-            <div>
-                <h2 className="text-xl font-semibold text-center mb-4">Document Preview</h2>
+            
+            <style>{`
+                .docx-preview-content img,
+                .docx-preview-content figure,
+                .docx-preview-content table,
+                .docx-preview-content h1,
+                .docx-preview-content h2,
+                .docx-preview-content h3 {
+                    page-break-inside: avoid !important;
+                }
+            `}</style>
+
+            <div className="bg-gray-700 p-8 rounded-lg shadow-inner">
+                 <h2 className="text-xl font-semibold text-center mb-4 text-white">Document Preview</h2>
                 <div 
                     ref={previewRef}
-                    className="p-8 bg-white rounded-lg shadow-lg border max-w-4xl mx-auto prose lg:prose-xl"
+                    className="bg-white rounded shadow-lg mx-auto prose lg:prose-xl docx-preview-content"
+                    style={{ width: '8.5in', padding: '1in', minHeight: '11in' }}
                     dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
             </div>
