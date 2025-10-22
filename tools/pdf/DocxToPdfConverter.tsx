@@ -41,7 +41,7 @@ const DocxToPdfConverter: React.FC = () => {
     setIsProcessing(true);
 
     const opt = {
-      margin: 1,
+      margin: [0.5, 1],
       filename: `${file.name.replace(/\.docx$/, '')}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
@@ -140,7 +140,7 @@ const DocxToPdfConverter: React.FC = () => {
                 <div 
                     ref={previewRef}
                     className="bg-white rounded shadow-lg mx-auto docx-preview-content"
-                    style={{ width: '8.5in', padding: '1in', minHeight: '11in' }}
+                    style={{ width: '6.5in', padding: '0', minHeight: '10in' }}
                     dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />
             </div>
