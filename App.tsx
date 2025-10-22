@@ -11,10 +11,12 @@ import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TosPage from './pages/TosPage';
+import ScrollToTop from './components/ScrollToTop';
 
 const App: React.FC = () => {
   return (
     <HashRouter>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
