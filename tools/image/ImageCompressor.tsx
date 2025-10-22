@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageCompressor: React.FC = () => {
   const [inputFile, setInputFile] = useState<File | null>(null);
@@ -62,6 +62,18 @@ const ImageCompressor: React.FC = () => {
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   };
+  
+  const handleDownloadClick = () => {
+    trackGtagEvent('tool_used', {
+      event_category: 'Image Tools',
+      event_label: 'Image Compressor',
+      tool_name: 'image-compressor',
+      is_download: true,
+      quality: Math.round(quality * 100),
+      original_size: originalSize,
+      compressed_size: Math.round(compressedSize),
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -108,7 +120,11 @@ const ImageCompressor: React.FC = () => {
 
           {compressedImage && (
             <div className="mt-6">
-                <a href={compressedImage} download={`compressed-${inputFile.name.replace(/\.[^/.]+$/, "")}.jpg`} className="inline-block px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+                <a 
+                  href={compressedImage} 
+                  download={`compressed-${inputFile.name.replace(/\.[^/.]+$/, "")}.jpg`} 
+                  onClick={handleDownloadClick}
+                  className="inline-block px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
                   Download Compressed Image
                 </a>
                 <button onClick={() => { setInputFile(null); setOriginalImage(null); }} className="ml-4 text-sm text-blue-600 hover:underline">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const CaseConverter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -32,6 +32,13 @@ const CaseConverter: React.FC = () => {
     }
     setOutput(result);
     trackEvent('text_case_converted', { case_type: type });
+    trackGtagEvent('tool_used', {
+      event_category: 'Text & List Tools',
+      event_label: 'Case Converter',
+      tool_name: 'case-converter',
+      is_download: false,
+      conversion_type: type,
+    });
   };
 
   const handleCopy = () => {

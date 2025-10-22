@@ -16,3 +16,19 @@ export const trackEvent = (eventName: string, properties: Record<string, any> = 
   // We can keep logging to console for development/debugging purposes.
   console.log(`[ANALYTICS] Event: "${eventName}"`, properties);
 };
+
+/**
+ * Tracks a custom event using Google Analytics (gtag).
+ * This allows for detailed tracking of specific tool usage and user actions.
+ *
+ * @param eventName The name of the event to track.
+ * @param properties An object of key-value pairs for the event data.
+ */
+export const trackGtagEvent = (eventName: string, properties: Record<string, any> = {}) => {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, properties);
+    console.log(`[GA] Event: "${eventName}"`, properties);
+  } else {
+    console.warn(`[GA] gtag not found. Event "${eventName}" not tracked.`);
+  }
+};

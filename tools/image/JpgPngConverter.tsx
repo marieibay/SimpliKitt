@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const JpgPngConverter: React.FC = () => {
   const [inputFile, setInputFile] = useState<File | null>(null);
@@ -52,6 +52,18 @@ const JpgPngConverter: React.FC = () => {
       return `${name}.${outputFormat === 'jpeg' ? 'jpg' : 'png'}`;
   }
 
+  const handleDownloadClick = () => {
+    if (!inputFile) return;
+    trackGtagEvent('tool_used', {
+      event_category: 'Image Tools',
+      event_label: 'JPG to PNG Converter',
+      tool_name: 'jpg-to-png-converter',
+      is_download: true,
+      from_format: inputFile.type.split('/')[1],
+      to_format: outputFormat,
+    });
+  };
+
   return (
     <div className="space-y-6">
       {!inputFile && (
@@ -82,7 +94,8 @@ const JpgPngConverter: React.FC = () => {
           <img src={outputImage} className="max-w-xs mx-auto rounded-lg border" alt="Converted Preview" />
           <a 
             href={outputImage} 
-            download={getOutputFileName()} 
+            download={getOutputFileName()}
+            onClick={handleDownloadClick}
             className="mt-4 inline-block px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
           >
             Download Image

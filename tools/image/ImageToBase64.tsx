@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageToBase64: React.FC = () => {
   const [base64String, setBase64String] = useState<string | null>(null);
@@ -14,6 +14,13 @@ const ImageToBase64: React.FC = () => {
       setImagePreview(result);
       setBase64String(result);
       trackEvent('image_to_base64_converted', { filename: file.name, size: file.size });
+      trackGtagEvent('tool_used', {
+        event_category: 'Image Tools',
+        event_label: 'Image to Base64',
+        tool_name: 'image-to-base64',
+        is_download: false,
+        action: 'convert',
+      });
     };
     reader.readAsDataURL(file);
   };

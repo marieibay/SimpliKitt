@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const UrlEncoderDecoder: React.FC = () => {
   const [input, setInput] = useState('');
@@ -10,14 +10,32 @@ const UrlEncoderDecoder: React.FC = () => {
   const handleEncode = () => {
     setError('');
     setOutput(encodeURIComponent(input));
-    if (input) trackEvent('url_encoded');
+    if (input) {
+      trackEvent('url_encoded');
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'URL Encoder/Decoder',
+        tool_name: 'url-encoderdecoder',
+        is_download: false,
+        action: 'encode',
+      });
+    }
   };
   
   const handleDecode = () => {
     try {
       setError('');
       setOutput(decodeURIComponent(input));
-      if (input) trackEvent('url_decoded');
+      if (input) {
+        trackEvent('url_decoded');
+        trackGtagEvent('tool_used', {
+          event_category: 'Web & Developer Tools',
+          event_label: 'URL Encoder/Decoder',
+          tool_name: 'url-encoderdecoder',
+          is_download: false,
+          action: 'decode',
+        });
+      }
     } catch (e) {
       setError('Invalid URI component to decode.');
       setOutput('');

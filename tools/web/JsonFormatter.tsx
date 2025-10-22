@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const JsonFormatter: React.FC = () => {
   const [input, setInput] = useState('');
@@ -19,6 +19,13 @@ const JsonFormatter: React.FC = () => {
       setOutput(formattedJson);
       setError(null);
       trackEvent('json_formatted', { inputLength: input.length });
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'JSON Formatter',
+        tool_name: 'json-formatter',
+        is_download: false,
+        action: 'format',
+      });
     } catch (e: any) {
       setError(`Invalid JSON: ${e.message}`);
       setOutput('');
@@ -37,6 +44,13 @@ const JsonFormatter: React.FC = () => {
       setOutput(minifiedJson);
       setError(null);
       trackEvent('json_minified', { inputLength: input.length });
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'JSON Formatter',
+        tool_name: 'json-formatter',
+        is_download: false,
+        action: 'minify',
+      });
     } catch (e: any) {
       setError(`Invalid JSON: ${e.message}`);
       setOutput('');

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageResizer: React.FC = () => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -65,6 +65,17 @@ const ImageResizer: React.FC = () => {
     }
   };
 
+  const handleDownloadClick = () => {
+    trackGtagEvent('tool_used', {
+      event_category: 'Image Tools',
+      event_label: 'Image Resizer',
+      tool_name: 'image-resizer',
+      is_download: true,
+      new_width: width,
+      new_height: height,
+    });
+  };
+
   return (
     <div className="space-y-6">
       {!originalImage && (
@@ -105,7 +116,12 @@ const ImageResizer: React.FC = () => {
               <h3 className="text-lg font-semibold mb-2">Resized Image</h3>
               <img src={resizedImage} className="max-w-full rounded-lg border" alt="Resized Preview" />
               <p className="text-sm text-gray-500 mt-2">New Dimensions: {width} x {height}px</p>
-              <a href={resizedImage} download="resized-image.jpg" className="mt-4 inline-block px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
+              <a 
+                href={resizedImage} 
+                download="resized-image.jpg" 
+                onClick={handleDownloadClick}
+                className="mt-4 inline-block px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
+              >
                 Download Resized Image
               </a>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const WordCharCounter: React.FC = () => {
   const [text, setText] = useState('');
@@ -31,6 +31,12 @@ const WordCharCounter: React.FC = () => {
     // Track only once when user starts typing
     if (!hasTrackedRef.current) {
         trackEvent('text_stats_calculated');
+        trackGtagEvent('tool_used', {
+          event_category: 'Text & List Tools',
+          event_label: 'Word & Char Counter',
+          tool_name: 'word-and-char-counter',
+          is_download: false,
+        });
         hasTrackedRef.current = true;
     }
   }, [text]);
