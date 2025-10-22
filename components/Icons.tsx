@@ -563,3 +563,87 @@ export const SunIcon: React.FC<{ className?: string }> = ({ className }) => (
         <path d="m19.07 4.93-1.41 1.41" />
     </IconWrapper>
 );
+
+export const CircleSlashIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <line x1="9" y1="15" x2="15" y2="9" />
+        <circle cx="12" cy="12" r="10" />
+    </IconWrapper>
+);
+
+export const Code2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="m18 16 4-4-4-4" />
+        <path d="m6 8-4 4 4 4" />
+        <path d="m14.5 4-5 16" />
+    </IconWrapper>
+);
+
+export const FileXIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+        <line x1="9.5" y1="12.5" x2="14.5" y2="17.5" />
+        <line x1="14.5" y1="12.5" x2="9.5" y2="17.5" />
+    </IconWrapper>
+);
+
+export const MaximizeIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+        <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
+        <path d="M3 16v3a2 2 0 0 0 2 2h3" />
+        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+    </IconWrapper>
+);
+
+export const PinIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <line x1="12" y1="17" x2="12" y2="22" />
+        <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z" />
+    </IconWrapper>
+);
+
+export const ExpandIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m21 21-6-6m6 6v-4m0 4h-4" />
+    <path d="M3 3l6 6m-6-6v4m0-4h4" />
+    <path d="M21 3l-6 6m6-6v4m0-4h-4" />
+    <path d="M3 21l6-6m-6 6v-4m0 4h4" />
+  </IconWrapper>
+);
+
+export const OrbitIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="12" cy="12" r="3" />
+    <circle cx="12" cy="12" r="8" />
+    <line x1="12" y1="2" x2="12" y2="4" />
+    <line x1="12" y1="20" x2="12" y2="22" />
+    <line x1="2" y1="12" x2="4" y2="12" />
+    <line x1="20" y1="12" x2="22" y2="12" />
+  </IconWrapper>
+);
+
+export const WavesIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M2 6c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
+    <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
+    <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
+  </IconWrapper>
+);
+
+export const FileCode2Icon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
+    <polyline points="14 2 14 8 20 8" />
+    <path d="m10 13-2 2 2 2" />
+    <path d="m14 13 2 2-2 2" />
+  </IconWrapper>
+);
+
+export const Rotate3dIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M16.466 7.5C15.643 4.237 13.952 2 12 2 9.239 2 7 6.477 7 12s2.239 10 5 10c.342 0 .677-.069 1-.2" />
+    <path d="m15.194 13.707 3.814 1.405-1.405-3.814" />
+    <path d="M19.07 4.93A10 10 0 0 0 5.46 16.5" />
+  </IconWrapper>
+);

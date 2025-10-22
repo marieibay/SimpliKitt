@@ -141,4 +141,15 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-warping-tool-basic</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-tint-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-lightnessluminosity-adjuster</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-threshold-filter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-dithering-effect</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-to-css-background-generator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-metadata-remover</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-dimension-checker</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-watermark-positioner</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-canvas-resizer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-hue-shifter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/image-noise-generator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/base64-to-image-decoder</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/batch-image-rotator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>

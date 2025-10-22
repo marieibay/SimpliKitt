@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, Rotate3dIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -78,6 +78,17 @@ import ImageMirrorEffect from './tools/image/ImageMirrorEffect';
 import ImageWarpingTool from './tools/image/ImageWarpingTool';
 import ImageTintAdjuster from './tools/image/ImageTintAdjuster';
 import ImageLightnessAdjuster from './tools/image/ImageLightnessAdjuster';
+import ImageThresholdFilter from './tools/image/ImageThresholdFilter';
+import ImageDitheringEffect from './tools/image/ImageDitheringEffect';
+import ImageToCssBackground from './tools/image/ImageToCssBackground';
+import ImageMetadataRemover from './tools/image/ImageMetadataRemover';
+import ImageDimensionChecker from './tools/image/ImageDimensionChecker';
+import ImageWatermarkPositioner from './tools/image/ImageWatermarkPositioner';
+import ImageCanvasResizer from './tools/image/ImageCanvasResizer';
+import ImageHueShifter from './tools/image/ImageHueShifter';
+import ImageNoiseGenerator from './tools/image/ImageNoiseGenerator';
+import Base64ToImageDecoder from './tools/image/Base64ToImageDecoder';
+import BatchImageRotator from './tools/image/BatchImageRotator';
 
 
 const slugify = (text: string) =>
@@ -170,6 +181,17 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Warping Tool (Basic)', description: 'Simple perspective transformation (using matrix logic).', category: 'Image Tools' },
   { name: 'Image Tint Adjuster', description: 'Applies a uniform color overlay/tint.', category: 'Image Tools' },
   { name: 'Image Lightness/Luminosity Adjuster', description: 'Controls the overall brightness level.', category: 'Image Tools' },
+  { name: 'Image Threshold Filter', description: 'Converts image to pure black and white based on a threshold.', category: 'Image Tools' },
+  { name: 'Image Dithering Effect', description: 'Applies a pattern-based color reduction technique.', category: 'Image Tools' },
+  { name: 'Image to CSS Background Generator', description: 'Creates CSS code for using the image as a background.', category: 'Image Tools' },
+  { name: 'Image Metadata Remover', description: 'Strips EXIF data, GPS, camera info, etc., from the image.', category: 'Image Tools' },
+  { name: 'Image Dimension Checker', description: 'Quickly checks the width and height of an image file.', category: 'Image Tools' },
+  { name: 'Image Watermark Positioner', description: 'Tool to place watermark at Top-Left, Bottom-Right, Center, etc.', category: 'Image Tools' },
+  { name: 'Image Canvas Resizer', description: 'Changes the size of the canvas without scaling the image content.', category: 'Image Tools' },
+  { name: 'Image Hue Shifter', description: 'Shifts the color wheel for a psychedelic effect.', category: 'Image Tools' },
+  { name: 'Image Noise Generator', description: 'Adds random pixel noise to the image.', category: 'Image Tools' },
+  { name: 'Base64 to Image Decoder', description: 'Decodes a Base64 string back to a downloadable image.', category: 'Image Tools' },
+  { name: 'Batch Image Rotator', description: 'Rotates multiple images simultaneously.', category: 'Image Tools' },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -273,6 +295,29 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageTintAdjuster;
     case 'image-lightnessluminosity-adjuster':
         return ImageLightnessAdjuster;
+    case 'image-threshold-filter':
+        return ImageThresholdFilter;
+    case 'image-dithering-effect':
+        return ImageDitheringEffect;
+    case 'image-to-css-background-generator':
+        return ImageToCssBackground;
+    case 'image-metadata-remover':
+        return ImageMetadataRemover;
+    case 'image-dimension-checker':
+        return ImageDimensionChecker;
+    case 'image-watermark-positioner':
+        return ImageWatermarkPositioner;
+    case 'image-canvas-resizer':
+        return ImageCanvasResizer;
+    case 'image-hue-shifter':
+        return ImageHueShifter;
+    case 'image-noise-generator':
+        return ImageNoiseGenerator;
+    case 'base64-to-image-decoder':
+        return Base64ToImageDecoder;
+    case 'batch-image-rotator':
+        return BatchImageRotator;
+
 
     // Text & List Tools
     case 'case-converter':
@@ -417,6 +462,17 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-warping-tool-basic': return Move3dIcon;
     case 'image-tint-adjuster': return DropletIcon;
     case 'image-lightnessluminosity-adjuster': return SunIcon;
+    case 'image-threshold-filter': return CircleSlashIcon;
+    case 'image-dithering-effect': return GridIcon;
+    case 'image-to-css-background-generator': return Code2Icon;
+    case 'image-metadata-remover': return FileXIcon;
+    case 'image-dimension-checker': return MaximizeIcon;
+    case 'image-watermark-positioner': return PinIcon;
+    case 'image-canvas-resizer': return ExpandIcon;
+    case 'image-hue-shifter': return OrbitIcon;
+    case 'image-noise-generator': return WavesIcon;
+    case 'base64-to-image-decoder': return FileCode2Icon;
+    case 'batch-image-rotator': return Rotate3dIcon;
       
     default:
       return WrenchIcon;
