@@ -343,6 +343,21 @@ export const BinaryIcon: React.FC<{ className?: string }> = ({ className }) => (
     </IconWrapper>
 );
 
+export const ContrastIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 18a6 6 0 0 0 0-12v12z" />
+  </IconWrapper>
+);
+
+export const AppWindowIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect x="2" y="4" width="20" height="16" rx="2"/>
+    <path d="M2 8h20"/>
+    <path d="M6 4v4"/>
+  </IconWrapper>
+);
+
 export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className} strokeWidth={2}>
         <path d="m22 13-1.41-1.41a2 2 0 0 0-2.82 0L15.36 14a2 2 0 0 1-2.82 0L10.12 11.6a2 2 0 0 0-2.82 0L2 17"/>
@@ -350,14 +365,8 @@ export const BulkImageConversionIcon: React.FC<{ className?: string }> = ({ clas
         <path d="m18 6 4 4h-6a2 2 0 0 1-2-2V2"/>
     </IconWrapper>
 );
-// FIX: Define ContrastIcon component to resolve reference error.
-export const ContrastIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 18a6 6 0 0 0 0-12v12z" />
-    </IconWrapper>
-);
 
+// FIX: Define remaining icons to prevent further crashes.
 export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -367,15 +376,14 @@ export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className })
 
 export const RotateCwIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <polyline points="23 4 23 10 17 10" />
-    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+    <path d="M21 2v6h-6" />
+    <path d="M3 12a9 9 0 1 1 15-6.7L21 8" />
   </IconWrapper>
 );
 
 export const EyeOffIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07L3 3" />
-    <line x1="1" y1="1" x2="23" y2="23" />
   </IconWrapper>
 );
 
@@ -388,11 +396,7 @@ export const CameraIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 export const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M12 3L9.25 8.75 3.5 11.5 9.25 14.25 12 20 14.75 14.25 20.5 11.5 14.75 8.75 12 3z" />
-    <path d="M5 3v4" />
-    <path d="M19 17v4" />
-    <path d="M3 5h4" />
-    <path d="M17 19h4" />
+    <path d="M12 3L10 8L3 9L8 13L7 20L12 17L17 20L16 13L21 9L14 8z"/>
   </IconWrapper>
 );
 
@@ -412,318 +416,283 @@ export const LayersIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 export const PaletteIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
-        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
-        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
-        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
-        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.667 0-.424-.163-.82-.437-1.125-.29-.32-1.172-1.176-1.172-1.176s-1.571-1.571-1.571-2.61c0-1.284 1.033-2.316 2.316-2.316.326 0 .63.064.914.174.3.12.636.168.924.168.528 0 1.027-.208 1.402-.583.375-.375.583-.874.583-1.402V2z"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="13.5" cy="6.5" r="2.5"/>
+    <circle cx="17.5" cy="10.5" r="2.5"/>
+    <circle cx="15.5" cy="15.5" r="2.5"/>
+    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.648"/>
+  </IconWrapper>
 );
 
 export const FlipHorizontalIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M12 22V2" />
-    <path d="M8 7l-4 5 4 5" />
-    <path d="M16 7l4 5-4 5" />
+    <polyline points="22 12 18 16 22 8"/>
+    <line x1="2" y1="12" x2="18" y2="12"/>
+    <line x1="12" y1="3" x2="12" y2="21"/>
   </IconWrapper>
 );
 
 export const TerminalIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <polyline points="4 17 10 11 4 5" />
-    <line x1="12" y1="19" x2="20" y2="19" />
+    <polyline points="4 17 10 11 4 5"/>
+    <line x1="12" y1="19" x2="20" y2="19"/>
   </IconWrapper>
 );
 
 export const PipetteIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m2 22 1-1h3l9-9"/>
-        <path d="M3 21v-3l9-9"/>
-        <path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l.4.4a2.1 2.1 0 1 1-3 3l-3.8-3.8-3.8-3.8Z"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m2 22 5.5-5.5"/>
+    <path d="M19 5.5l-1.5 1.5-3-3L16 2.5l3 3z"/>
+    <path d="M14.5 7.5l3 3"/>
+  </IconWrapper>
 );
 
 export const ZoomInIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        <line x1="11" y1="8" x2="11" y2="14"/>
-        <line x1="8" y1="11" x2="14" y2="11"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="11" cy="11" r="8"/>
+    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    <line x1="11" y1="8" x2="11" y2="14"/>
+    <line x1="8" y1="11" x2="14" y2="11"/>
+  </IconWrapper>
 );
 
 export const FrameIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <line x1="22" y1="6" x2="2" y2="6"/>
-        <line x1="22" y1="18" x2="2" y2="18"/>
-        <line x1="6" y1="2" x2="6" y2="22"/>
-        <line x1="18" y1="2" x2="18" y2="22"/>
-    </IconWrapper>
-);
-
-export const AppWindowIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <rect x="2" y="4" width="20" height="16" rx="2"/>
-        <path d="M10 4v4"/>
-        <path d="M2 8h20"/>
-        <path d="M6 4v4"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+  </IconWrapper>
 );
 
 export const LayoutGridIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
-        <line x1="3" y1="9" x2="21" y2="9"/>
-        <line x1="9" y1="21" x2="9" y2="3"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect x="3" y="3" width="7" height="7"/>
+    <rect x="14" y="3" width="7" height="7"/>
+    <rect x="14" y="14" width="7" height="7"/>
+    <rect x="3" y="14" width="7" height="7"/>
+  </IconWrapper>
 );
 
 export const FileJson2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
-      <path d="M14 2v6h6" />
-      <path d="M5 17a1 1 0 0 0 1-1v-1a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Z" />
-      <path d="M9 17a1 1 0 0 0 1-1v-1a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Z" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"/>
+    <path d="M14 2v6h6"/>
+    <path d="M4 12h1.4a2 2 0 1 0 0-4H4v4Z"/>
+    <path d="M10 12h-1v4"/>
+  </IconWrapper>
 );
 
 export const GaugeIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <path d="m12 14 4-4" />
-      <path d="M3.34 19a10 10 0 1 1 17.32 0" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m12 14 4-4"/>
+    <path d="M3.34 19a10 10 0 1 1 17.32 0"/>
+  </IconWrapper>
 );
 
 export const Wand2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.21 1.21 0 0 0 1.72 0L21.64 5.36a1.21 1.21 0 0 0 0-1.72Z" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M12 2 2.5 11.5 12 21 21.5 11.5Z"/>
+  </IconWrapper>
 );
 
 export const TypeIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <polyline points="4 7 4 4 20 4 20 7" />
-      <line x1="9" y1="20" x2="15" y2="20" />
-      <line x1="12" y1="4" x2="12" y2="20" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <polyline points="4 7 4 4 20 4 20 7"/>
+    <line x1="9" y1="20" x2="15" y2="20"/>
+    <line x1="12" y1="4" x2="12" y2="20"/>
+  </IconWrapper>
 );
 
 export const CheckSquareIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <polyline points="9 11 12 14 22 4" />
-      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <polyline points="9 11 12 14 22 4"/>
+    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+  </IconWrapper>
 );
 
 export const GridIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-      <line x1="3" y1="9" x2="21" y2="9" />
-      <line x1="3" y1="15" x2="21" y2="15" />
-      <line x1="9" y1="3" x2="9" y2="21" />
-      <line x1="15" y1="3" x2="15" y2="21" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <line x1="3" y1="9" x2="21" y2="9"/>
+    <line x1="9" y1="3" x2="9" y2="21"/>
+  </IconWrapper>
 );
 
 export const FileImageIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-        <polyline points="14 2 14 8 20 8" />
-        <circle cx="10" cy="15" r="2" />
-        <path d="m20 17-5.09-5.09a2 2 0 0 0-2.82 0L10 14" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <circle cx="12" cy="15" r="2"/>
+    <path d="m20 12-4.28-4.28c-.2-.2-.48-.3-.72-.3s-.52.1-.72.3L8 14"/>
+  </IconWrapper>
 );
 
 export const FlipVertical2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m17 2-5 5-5-5h10"/>
-        <path d="m17 22-5-5-5 5h10"/>
-        <path d="M12 2v20"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m17 21-5-4-5 4"/>
+    <path d="m17 3-5 4-5-4"/>
+    <path d="M4 12H2"/><path d="M22 12h-2"/>
+    <path d="M12 3v18"/>
+  </IconWrapper>
 );
 
 export const Move3dIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M5 3v18h18"/>
-        <path d="m5 11 9-9"/>
-        <path d="m5 19 9-9"/>
-        <path d="m14 3 9 9"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M5 3v16h16"/>
+    <path d="m5 19 6-6"/>
+    <path d="m2 6 3-3 3 3"/>
+    <path d="m18 16 3 3-3 3"/>
+  </IconWrapper>
 );
 
 export const DropletIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5s-3 3.5-3 5.5a7 7 0 0 0 7 7z" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5s-3 3.5-3 5.5a7 7 0 0 0 7 7z"/>
+  </IconWrapper>
 );
 
 export const SunIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2" />
-        <path d="M12 20v2" />
-        <path d="m4.93 4.93 1.41 1.41" />
-        <path d="m17.66 17.66 1.41 1.41" />
-        <path d="M2 12h2" />
-        <path d="M20 12h2" />
-        <path d="m6.34 17.66-1.41 1.41" />
-        <path d="m19.07 4.93-1.41 1.41" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/>
+    <line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/>
+    <line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </IconWrapper>
 );
 
 export const CircleSlashIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <line x1="9" y1="15" x2="15" y2="9" />
-        <circle cx="12" cy="12" r="10" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+    <circle cx="12" cy="12" r="10"/>
+  </IconWrapper>
 );
 
 export const Code2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m18 16 4-4-4-4" />
-        <path d="m6 8-4 4 4 4" />
-        <path d="m14.5 4-5 16" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m18 16 4-4-4-4"/>
+    <path d="m6 8-4 4 4 4"/>
+    <path d="m14.5 4-5 16"/>
+  </IconWrapper>
 );
 
 export const FileXIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-        <line x1="9.5" y1="12.5" x2="14.5" y2="17.5" />
-        <line x1="14.5" y1="12.5" x2="9.5" y2="17.5" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+    <polyline points="14 2 14 8 20 8"/>
+    <line x1="10" y1="12" x2="14" y2="16"/>
+    <line x1="14" y1="12" x2="10" y2="16"/>
+  </IconWrapper>
 );
 
 export const MaximizeIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-        <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-        <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+  </IconWrapper>
 );
 
 export const PinIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <line x1="12" y1="17" x2="12" y2="22" />
-        <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <line x1="12" x2="12" y1="17" y2="22"/>
+    <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v4.76a2 2 0 0 1-.11 1.79l-1.78.9A2 2 0 0 0 2 15.24V17"/>
+  </IconWrapper>
 );
 
 export const ExpandIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="m21 21-6-6m6 6v-4m0 4h-4" />
-    <path d="M3 3l6 6m-6-6v4m0-4h4" />
-    <path d="M21 3l-6 6m6-6v4m0-4h-4" />
-    <path d="M3 21l6-6m-6 6v-4m0 4h4" />
+    <path d="m21 21-6-6m6 6v-4m0 4h-4"/>
+    <path d="M3 3l6 6m-6-6v4m0-4h4"/>
   </IconWrapper>
 );
 
 export const OrbitIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <circle cx="12" cy="12" r="3" />
-    <circle cx="12" cy="12" r="8" />
-    <line x1="12" y1="2" x2="12" y2="4" />
-    <line x1="12" y1="20" x2="12" y2="22" />
-    <line x1="2" y1="12" x2="4" y2="12" />
-    <line x1="20" y1="12" x2="22" y2="12" />
+    <circle cx="12" cy="12" r="3"/>
+    <circle cx="19" cy="5" r="2"/>
+    <circle cx="5" cy="19" r="2"/>
+    <path d="M10.4 21.9a10 10 0 0 0 9.9-12.2"/>
+    <path d="M3.7 13.6a10 10 0 0 0 12.2-9.9"/>
   </IconWrapper>
 );
 
 export const WavesIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M2 6c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
-    <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
-    <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.5 0 2.5 2 5 2 1.3 0 1.9-.5 2.5-1" />
+    <path d="M2 6c.6.5 1.2 1 2.5 1 C6.8 7 8.4 5 10.5 5c2.6 0 3.5 3 5.5 3 2.5 0 3-2 4-2.5"/>
+    <path d="M2 12c.6.5 1.2 1 2.5 1 2.3 0 3.9-2 6-2 2.6 0 3.5 3 5.5 3 2.5 0 3-2 4-2.5"/>
+    <path d="M2 18c.6.5 1.2 1 2.5 1 2.3 0 3.9-2 6-2 2.6 0 3.5 3 5.5 3 2.5 0 3-2 4-2.5"/>
   </IconWrapper>
 );
 
 export const FileCode2Icon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4" />
-    <polyline points="14 2 14 8 20 8" />
-    <path d="m10 13-2 2 2 2" />
-    <path d="m14 13 2 2-2 2" />
+    <path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v4"/>
+    <path d="M14 2v6h6"/>
+    <path d="m10 12.5-2 2 2 2"/>
+    <path d="m14 16.5 2-2-2-2"/>
   </IconWrapper>
 );
 
 export const RefreshCcwIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M3 2v6h6" />
-    <path d="M21 12A9 9 0 0 0 6 5.3L3 8" />
-    <path d="M21 22v-6h-6" />
-    <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7" />
+    <path d="M3 2v6h6"/>
+    <path d="M21 12A9 9 0 0 0 6 5.3L3 8"/>
+    <path d="M21 22v-6h-6"/>
+    <path d="M3 12a9 9 0 0 0 15 6.7L21 16"/>
   </IconWrapper>
 );
 
 export const BoxSelectIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M5 3H3v2"/>
-        <path d="M21 3h-2v2"/>
-        <path d="M21 21h-2v-2"/>
-        <path d="M5 21H3v-2"/>
-        <path d="M9 3h6"/>
-        <path d="M9 21h6"/>
-        <path d="M3 9v6"/>
-        <path d="M21 9v6"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <path d="M9 3v18"/>
+  </IconWrapper>
 );
 
 export const CircleHalfIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 2v20"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 2v20" />
+  </IconWrapper>
 );
 
 export const LayoutDashboardIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <rect width="7" height="9" x="3" y="3" rx="1"/>
-        <rect width="7" height="5" x="14" y="3" rx="1"/>
-        <rect width="7" height="9" x="14" y="12" rx="1"/>
-        <rect width="7" height="5" x="3" y="16" rx="1"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <rect x="3" y="3" width="7" height="9"/>
+    <rect x="14" y="3" width="7" height="5"/>
+    <rect x="3" y="16" width="7" height="5"/>
+    <rect x="14" y="12" width="7" height="9"/>
+  </IconWrapper>
 );
 
 export const Paintbrush2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M14 19.9V16h3"/>
-        <path d="m12 7-5 5a1 1 0 0 0 0 1.4l2.6 2.6c.4.4 1 .4 1.4 0l5-5"/>
-        <path d="M18 12.2c.5-.5.5-1.4 0-1.8l-2.6-2.6c-.4-.4-1.2-.4-1.6 0L12 10"/>
-        <path d="m11 11 2.5 2.5"/>
-        <path d="M5 21h14"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M18.37 2.63L14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4-4L18.37 2.63z"/>
+    <path d="M13 8l-5 5"/>
+  </IconWrapper>
 );
 
-
 export const PictureInPicture2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4"/>
-        <rect width="10" height="7" x="12" y="13" rx="1"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/>
+    <rect x="12" y="13" width="10" height="7" rx="2"/>
+  </IconWrapper>
 );
 
 export const Layers2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-        <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.07a2 2 0 0 0-1.01 1.73v8.4a2 2 0 0 0 1.01 1.73l8.53 3.88a2 2 0 0 0 1.66 0l8.53-3.88a2 2 0 0 0 1.01-1.73v-8.4a2 2 0 0 0-1.01-1.73Z"/>
-        <path d="m6.08 9.5-3.5 1.6 8.54 3.9 8.54-3.9-3.5-1.6"/>
-        <path d="M2.56 6.07 12 2l9.44 4.07"/>
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <path d="m16.5 8.5 4 4-4 4"/>
+    <path d="m16.5 16.5-4-4 4-4"/>
+    <path d="M2.5 16.5l4-4-4-4"/>
+    <path d="M2.5 8.5l4 4-4 4"/>
+  </IconWrapper>
 );
 
 export const BarChart2Icon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-    </IconWrapper>
-);
-
-export const FileEditIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <IconWrapper className={className} strokeWidth={2}>
-      <path d="M4 13.5V4a2 2 0 0 1 2-2h8.5L20 7.5V20a2 2 0 0 1-2 2h-5.5" />
-      <polyline points="14 2 14 8 20 8" />
-      <path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z" />
-    </IconWrapper>
+  <IconWrapper className={className} strokeWidth={2}>
+    <line x1="18" y1="20" x2="18" y2="10"/>
+    <line x1="12" y1="20" x2="12" y2="4"/>
+    <line x1="6" y1="20" x2="6" y2="14"/>
+  </IconWrapper>
 );

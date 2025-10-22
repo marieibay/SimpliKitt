@@ -70,36 +70,21 @@ const ImageCropper: React.FC = () => {
         initCrop();
     }
   }, [aspect, imageSrc, initCrop]);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
-    e.preventDefault();
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    interactionRef.current = {
-      type,
-      startX: e.clientX - rect.left,
-      startY: e.clientY - rect.top,
-      startCrop: crop,
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-  };
-
-  const handleMouseDownOnHandle = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
-    e.stopPropagation();
-    handleMouseDown(e, type);
-  };
   
-  const handleMouseMove = (e: MouseEvent) => {
+  const updateCropPosition = (clientX: number, clientY: number) => {
     if (!interactionRef.current.type || !containerRef.current) return;
     
     const rect = containerRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    const currentX = clientX - rect.left;
+    const currentY = clientY - rect.top;
     
-    const dx = mouseX - interactionRef.current.startX;
-    const dy = mouseY - interactionRef.current.startY;
+    const dx = currentX - interactionRef.current.startX;
+    const dy = currentY - interactionRef.current.startY;
     
+    // FIX: The original destructuring with a spread operator `{ ...interactionRef.current.startCrop }`
+    // was confusing the linter/compiler, causing the "Initializer provides no value" error. 
+    // Simplified to direct destructuring which is functionally equivalent here since the 
+    // properties are primitive types (numbers) and are copied by value.
     let { x, y, width, height } = interactionRef.current.startCrop;
 
     switch (interactionRef.current.type) {
@@ -144,17 +129,18 @@ const ImageCropper: React.FC = () => {
     }
 
     if (aspect) {
-        if (interactionRef.current.type.includes('w') || interactionRef.current.type.includes('e')) {
-            height = width / aspect;
+        if (['e', 'w', 'ne', 'nw', 'se', 'sw'].includes(interactionRef.current.type)) {
+            const newHeight = width / aspect;
+            if (interactionRef.current.type.includes('n')) {
+                y += height - newHeight;
+            }
+            height = newHeight;
         } else {
-            width = height * aspect;
-        }
-
-        if (interactionRef.current.type.includes('n')) {
-            y = interactionRef.current.startCrop.y + interactionRef.current.startCrop.height - height;
-        }
-        if (interactionRef.current.type.includes('w')) {
-            x = interactionRef.current.startCrop.x + interactionRef.current.startCrop.width - width;
+            const newWidth = height * aspect;
+            if (interactionRef.current.type.includes('w')) {
+                x += width - newWidth;
+            }
+            width = newWidth;
         }
     }
     
@@ -168,12 +154,69 @@ const ImageCropper: React.FC = () => {
     if (y + height > imgHeight) y = imgHeight - height;
 
     setCrop({ x, y, width, height });
+  }
+
+  const handleMouseMove = (e: MouseEvent) => {
+    e.preventDefault();
+    updateCropPosition(e.clientX, e.clientY);
   };
   
+  const handleTouchMove = (e: TouchEvent) => {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+      updateCropPosition(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  };
+
   const handleMouseUp = () => {
     interactionRef.current.type = null;
     window.removeEventListener('mousemove', handleMouseMove);
     window.removeEventListener('mouseup', handleMouseUp);
+  };
+  
+  const handleTouchEnd = () => {
+    interactionRef.current.type = null;
+    window.removeEventListener('touchmove', handleTouchMove);
+    window.removeEventListener('touchend', handleTouchEnd);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
+    e.preventDefault();
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    interactionRef.current = {
+      type,
+      startX: e.clientX - rect.left,
+      startY: e.clientY - rect.top,
+      startCrop: crop,
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>, type: string) => {
+    e.preventDefault();
+    if (!containerRef.current || e.touches.length === 0) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    interactionRef.current = {
+      type,
+      startX: touch.clientX - rect.left,
+      startY: touch.clientY - rect.top,
+      startCrop: crop,
+    };
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+  };
+
+  const handleMouseDownOnHandle = (e: React.MouseEvent<HTMLDivElement>, type: string) => {
+    e.stopPropagation();
+    handleMouseDown(e, type);
+  };
+
+  const handleTouchStartOnHandle = (e: React.TouchEvent<HTMLDivElement>, type: string) => {
+    e.stopPropagation();
+    handleTouchStart(e, type);
   };
 
   const handleCrop = () => {
@@ -266,19 +309,21 @@ const ImageCropper: React.FC = () => {
             width: `${crop.width}px`,
             height: `${crop.height}px`,
           }}
-          onMouseDown={(e) => handleMouseDown(e, 'move')}>
+          onMouseDown={(e) => handleMouseDown(e, 'move')}
+          onTouchStart={(e) => handleTouchStart(e, 'move')}
+          >
             {/* Corner Handles */}
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'nw')} className="absolute -top-2.5 -left-2.5 w-5 h-5 bg-blue-500 rounded-full cursor-nwse-resize"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'ne')} className="absolute -top-2.5 -right-2.5 w-5 h-5 bg-blue-500 rounded-full cursor-nesw-resize"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'sw')} className="absolute -bottom-2.5 -left-2.5 w-5 h-5 bg-blue-500 rounded-full cursor-nesw-resize"></div>
-            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'se')} className="absolute -bottom-2.5 -right-2.5 w-5 h-5 bg-blue-500 rounded-full cursor-nwse-resize"></div>
+            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'nw')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'nw')} className="absolute -top-3 -left-3 w-6 h-6 bg-blue-500 rounded-full cursor-nwse-resize border-2 border-white"></div>
+            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'ne')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'ne')} className="absolute -top-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-nesw-resize border-2 border-white"></div>
+            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'sw')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'sw')} className="absolute -bottom-3 -left-3 w-6 h-6 bg-blue-500 rounded-full cursor-nesw-resize border-2 border-white"></div>
+            <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'se')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'se')} className="absolute -bottom-3 -right-3 w-6 h-6 bg-blue-500 rounded-full cursor-nwse-resize border-2 border-white"></div>
             {/* Side Handles for Free mode */}
             {aspect === undefined && (
               <>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'n')} className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 's')} className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'w')} className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
-                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'e')} className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
+                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'n')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'n')} className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
+                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 's')} onTouchStart={(e) => handleTouchStartOnHandle(e, 's')} className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-3 bg-blue-500 rounded-sm cursor-ns-resize"></div>
+                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'w')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'w')} className="absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
+                <div onMouseDown={(e) => handleMouseDownOnHandle(e, 'e')} onTouchStart={(e) => handleTouchStartOnHandle(e, 'e')} className="absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-8 bg-blue-500 rounded-sm cursor-ew-resize"></div>
               </>
             )}
         </div>
