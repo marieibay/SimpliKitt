@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Category, Tool } from './types';
 import {
@@ -142,7 +143,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "This tool lets you select only the pages you need from a large PDF, creating a smaller, more focused document. It's perfect for separating chapters, pulling out specific slides, or removing unnecessary pages.\n1. Upload your PDF file.\n2. In the input box, enter the page numbers or ranges you want to extract (e.g., '1, 3-5, 8').\n3. Click 'Extract Pages & Download' to begin.\n4. A new PDF containing only your selected pages will be downloaded automatically." },
   { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "Turn each page of your PDF into a separate image file, which is great for presentations, sharing on social media, or embedding in other documents.\n1. Upload your PDF document.\n2. Select your desired output image format (JPEG for smaller files, PNG for higher quality).\n3. The tool will convert each page of the PDF into an image.\n4. All generated images will be bundled together and downloaded as a single ZIP file." },
   { name: 'Image to PDF Converter', description: 'Combine multiple images into a single PDF.', category: 'PDF & Document Tools', instructions: "Compile photos, scans, or screenshots into a single, easy-to-share PDF document. This is ideal for creating photo albums, portfolios, or submitting scanned documents.\n1. Upload one or more image files (JPG, PNG, etc.).\n2. Drag and drop the images to reorder them as they should appear in the PDF.\n3. Adjust page size (e.g., A4, Letter) and orientation (Portrait, Landscape) as needed.\n4. Click 'Create PDF' and download your combined file." },
-  { name: 'DOCX to PDF Converter', description: 'Converts DOCX file to a simple, text-based PDF format.', category: 'PDF & Document Tools' },
+  { name: 'DOCX to PDF Converter', description: 'Converts DOCX files to a high-quality PDF, preserving layout and appearance much like a scanned document.', category: 'PDF & Document Tools' },
 
 
   // Text & List Tools
