@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent } from '../../analytics';
 
@@ -12,7 +12,8 @@ const ImageWatermark: React.FC = () => {
     const dragStartPos = useRef({ x: 0, y: 0 });
     const dragStartWatermarkPos = useRef({ x: 0, y: 0 });
 
-    const drawCanvas = () => {
+    // FIX: Wrap drawCanvas in useCallback to prevent infinite re-renders from useEffect.
+    const drawCanvas = useCallback(() => {
         if (!canvasRef.current || !mainImage) return;
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
@@ -31,11 +32,11 @@ const ImageWatermark: React.FC = () => {
             ctx.drawImage(watermarkImage, watermark.x, watermark.y, wmWidth, wmHeight);
             ctx.globalAlpha = 1.0;
         }
-    };
+    }, [mainImage, watermark, watermarkImage]);
 
     useEffect(() => {
         drawCanvas();
-    }, [mainImage, watermarkImage, watermark, drawCanvas]);
+    }, [drawCanvas]);
 
     const handleFile = (file: File, type: 'main' | 'watermark') => {
         const reader = new FileReader();

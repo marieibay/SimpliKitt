@@ -640,10 +640,49 @@ export const FileCode2Icon: React.FC<{ className?: string }> = ({ className }) =
   </IconWrapper>
 );
 
-export const Rotate3dIcon: React.FC<{ className?: string }> = ({ className }) => (
+export const RefreshCcwIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className} strokeWidth={2}>
-    <path d="M16.466 7.5C15.643 4.237 13.952 2 12 2 9.239 2 7 6.477 7 12s2.239 10 5 10c.342 0 .677-.069 1-.2" />
-    <path d="m15.194 13.707 3.814 1.405-1.405-3.814" />
-    <path d="M19.07 4.93A10 10 0 0 0 5.46 16.5" />
+    <path d="M3 2v6h6" />
+    <path d="M21 12A9 9 0 0 0 6 5.3L3 8" />
+    <path d="M21 22v-6h-6" />
+    <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7" />
   </IconWrapper>
 );
+
+export const BoxSelectIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M5 3H3v2"/>
+        <path d="M21 3h-2v2"/>
+        <path d="M21 21h-2v-2"/>
+        <path d="M5 21H3v-2"/>
+        <path d="M9 3h6"/>
+        <path d="M9 21h6"/>
+        <path d="M3 9v6"/>
+        <path d="M21 9v6"/>
+    </IconWrapper>
+);
+
+export const CircleHalfIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2v20"/>
+    </IconWrapper>
+);
+
+export const LayoutDashboardIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <rect width="7" height="9" x="3" y="3" rx="1"/>
+        <rect width="7" height="5" x="14" y="3" rx="1"/>
+        <rect width="7" height="9" x="14" y="12" rx="1"/>
+        <rect width="7" height="5" x="3" y="16" rx="1"/>
+    </IconWrapper>
+);
+
+export const Paintbrush2Icon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className} strokeWidth={2}>
+        <path d="M14 19.9V16h3"/>
+        <path d="m12 7-5 5a1 1 0 0 0 0 1.4l2.6 2.6c.4.4 1 .4 1.4 0l5-5"/>
+        <path d="M18 12.2c.5-.5.5-1.4 0-1.8l-2.6-2.6c-.4-.4-1.2-.4-1.6 0L12 10"/>
+        <path d="m11 11 2.5 2.5"/>
+        <path d="M5 21h14"/>
+    </Ico...
