@@ -548,6 +548,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-orange-100',
     cardColor: 'bg-orange-500',
     accentColor: 'text-orange-600',
+    userQuestions: [
+      'How do I resize or crop a picture?',
+      'How can I make an image file smaller?',
+      'How do I convert a JPG to a PNG (or vice versa)?',
+      'How can I add my logo or a watermark to a photo?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'Image Tools')
   },
   {
@@ -559,6 +565,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-blue-100',
     cardColor: 'bg-blue-500',
     accentColor: 'text-blue-600',
+    userQuestions: [
+      'How do I count the words in my essay?',
+      'How can I remove duplicate lines from a list?',
+      'How do I change text to UPPERCASE or Title Case?',
+      'How can I generate placeholder text for a design?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'Text & List Tools')
   },
   {
@@ -570,6 +582,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-green-100',
     cardColor: 'bg-green-500',
     accentColor: 'text-green-600',
+    userQuestions: [
+      'How do I combine multiple PDF files into one?',
+      'How can I extract just one page from a PDF?',
+      'How do I turn a PDF into a JPG image?',
+      'How can I make a PDF from a set of images?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools')
   },
   {
@@ -581,6 +599,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-purple-100',
     cardColor: 'bg-purple-500',
     accentColor: 'text-purple-600',
+    userQuestions: [
+      'How do I convert an Excel file to CSV?',
+      'How can I rename a batch of files at once?',
+      'How do I check if a file has been corrupted?',
+      'How can I merge several text files together?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities')
   },
   {
@@ -592,6 +616,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-cyan-100',
     cardColor: 'bg-cyan-400',
     accentColor: 'text-cyan-600',
+    userQuestions: [
+      'How do I calculate a percentage?',
+      'How can I generate a secure password?',
+      'How do I convert meters to feet?',
+      'How many days are between two dates?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools')
   },
   {
@@ -603,6 +633,12 @@ export const CATEGORIES: Category[] = [
     color: 'bg-indigo-100',
     cardColor: 'bg-indigo-600',
     accentColor: 'text-indigo-600',
+    userQuestions: [
+      'How do I make a QR code for my website?',
+      'How can I format my messy JSON code?',
+      'How do I encode a URL to be safe?',
+      'How can I convert a timestamp to a readable date?'
+    ],
     tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools')
   },
 ];

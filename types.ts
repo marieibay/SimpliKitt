@@ -20,4 +20,5 @@ export interface Category {
   cardColor: string;
   accentColor: string;
   tools: Tool[];
+  userQuestions?: string[];
 }
