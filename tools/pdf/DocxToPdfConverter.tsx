@@ -41,7 +41,7 @@ const DocxToPdfConverter: React.FC = () => {
     setIsProcessing(true);
 
     const opt = {
-      margin: 0.5,
+      margin: 1,
       filename: `${file.name.replace(/\.docx$/, '')}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
@@ -122,13 +122,24 @@ const DocxToPdfConverter: React.FC = () => {
                 .docx-preview-content h3 {
                     page-break-inside: avoid !important;
                 }
+                .docx-preview-content p {
+                    margin-bottom: 1em;
+                }
+                 .docx-preview-content ul {
+                    list-style: disc;
+                    margin-left: 2em;
+                }
+                .docx-preview-content ol {
+                    list-style: decimal;
+                    margin-left: 2em;
+                }
             `}</style>
 
-            <div className="bg-gray-700 p-8 rounded-lg shadow-inner">
+            <div className="bg-gray-700 p-4 sm:p-8 rounded-lg shadow-inner overflow-x-auto">
                  <h2 className="text-xl font-semibold text-center mb-4 text-white">Document Preview</h2>
                 <div 
                     ref={previewRef}
-                    className="bg-white rounded shadow-lg mx-auto prose lg:prose-xl docx-preview-content"
+                    className="bg-white rounded shadow-lg mx-auto docx-preview-content"
                     style={{ width: '8.5in', padding: '1in', minHeight: '11in' }}
                     dangerouslySetInnerHTML={{ __html: htmlContent }}
                 />

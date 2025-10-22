@@ -98,7 +98,7 @@
   <url><loc>https://www.simplikitt.com/#/tool/lorem-ipsum-generator</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-resizer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/bulk-image-resizer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://www.simplikitt.com/#/tool/jpg-and-png-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.simplikitt.com/#/tool/jpg-to-png-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-compressor</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-to-base64</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/png-to-svg-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
@@ -156,5 +156,4 @@
   <url><loc>https://www.simplikitt.com/#/tool/image-zoom-previewer-local</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/image-histogram-viewer</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/docx-to-pdf-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://www.simplikitt.com/#/tool/pdf-to-docx-converter</loc><priority>0.6</priority><changefreq>monthly</changefreq></url>
 </urlset>
