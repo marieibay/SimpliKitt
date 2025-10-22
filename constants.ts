@@ -2,7 +2,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileEditIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -98,7 +98,6 @@ import ImageLayerMerger from './tools/image/ImageLayerMerger';
 import ImageZoomPreviewer from './tools/image/ImageZoomPreviewer';
 import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
 import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
-import PdfToDocxConverter from './tools/pdf/PdfToDocxConverter';
 
 
 const slugify = (text: string) =>
@@ -144,7 +143,6 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "Turn each page of your PDF into a separate image file, which is great for presentations, sharing on social media, or embedding in other documents.\n1. Upload your PDF document.\n2. Select your desired output image format (JPEG for smaller files, PNG for higher quality).\n3. The tool will convert each page of the PDF into an image.\n4. All generated images will be bundled together and downloaded as a single ZIP file." },
   { name: 'Image to PDF Converter', description: 'Combine multiple images into a single PDF.', category: 'PDF & Document Tools', instructions: "Compile photos, scans, or screenshots into a single, easy-to-share PDF document. This is ideal for creating photo albums, portfolios, or submitting scanned documents.\n1. Upload one or more image files (JPG, PNG, etc.).\n2. Drag and drop the images to reorder them as they should appear in the PDF.\n3. Adjust page size (e.g., A4, Letter) and orientation (Portrait, Landscape) as needed.\n4. Click 'Create PDF' and download your combined file." },
   { name: 'DOCX to PDF Converter', description: 'Converts DOCX file to a simple, text-based PDF format.', category: 'PDF & Document Tools' },
-  { name: 'PDF to DOCX Converter', description: 'Extracts text from a PDF file into a DOCX document.', category: 'PDF & Document Tools' },
 
 
   // Text & List Tools
@@ -411,8 +409,6 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return ImageToPdfConverter;
     case 'docx-to-pdf-converter':
       return DocxToPdfConverter;
-    case 'pdf-to-docx-converter':
-      return PdfToDocxConverter;
 
     default:
       return PlaceholderTool;
@@ -456,7 +452,6 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
     case 'image-to-pdf-converter': return JpgToPdfConverterIcon;
     case 'docx-to-pdf-converter': return DocxToTextExtractorIcon;
-    case 'pdf-to-docx-converter': return FileEditIcon;
 
     // Text & List Tools
     case 'word-and-char-counter': return WordCounterIcon;

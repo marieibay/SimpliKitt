@@ -18,7 +18,7 @@
     "pdf-lib": "1.17.1",
     "jspdf": "2.5.1",
     "fast-png": "6.1.0",
-    "docx": "8.5.0"
+    "docx": "^9.5.1"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
