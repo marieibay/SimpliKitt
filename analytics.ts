@@ -1,5 +1,12 @@
 import { track } from '@vercel/analytics';
 
+// FIX: Add a global declaration for window.gtag to fix TypeScript errors.
+declare global {
+  interface Window {
+    gtag: (command: string, action: string, params?: Record<string, any>) => void;
+  }
+}
+
 /**
  * An analytics service that sends events to Vercel Analytics.
  * This approach keeps analytics logic separate and easy to manage.
