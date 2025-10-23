@@ -810,3 +810,11 @@ export const FileCogIcon: React.FC<{ className?: string }> = ({ className }) => 
     <path d="m9.4 13.5.87.5" />
   </IconWrapper>
 );
+
+export const FileArchiveIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+      <path d="M21 8V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v1" />
+      <path d="M3 8v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8" />
+      <path d="M10 12h4" />
+  </IconWrapper>
+);
