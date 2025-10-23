@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageBlurFilter: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -50,6 +50,13 @@ const ImageBlurFilter: React.FC = () => {
         link.click();
         document.body.removeChild(link);
         trackEvent('image_filter_applied', { filter: 'blur', intensity: blur });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Blur Filter',
+            tool_name: 'image-blur-filter',
+            is_download: true,
+            blur_intensity: blur,
+        });
     };
 
     const handleReset = () => {

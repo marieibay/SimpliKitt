@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageRotator: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -62,6 +62,13 @@ const ImageRotator: React.FC = () => {
         link.click();
         document.body.removeChild(link);
         trackEvent('image_rotated', { angle });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Rotator (Custom Angle)',
+            tool_name: 'image-rotator-custom-angle',
+            is_download: true,
+            angle: angle,
+        });
     };
 
     const handleReset = () => {

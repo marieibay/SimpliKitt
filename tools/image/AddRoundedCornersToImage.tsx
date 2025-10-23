@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const AddRoundedCornersToImage: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -52,6 +52,13 @@ const AddRoundedCornersToImage: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_rounded_corners_added', { radius });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Add Rounded Corners to Image',
+            tool_name: 'add-rounded-corners-to-image',
+            is_download: true,
+            radius: radius,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'rounded-image.png';

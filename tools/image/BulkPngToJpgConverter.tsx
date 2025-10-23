@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 declare global {
@@ -60,6 +60,13 @@ const BulkPngToJpgConverter: React.FC = () => {
         link.click();
         
         trackEvent('bulk_images_converted', { count: files.length, from: 'png', to: 'jpg' });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Bulk PNG to JPG Converter',
+            tool_name: 'bulk-png-to-jpg-converter',
+            is_download: true,
+            file_count: files.length,
+        });
         setIsProcessing(false);
         setFiles([]);
     };

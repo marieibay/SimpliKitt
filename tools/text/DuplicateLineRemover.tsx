@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const DuplicateLineRemover: React.FC = () => {
   const [input, setInput] = useState('');
@@ -31,6 +31,11 @@ const DuplicateLineRemover: React.FC = () => {
     const originalLines = input.split('\n').length;
     const uniqueLines = output.split('\n').length;
     trackEvent('duplicate_lines_removed', { originalLines, uniqueLines, caseSensitive: false });
+    trackGtagEvent('tool_used', {
+      event_category: 'Text & List Tools',
+      event_label: 'Duplicate Line Remover',
+      tool_name: 'duplicate-line-remover',
+    });
   };
 
   return (

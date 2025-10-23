@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 declare global {
@@ -57,6 +57,14 @@ const BulkImageCompressor: React.FC = () => {
         link.click();
         
         trackEvent('bulk_images_compressed', { count: files.length, quality });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Bulk Image Compressor',
+            tool_name: 'bulk-image-compressor',
+            is_download: true,
+            file_count: files.length,
+            quality: Math.round(quality * 100),
+        });
         setIsProcessing(false);
         setFiles([]);
     };

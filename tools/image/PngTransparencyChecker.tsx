@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
+import { trackGtagEvent } from '../../analytics';
 
 const PngTransparencyChecker: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -11,6 +12,11 @@ const PngTransparencyChecker: React.FC = () => {
             const img = new Image();
             img.onload = () => setImage(img);
             img.src = e.target?.result as string;
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'PNG Transparency Checker',
+                tool_name: 'png-transparency-checker',
+            });
         };
         reader.readAsDataURL(file);
     };

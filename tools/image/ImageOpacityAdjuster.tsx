@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageOpacityAdjuster: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -51,6 +51,13 @@ const ImageOpacityAdjuster: React.FC = () => {
         link.click();
         document.body.removeChild(link);
         trackEvent('image_opacity_adjusted', { opacity });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Opacity/Transparency Adjuster',
+            tool_name: 'image-opacitytransparency-adjuster',
+            is_download: true,
+            opacity: opacity,
+        });
     };
 
     const handleReset = () => {

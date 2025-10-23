@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
   interface Window {
@@ -37,6 +37,12 @@ const QrCodeGenerator: React.FC = () => {
       link.href = canvasRef.current.toDataURL('image/png');
       link.click();
       trackEvent('qr_code_downloaded', { size, textLength: text.length });
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'QR Code Generator',
+        tool_name: 'qr-code-generator',
+        is_download: true,
+      });
     }
   };
   

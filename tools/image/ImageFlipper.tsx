@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageFlipper: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -51,14 +51,24 @@ const ImageFlipper: React.FC = () => {
         if(image) applyFlip();
     }, [image, flip, applyFlip]);
 
+    const trackUsage = (direction: 'horizontal' | 'vertical') => {
+        trackEvent('image_flipped', { direction });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Flipper (Horizontal & Vertical)',
+            tool_name: 'image-flipper-horizontal-and-vertical',
+            direction: direction,
+        });
+    }
+
     const handleFlipHorizontal = () => {
         setFlip(f => ({ ...f, horizontal: !f.horizontal }));
-        trackEvent('image_flipped', { direction: 'horizontal' });
+        trackUsage('horizontal');
     };
 
     const handleFlipVertical = () => {
         setFlip(f => ({ ...f, vertical: !f.vertical }));
-        trackEvent('image_flipped', { direction: 'vertical' });
+        trackUsage('vertical');
     };
 
     const handleDownload = () => {

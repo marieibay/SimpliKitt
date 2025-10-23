@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageSharpenFilter: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -66,6 +66,11 @@ const ImageSharpenFilter: React.FC = () => {
             setResultUrl(canvas.toDataURL('image/png'));
             setIsProcessing(false);
             trackEvent('image_filter_applied', { filter: 'sharpen' });
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image Sharpen Filter',
+                tool_name: 'image-sharpen-filter',
+            });
         }, 50);
 
     }, [image]);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 const BulkImageToBase64: React.FC = () => {
@@ -39,6 +39,13 @@ const BulkImageToBase64: React.FC = () => {
         link.click();
         
         trackEvent('bulk_images_to_base64', { count: files.length });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Bulk Image to Base64',
+            tool_name: 'bulk-image-to-base64',
+            is_download: true,
+            file_count: files.length,
+        });
         setIsProcessing(false);
         setFiles([]);
     };

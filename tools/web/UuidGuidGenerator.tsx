@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const UuidGuidGenerator: React.FC = () => {
   const [uuid, setUuid] = useState('');
@@ -32,6 +32,11 @@ const UuidGuidGenerator: React.FC = () => {
   const handleGenerateClick = () => {
       generateUuid();
       trackEvent('uuid_generated');
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'UUID/GUID Generator',
+        tool_name: 'uuidguid-generator',
+      });
   }
 
   return (

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { trackEvent } from '../../analytics';
+import React, { useState, useRef } from 'react';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 // Color conversion utilities
 const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
@@ -56,6 +56,18 @@ const ColorConverter: React.FC = () => {
     const [rgb, setRgb] = useState('255, 255, 255');
     const [hsl, setHsl] = useState('0, 0, 100');
     const [error, setError] = useState('');
+    const hasTrackedRef = useRef(false);
+
+    const trackUsage = () => {
+        if (!hasTrackedRef.current) {
+            trackGtagEvent('tool_used', {
+                event_category: 'Web & Developer Tools',
+                event_label: 'Color Converter',
+                tool_name: 'color-converter',
+            });
+            hasTrackedRef.current = true;
+        }
+    }
 
     const updateFromHex = (newHex: string) => {
         setHex(newHex);
@@ -66,6 +78,7 @@ const ColorConverter: React.FC = () => {
             const hslVal = rgbToHsl(rgbVal.r, rgbVal.g, rgbVal.b);
             setHsl(`${hslVal.h}, ${hslVal.s}, ${hslVal.l}`);
             trackEvent('color_converted', { from: 'hex' });
+            trackUsage();
         } else {
             setError('Invalid HEX value');
         }
@@ -81,6 +94,7 @@ const ColorConverter: React.FC = () => {
             const hslVal = rgbToHsl(r,g,b);
             setHsl(`${hslVal.h}, ${hslVal.s}, ${hslVal.l}`);
             trackEvent('color_converted', { from: 'rgb' });
+            trackUsage();
         } else {
             setError('Invalid RGB value');
         }
@@ -97,6 +111,7 @@ const ColorConverter: React.FC = () => {
                 setRgb(`${rgbVal.r}, ${rgbVal.g}, ${rgbVal.b}`);
                 setHex(rgbToHex(rgbVal.r, rgbVal.g, rgbVal.b));
                 trackEvent('color_converted', { from: 'hsl' });
+                trackUsage();
             } else {
                 setError('Invalid HSL value');
             }

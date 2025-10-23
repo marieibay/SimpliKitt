@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 declare global {
@@ -44,6 +44,13 @@ const BatchFileRenamer: React.FC = () => {
         link.click();
         
         trackEvent('batch_files_renamed', { count: files.length });
+        trackGtagEvent('tool_used', {
+            event_category: 'File Converters & Utilities',
+            event_label: 'Batch File Renamer',
+            tool_name: 'batch-file-renamer',
+            is_download: true,
+            file_count: files.length,
+        });
         setIsProcessing(false);
     };
     

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 // A small map of common file signatures (magic numbers)
 const signatures: { [key: string]: string } = {
@@ -29,6 +29,11 @@ const FileTypeChecker: React.FC = () => {
                 actual: actualType,
             });
             trackEvent('file_type_checked');
+            trackGtagEvent('tool_used', {
+                event_category: 'File Converters & Utilities',
+                event_label: 'File Type Checker',
+                tool_name: 'file-type-checker',
+            });
         };
         reader.readAsArrayBuffer(file);
     };

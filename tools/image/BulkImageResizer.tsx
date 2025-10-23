@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 declare global {
@@ -58,6 +58,14 @@ const BulkImageResizer: React.FC = () => {
         link.click();
         
         trackEvent('bulk_images_resized', { count: files.length, maxWidth });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Bulk Image Resizer',
+            tool_name: 'bulk-image-resizer',
+            is_download: true,
+            file_count: files.length,
+            max_width: maxWidth,
+        });
         setIsProcessing(false);
         setFiles([]);
     };

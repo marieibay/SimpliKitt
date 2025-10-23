@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 // Simple quantization logic
 const getPalette = (imageData: ImageData, colorCount = 10) => {
@@ -53,6 +53,11 @@ const ColorPaletteExtractor: React.FC = () => {
         const extracted = getPalette(imageData, 8);
         setPalette(extracted);
         trackEvent('color_palette_extracted');
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Color Palette Extractor (from Image)',
+            tool_name: 'color-palette-extractor-from-image',
+        });
     };
     
     const rgbToHex = (r: number, g: number, b: number) => '#' + [r, g, b].map(x => x.toString(16).padStart(2, '0')).join('');

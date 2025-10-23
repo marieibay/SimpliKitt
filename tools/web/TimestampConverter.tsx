@@ -1,10 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { trackEvent } from '../../analytics';
+import React, { useState, useEffect, useRef } from 'react';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const TimestampConverter: React.FC = () => {
   const [timestamp, setTimestamp] = useState<string>(Math.floor(Date.now() / 1000).toString());
   const [dateTime, setDateTime] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const hasTrackedRef = useRef(false);
+
+  const trackUsage = () => {
+    if (!hasTrackedRef.current) {
+      trackGtagEvent('tool_used', {
+        event_category: 'Web & Developer Tools',
+        event_label: 'Timestamp Converter',
+        tool_name: 'timestamp-converter',
+      });
+      hasTrackedRef.current = true;
+    }
+  };
 
   const updateDateTimeFromTimestamp = (ts: string) => {
     const numTs = parseInt(ts, 10);
@@ -22,6 +34,7 @@ const TimestampConverter: React.FC = () => {
     } else if (ts === '') {
         setError('');
         setDateTime('');
+        hasTrackedRef.current = false;
     } else {
       setError('Invalid timestamp');
     }
@@ -39,6 +52,7 @@ const TimestampConverter: React.FC = () => {
       } else {
           setError('');
           setTimestamp('');
+          hasTrackedRef.current = false;
       }
   };
 
@@ -50,14 +64,20 @@ const TimestampConverter: React.FC = () => {
     const newTs = e.target.value;
     setTimestamp(newTs);
     updateDateTimeFromTimestamp(newTs);
-    if(newTs) trackEvent('timestamp_converted', { from: 'timestamp' });
+    if (newTs) {
+      trackEvent('timestamp_converted', { from: 'timestamp' });
+      trackUsage();
+    }
   };
   
   const handleDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newDt = e.target.value;
     setDateTime(newDt);
     updateTimestampFromDateTime(newDt);
-    if(newDt) trackEvent('timestamp_converted', { from: 'datetime' });
+    if (newDt) {
+      trackEvent('timestamp_converted', { from: 'datetime' });
+      trackUsage();
+    }
   };
 
   const setToNow = () => {
@@ -65,6 +85,7 @@ const TimestampConverter: React.FC = () => {
       setTimestamp(now);
       updateDateTimeFromTimestamp(now);
       trackEvent('timestamp_set_to_now');
+      trackUsage();
   }
 
   return (

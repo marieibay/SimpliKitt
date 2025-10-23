@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 // Add type definitions for global libraries to satisfy TypeScript
 declare global {
@@ -86,6 +86,14 @@ const PdfToJpgConverter: React.FC = () => {
         pageCount: numPages,
         format: outputFormat,
       });
+      trackGtagEvent('tool_used', {
+        event_category: 'PDF & Document Tools',
+        event_label: 'PDF to Image Converter',
+        tool_name: 'pdf-to-image-converter',
+        is_download: false, // This is conversion, download is separate
+        page_count: numPages,
+        output_format: outputFormat,
+      });
     } catch (err: any) {
       console.error("PDF Conversion Error:", err);
       setError(`Failed to convert PDF: ${err.message || 'Unknown error'}. It might be corrupted or encrypted.`);
@@ -123,6 +131,14 @@ const PdfToJpgConverter: React.FC = () => {
     trackEvent('downloaded_converted_images_zip', {
         imageCount: convertedImages.length,
         format: outputFormat
+    });
+    trackGtagEvent('tool_used', {
+        event_category: 'PDF & Document Tools',
+        event_label: 'PDF to Image Converter',
+        tool_name: 'pdf-to-image-converter',
+        is_download: true,
+        page_count: convertedImages.length,
+        output_format: outputFormat,
     });
   };
 

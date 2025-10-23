@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageTextOverlay: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -48,6 +48,12 @@ const ImageTextOverlay: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_text_overlay_added');
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Text Overlay',
+            tool_name: 'image-text-overlay',
+            is_download: true,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'text-overlay.png';

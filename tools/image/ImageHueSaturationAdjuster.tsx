@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageHueSaturationAdjuster: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -9,6 +9,7 @@ const ImageHueSaturationAdjuster: React.FC = () => {
     const [resultUrl, setResultUrl] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const hasTrackedRef = useRef(false);
 
     const handleFile = (file: File) => {
         const reader = new FileReader();
@@ -19,6 +20,7 @@ const ImageHueSaturationAdjuster: React.FC = () => {
                 setHue(0);
                 setSaturation(0);
                 setResultUrl(null);
+                hasTrackedRef.current = false;
             };
             img.src = e.target?.result as string;
         };
@@ -28,6 +30,15 @@ const ImageHueSaturationAdjuster: React.FC = () => {
     const applyFilter = useCallback(() => {
         if (!image || !canvasRef.current) return;
         setIsProcessing(true);
+
+        if (!hasTrackedRef.current) {
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image Hue/Saturation Adjuster',
+                tool_name: 'image-huesaturation-adjuster',
+            });
+            hasTrackedRef.current = true;
+        }
 
         // Debounce or use timeout to prevent lag on sliders
         setTimeout(() => {

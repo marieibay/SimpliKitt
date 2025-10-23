@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
     interface Window { PptxGenJS: any; }
@@ -18,6 +18,13 @@ const PptxToTextExtractor: React.FC = () => {
         // For now, we show a message.
         setError("PPTX text extraction is a complex feature and is currently a placeholder. A full implementation would require a dedicated library.");
         trackEvent('pptx_text_extraction_attempted');
+        trackGtagEvent('tool_used', {
+            event_category: 'File Converters & Utilities',
+            event_label: 'PPTX to Text Extractor',
+            tool_name: 'pptx-to-text-extractor',
+            is_download: false,
+            status: 'attempted',
+        });
     };
 
     const handleCopy = () => {

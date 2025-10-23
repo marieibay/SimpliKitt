@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const FileExtensionChanger: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -26,6 +26,13 @@ const FileExtensionChanger: React.FC = () => {
         link.click();
         
         trackEvent('file_extension_changed');
+        trackGtagEvent('tool_used', {
+            event_category: 'File Converters & Utilities',
+            event_label: 'File Extension Changer',
+            tool_name: 'file-extension-changer',
+            is_download: true,
+            new_extension: newExtension,
+        });
     };
 
     if (!file) {

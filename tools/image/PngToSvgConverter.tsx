@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const PngToSvgConverter: React.FC = () => {
     const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -84,6 +84,11 @@ const PngToSvgConverter: React.FC = () => {
                     const svg = imageDataToSVG(imageData, canvas.width, canvas.height);
                     setSvgOutput(svg);
                     trackEvent('png_to_svg_converted', { width: canvas.width, height: canvas.height });
+                    trackGtagEvent('tool_used', {
+                        event_category: 'Image Tools',
+                        event_label: 'PNG to SVG Converter',
+                        tool_name: 'png-to-svg-converter',
+                    });
                 } catch (error) {
                     console.error("Error processing image data:", error);
                     alert("An error occurred during conversion. The image might be too large or from a restricted origin.");

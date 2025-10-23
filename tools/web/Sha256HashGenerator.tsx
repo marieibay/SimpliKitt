@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const Sha256HashGenerator: React.FC = () => {
   const [input, setInput] = useState('');
@@ -23,6 +23,11 @@ const Sha256HashGenerator: React.FC = () => {
         setHash(hashHex);
         if (!hasTrackedRef.current) {
             trackEvent('hash_generated');
+            trackGtagEvent('tool_used', {
+              event_category: 'Web & Developer Tools',
+              event_label: 'SHA-256 Hash Generator',
+              tool_name: 'sha-256-hash-generator',
+            });
             hasTrackedRef.current = true;
         }
       } catch (error) {

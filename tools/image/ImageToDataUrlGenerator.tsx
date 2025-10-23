@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageToDataUrlGenerator: React.FC = () => {
   const [dataUrl, setDataUrl] = useState<string | null>(null);
@@ -14,6 +14,11 @@ const ImageToDataUrlGenerator: React.FC = () => {
       setImagePreview(result);
       setDataUrl(result);
       trackEvent('image_to_data_url_converted', { filename: file.name, size: file.size });
+      trackGtagEvent('tool_used', {
+        event_category: 'Image Tools',
+        event_label: 'Image to Data URL Generator',
+        tool_name: 'image-to-data-url-generator',
+      });
     };
     reader.readAsDataURL(file);
   };

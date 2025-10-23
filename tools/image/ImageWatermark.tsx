@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageWatermark: React.FC = () => {
     const [mainImage, setMainImage] = useState<HTMLImageElement | null>(null);
@@ -51,6 +51,12 @@ const ImageWatermark: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_watermarked');
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Watermark (Logo)',
+            tool_name: 'image-watermark-logo',
+            is_download: true,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'watermarked-image.png';

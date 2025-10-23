@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageInvertColors: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -49,6 +49,11 @@ const ImageInvertColors: React.FC = () => {
             setResultUrl(canvas.toDataURL('image/png'));
             setIsProcessing(false);
             trackEvent('image_filter_applied', { filter: 'invert' });
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image Invert Colors',
+                tool_name: 'image-invert-colors',
+            });
         }, 50);
 
     }, [image]);

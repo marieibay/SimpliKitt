@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageDpiChanger: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
@@ -40,6 +40,13 @@ const ImageDpiChanger: React.FC = () => {
             link.click();
             URL.revokeObjectURL(url);
             trackEvent('image_dpi_changed', { dpi });
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image DPI Changer',
+                tool_name: 'image-dpi-changer',
+                is_download: true,
+                dpi: dpi,
+            });
         } catch (error: any) {
             alert(error.message);
         } finally {

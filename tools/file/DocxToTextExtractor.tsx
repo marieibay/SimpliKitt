@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
     interface Window { mammoth: any; }
@@ -25,6 +25,12 @@ const DocxToTextExtractor: React.FC = () => {
                 .then((result: any) => {
                     setText(result.value);
                     trackEvent('docx_text_extracted');
+                    trackGtagEvent('tool_used', {
+                        event_category: 'File Converters & Utilities',
+                        event_label: 'DOCX to Text Extractor',
+                        tool_name: 'docx-to-text-extractor',
+                        is_download: false,
+                    });
                 })
                 .catch((err: any) => {
                     setError("Could not extract text from DOCX.");

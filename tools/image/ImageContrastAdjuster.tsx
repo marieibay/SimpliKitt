@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageContrastAdjuster: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -50,6 +50,13 @@ const ImageContrastAdjuster: React.FC = () => {
         link.click();
         document.body.removeChild(link);
         trackEvent('image_filter_applied', { filter: 'contrast', intensity: contrast });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Contrast Adjuster',
+            tool_name: 'image-contrast-adjuster',
+            is_download: true,
+            contrast_level: contrast,
+        });
     };
 
     const handleReset = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const filters = {
     'None': 'none',
@@ -51,6 +51,13 @@ const ImageFilterPresetLibrary: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_preset_filter_applied', { filter: activeFilter });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Filter Preset Library',
+            tool_name: 'image-filter-preset-library',
+            is_download: true,
+            filter_name: activeFilter,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = `filtered-${activeFilter.toLowerCase()}.png`;

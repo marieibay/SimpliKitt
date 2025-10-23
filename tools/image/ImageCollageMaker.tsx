@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 const ImageCollageMaker: React.FC = () => {
@@ -66,6 +66,14 @@ const ImageCollageMaker: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('collage_created', { layout, imageCount: images.length });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Collage Maker (Basic Grid)',
+            tool_name: 'image-collage-maker-basic-grid',
+            is_download: true,
+            layout: layout,
+            image_count: images.length,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'collage.png';

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const AddBorderToImage: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -42,6 +42,14 @@ const AddBorderToImage: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_border_added');
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Add Border to Image',
+            tool_name: 'add-border-to-image',
+            is_download: true,
+            border_width: borderWidth,
+            border_color: borderColor,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = 'bordered-image.png';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const SplitPdf: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -83,6 +83,13 @@ const SplitPdf: React.FC = () => {
         pageRange,
         totalPages,
         extractedPageCount: uniqueIndices.length,
+      });
+      trackGtagEvent('tool_used', {
+        event_category: 'PDF & Document Tools',
+        event_label: 'Extract PDF Pages',
+        tool_name: 'extract-pdf-pages',
+        is_download: true,
+        extracted_pages: uniqueIndices.length,
       });
 
     } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
   interface Window {
@@ -59,6 +59,12 @@ const DocxToPdfConverter: React.FC = () => {
             pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
             pdf.save('converted.pdf');
             trackEvent('file_converted', { from: 'docx', to: 'pdf' });
+            trackGtagEvent('tool_used', {
+                event_category: 'PDF & Document Tools',
+                event_label: 'DOCX to PDF Converter',
+                tool_name: 'docx-to-pdf-converter',
+                is_download: true,
+            });
         } catch (err) {
             console.error(err);
             setError("Failed to create PDF from preview.");

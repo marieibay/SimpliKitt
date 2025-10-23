@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 import { UploadIcon } from '../../components/Icons';
 
 declare global {
@@ -62,6 +62,13 @@ const BulkImageToGrayscale: React.FC = () => {
         link.click();
         
         trackEvent('bulk_images_to_grayscale', { count: files.length });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Bulk Image to Grayscale',
+            tool_name: 'bulk-image-to-grayscale',
+            is_download: true,
+            file_count: files.length,
+        });
         setIsProcessing(false);
         setFiles([]);
     };

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImageToBmpConverter: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -18,8 +18,8 @@ const ImageToBmpConverter: React.FC = () => {
         reader.readAsDataURL(file);
         setResultUrl(null);
     };
-    
-    // Custom BMP encoder
+
+    // Custom BMP encoder for 24-bit BMP
     const createBmp = (imageData: ImageData): Blob => {
         const { width, height, data } = imageData;
         const rowPadding = (4 - (width * 3) % 4) % 4;
@@ -34,19 +34,22 @@ const ImageToBmpConverter: React.FC = () => {
         // BITMAPFILEHEADER (14 bytes)
         view.setUint16(0, 0x424D, false); // 'BM'
         view.setUint32(2, fileSize, true);
+        view.setUint32(6, 0, true); // reserved
         view.setUint32(10, headerSize, true);
 
         // BITMAPINFOHEADER (40 bytes)
         view.setUint32(14, 40, true);
         view.setInt32(18, width, true);
-        view.setInt32(22, height, true);
+        view.setInt32(22, height, true); // Positive height for bottom-up bitmap
         view.setUint16(26, 1, true); // Planes
         view.setUint16(28, 24, true); // Bits per pixel
-        view.setUint32(30, 0, true); // Compression
+        view.setUint32(30, 0, true); // No compression
         view.setUint32(34, pixelDataSize, true);
-        view.setInt32(38, 2835, true); // X pixels per meter
-        view.setInt32(42, 2835, true); // Y pixels per meter
-        
+        view.setUint32(38, 0, true); // X pixels per meter
+        view.setUint32(42, 0, true); // Y pixels per meter
+        view.setUint32(46, 0, true); // Colors in palette
+        view.setUint32(50, 0, true); // Important colors
+
         let offset = headerSize;
         for (let y = height - 1; y >= 0; y--) {
             for (let x = 0; x < width; x++) {
@@ -55,14 +58,13 @@ const ImageToBmpConverter: React.FC = () => {
                 view.setUint8(offset++, data[i + 1]); // Green
                 view.setUint8(offset++, data[i]);     // Red
             }
-            for (let i = 0; i < rowPadding; i++) {
+            for (let p = 0; p < rowPadding; p++) {
                 view.setUint8(offset++, 0);
             }
         }
-
         return new Blob([buffer], { type: 'image/bmp' });
     };
-
+    
     const convertToBmp = useCallback(() => {
         if (!image || !canvasRef.current) return;
         setIsProcessing(true);
@@ -78,6 +80,12 @@ const ImageToBmpConverter: React.FC = () => {
             setResultUrl(URL.createObjectURL(bmpBlob));
             setIsProcessing(false);
             trackEvent('image_converted', { from: 'image', to: 'bmp' });
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image to BMP Converter',
+                tool_name: 'image-to-bmp-converter',
+                is_download: true,
+            });
         }, 50);
     }, [image]);
 
@@ -98,7 +106,13 @@ const ImageToBmpConverter: React.FC = () => {
                     <img src={image.src} alt="Original" className="max-w-full max-h-[400px]" />
                 </div>
                 <div className="p-2 border rounded-lg bg-gray-100 flex items-center justify-center min-h-[300px]">
-                    {isProcessing ? ( <p>Converting...</p> ) : resultUrl ? ( <img src={image.src} alt="Preview" className="max-w-full max-h-[400px]" /> ) : ( <p className="text-gray-500">Result will appear here</p> )}
+                    {isProcessing ? (
+                        <p>Converting...</p>
+                    ) : resultUrl ? (
+                        <img src={resultUrl} alt="Preview" className="max-w-full max-h-[400px]" />
+                    ) : (
+                        <p className="text-gray-500">Result will appear here</p>
+                    )}
                     <canvas ref={canvasRef} className="hidden" />
                 </div>
             </div>
@@ -108,9 +122,13 @@ const ImageToBmpConverter: React.FC = () => {
                         {isProcessing ? 'Processing...' : 'Convert to BMP'}
                     </button>
                 ) : (
-                    <a href={resultUrl} download="converted.bmp" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">Download BMP</a>
+                    <a href={resultUrl} download="converted.bmp" className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">
+                        Download BMP
+                    </a>
                 )}
-                <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-600 hover:underline">Use another image</button>
+                <button onClick={handleReset} className="px-4 py-2 text-sm text-gray-600 hover:underline">
+                    Use another image
+                </button>
             </div>
         </div>
     );

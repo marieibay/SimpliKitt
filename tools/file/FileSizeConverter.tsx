@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { trackEvent } from '../../analytics';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const units = {
     'Bytes': 1,
@@ -14,14 +14,31 @@ const FileSizeConverter: React.FC = () => {
     const [fromUnit, setFromUnit] = useState<Unit>('Megabytes (MB)');
     const [toUnit, setToUnit] = useState<Unit>('Kilobytes (KB)');
     const [fromValue, setFromValue] = useState('1');
+    const hasTrackedRef = useRef(false);
 
     const toValue = useMemo(() => {
         const from = parseFloat(fromValue);
-        if (isNaN(from)) return '';
+        if (isNaN(from)) {
+            hasTrackedRef.current = false;
+            return '';
+        }
         const valueInBytes = from * units[fromUnit];
         const result = valueInBytes / units[toUnit];
         trackEvent('file_size_converted');
+        if (!hasTrackedRef.current) {
+            trackGtagEvent('tool_used', {
+                event_category: 'File Converters & Utilities',
+                event_label: 'File Size Converter',
+                tool_name: 'file-size-converter',
+            });
+            hasTrackedRef.current = true;
+        }
         return result.toLocaleString(undefined, {maximumFractionDigits: 6});
+    }, [fromValue, fromUnit, toUnit]);
+
+    useEffect(() => {
+        // Reset tracking when inputs change to capture new usage sessions
+        hasTrackedRef.current = false;
     }, [fromValue, fromUnit, toUnit]);
 
     return (

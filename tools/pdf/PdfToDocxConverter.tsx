@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as docx from 'docx';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
   interface Window {
@@ -56,6 +56,12 @@ const PdfToDocxConverter: React.FC = () => {
             setDocxUrl(url);
 
             trackEvent('file_converted', { from: 'pdf', to: 'docx' });
+            trackGtagEvent('tool_used', {
+                event_category: 'PDF & Document Tools',
+                event_label: 'PDF to DOCX Converter',
+                tool_name: 'pdf-to-docx-converter',
+                is_download: true,
+            });
 
         } catch (err) {
             console.error(err);

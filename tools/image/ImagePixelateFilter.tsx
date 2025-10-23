@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ImagePixelateFilter: React.FC = () => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
@@ -52,6 +52,13 @@ const ImagePixelateFilter: React.FC = () => {
     const handleDownload = () => {
         if (!resultUrl) return;
         trackEvent('image_filter_applied', { filter: 'pixelate', intensity: pixelSize });
+        trackGtagEvent('tool_used', {
+            event_category: 'Image Tools',
+            event_label: 'Image Pixelate Filter',
+            tool_name: 'image-pixelate-filter',
+            is_download: true,
+            pixel_size: pixelSize,
+        });
         const link = document.createElement('a');
         link.href = resultUrl;
         link.download = `pixelated-image.png`;

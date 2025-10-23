@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
-import { trackEvent } from '../../analytics';
+import { trackEvent, trackGtagEvent } from '../../analytics';
 
 const ASCII_CHARS_DENSE = ['@', '%', '#', '*', '+', '=', '-', ':', '.', ' '];
 const ASCII_CHARS_SIMPLE = ['#', 'A', 'O', 'x', 'o', ';', ':', '.', ' '];
@@ -63,6 +63,13 @@ const ImageToAscii: React.FC = () => {
             setAsciiArt(ascii);
             setIsProcessing(false);
             trackEvent('image_to_ascii_converted', { detail, charSet });
+            trackGtagEvent('tool_used', {
+                event_category: 'Image Tools',
+                event_label: 'Image to ASCII Art (Simple)',
+                tool_name: 'image-to-ascii-art-simple',
+                detail_level: detail,
+                char_set: charSet,
+            });
         }, 50);
 
     }, [image, detail, charSet]);
