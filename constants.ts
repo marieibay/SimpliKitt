@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Category, Tool } from './types';
 import {
@@ -103,6 +101,7 @@ import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
 import HeicToPngConverter from './tools/image/HeicToPngConverter';
 import RemoveBackground from './tools/image/RemoveBackground';
 import UpscaleImage from './tools/image/UpscaleImage';
+import CompressPdf from './tools/pdf/CompressPdf';
 
 
 const slugify = (text: string) =>
@@ -143,6 +142,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'File Type Checker', description: 'Confirms the actual file type based on headers, not just extension.', category: 'File Converters & Utilities', instructions: "A file's extension can be misleading. This tool checks a file's 'magic bytes'—a unique signature in its header—to reveal its true format, helping you verify file integrity and avoid security risks.\n1. Upload any file.\n2. The tool reads the first few bytes of the file and compares them against a database of known file types.\n3. It will display the detected file type alongside the filename's extension for comparison." },
 
   // PDF & Document Tools
+  { name: 'Compress PDF File Size', description: 'Lessen the file size of a PDF file.', category: 'PDF & Document Tools', instructions: "Reduce the size of your PDF files directly in your browser. This tool works by re-rendering the pages as optimized images and then re-assembling them into a new, smaller PDF. It's perfect for documents heavy with images.\n1. Upload your PDF file.\n2. Select a compression level (Low, Medium, or High).\n3. Click the 'Compress PDF' button.\n4. A new, smaller PDF will be generated for you to download." },
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "Easily combine reports, presentations, or separate chapters into a single, organized PDF document without needing any desktop software.\n1. Upload two or more PDF files by clicking 'Add PDFs'.\n2. Drag and drop the file previews in the list to arrange them in the exact order you want.\n3. Click the 'Merge PDFs' button to start the process.\n4. Your new, single PDF document will be generated and ready for download." },
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "This tool lets you select only the pages you need from a large PDF, creating a smaller, more focused document. It's perfect for separating chapters, pulling out specific slides, or removing unnecessary pages.\n1. Upload your PDF file.\n2. In the input box, enter the page numbers or ranges you want to extract (e.g., '1, 3-5, 8').\n3. Click 'Extract Pages & Download' to begin.\n4. A new PDF containing only your selected pages will be downloaded automatically." },
   { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "Turn each page of your PDF into a separate image file, which is great for presentations, sharing on social media, or embedding in other documents.\n1. Upload your PDF document.\n2. Select your desired output image format (JPEG for smaller files, PNG for higher quality).\n3. The tool will convert each page of the PDF into an image.\n4. All generated images will be bundled together and downloaded as a single ZIP file." },
@@ -412,6 +412,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return DateDifferenceCalculator;
 
     // PDF Tools
+    case 'compress-pdf-file-size':
+        return CompressPdf;
     case 'merge-pdf':
       return MergePdf;
     case 'extract-pdf-pages':
@@ -460,6 +462,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'file-type-checker': return FileTypeCheckerIcon;
 
     // PDF & Document Tools
+    case 'compress-pdf-file-size': return FileArchiveIcon;
     case 'merge-pdf': return MergePdfIcon;
     case 'extract-pdf-pages': return SplitPdfIcon;
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
@@ -534,6 +537,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-zoom-previewer-local': return ZoomInIcon;
     case 'image-histogram-viewer': return BarChart2Icon;
     case 'heic-to-png-converter': return FileCogIcon;
+    case 'image-dithering-effect': return WrenchIcon; // Placeholder
     default: return WrenchIcon;
   }
 };
