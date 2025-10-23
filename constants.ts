@@ -4,7 +4,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon, ScalingIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -102,6 +102,7 @@ import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
 import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
 import HeicToPngConverter from './tools/image/HeicToPngConverter';
 import RemoveBackground from './tools/image/RemoveBackground';
+import UpscaleImage from './tools/image/UpscaleImage';
 
 
 const slugify = (text: string) =>
@@ -155,6 +156,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Lorem Ipsum Generator', description: 'Generate placeholder text.', category: 'Text & List Tools', instructions: "Lorem Ipsum is standard placeholder text used in design and publishing to preview layouts before the final content is ready. It helps you focus on the design without being distracted by readable content.\n1. Specify the number of paragraphs of placeholder text you need.\n2. Click the 'Generate' button.\n3. The Lorem Ipsum text will be created and displayed, ready for you to copy and use in your mockups." },
 
   // Image Tools
+  { name: 'Upscale an Image', description: 'increase the resolution from your PC, iPhone or Android device', category: 'Image Tools', instructions: "Enhance your images using AI. This tool increases the resolution of your image (2x) right in your browser, making it clearer and more detailed. Your data remains private as no uploads are required.\n1. Upload an image (JPG, PNG, etc.).\n2. Click the 'Upscale Image' button.\n3. The AI model will process your image. This may take a moment.\n4. A preview of the high-resolution image will appear.\n5. Click 'Download' to save your upscaled image." },
   { name: 'Remove Background From an Image', description: 'Easily Remove the Background from an image using AI, directly in your browser.', category: 'Image Tools', instructions: "This powerful tool uses an AI model that runs entirely on your device to remove the background from your images. Your photos are never uploaded to a server, ensuring your privacy.\n1. Upload an image (PNG, JPG, etc.).\n2. The tool will automatically process the image and remove the background.\n3. A preview of the image with a transparent background will be shown.\n4. Click 'Download PNG' to save your new background-free image." },
   { name: 'Image Resizer', description: 'Shrink or scale images without quality loss.', category: 'Image Tools', instructions: "Large images can slow down your website. Use this tool to resize images to the exact dimensions you need for web pages, profile pictures, or email attachments, helping your site load faster.\n1. Upload an image file (JPG, PNG, etc.).\n2. Enter your desired new width or height in pixels. Lock the aspect ratio to prevent the image from being stretched or distorted.\n3. Click 'Resize' to process the image.\n4. Download your perfectly resized image." },
   { name: 'Bulk Image Resizer', description: 'Allows resizing of multiple images in a single batch.', category: 'Image Tools', instructions: "Resizing many images one by one is tedious. This tool lets you resize a batch of images to the same dimensions all at once, saving you time when preparing photos for a gallery, blog post, or social media. Your privacy is protected as all processing happens in your browser.\n1. Upload multiple image files (JPG, PNG, etc.).\n2. Set your desired maximum width or height. The aspect ratio will be maintained by default.\n3. Click 'Resize Images' to process the entire batch.\n4. All your resized images will be bundled into a single ZIP file for easy download." },
@@ -239,6 +241,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return UuidGuidGenerator;
       
     // Image Tools
+    case 'upscale-an-image':
+        return UpscaleImage;
     case 'remove-background-from-an-image':
       return RemoveBackground;
     case 'image-resizer':
@@ -461,7 +465,6 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
     case 'image-to-pdf-converter': return JpgToPdfConverterIcon;
     case 'docx-to-pdf-converter': return DocxToTextExtractorIcon;
-    case 'compress-pdf-file-size': return FileArchiveIcon;
 
     // Text & List Tools
     case 'word-and-char-counter': return WordCounterIcon;
@@ -470,6 +473,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'lorem-ipsum-generator': return LoremIpsumGeneratorIcon;
 
     // Image Tools
+    case 'upscale-an-image': return ScalingIcon;
     case 'remove-background-from-an-image': return EraserIcon;
     case 'image-resizer': return ImageResizerIcon;
     case 'bulk-image-resizer': return BulkImageIcon;
@@ -530,12 +534,9 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-zoom-previewer-local': return ZoomInIcon;
     case 'image-histogram-viewer': return BarChart2Icon;
     case 'heic-to-png-converter': return FileCogIcon;
-      
-    default:
-      return WrenchIcon;
+    default: return WrenchIcon;
   }
 };
-
 
 export const ALL_TOOLS: Tool[] = allToolsRaw.map(tool => {
   const slug = slugify(tool.name);
@@ -552,102 +553,113 @@ export const CATEGORIES: Category[] = [
     slug: 'image-tools',
     name: 'Image Tools',
     shortDescription: 'Edit, convert, and optimize images for the web.',
-    description: 'A complete suite of tools to resize, compress, convert formats like JPG/PNG, and edit your images right in your browser.',
+    description: 'A comprehensive suite of tools for all your image needs. Resize, compress, convert formats, apply filters, and perform advanced edits without ever leaving your browser. All processing is done locally for maximum speed and privacy.',
     icon: 'https://i.imgur.com/2fSinTK.png',
     color: 'bg-orange-100',
     cardColor: 'bg-orange-500',
     accentColor: 'text-orange-600',
+    tools: ALL_TOOLS.filter(t => t.category === 'Image Tools'),
     userQuestions: [
-      'How do I resize or crop a picture?',
-      'How can I make an image file smaller?',
-      'How do I convert a JPG to a PNG (or vice versa)?',
-      'How can I add my logo or a watermark to a photo?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'Image Tools')
+      "How can I make my JPEG smaller?",
+      "How do I convert a PNG to a JPG?",
+      "Can I resize multiple images at once?",
+      "How do I add a watermark to my photos?",
+    ]
   },
   {
     slug: 'text-and-list-tools',
     name: 'Text & List Tools',
     shortDescription: 'Format, clean, and analyze text and lists with ease.',
-    description: 'Easily format text, count words, remove duplicate lines, and generate placeholder text for your writing and development projects.',
+    description: 'Manipulate text and lists effortlessly. Whether you need to count words, change capitalization, remove duplicate lines, or generate placeholder text, these tools have you covered.',
     icon: 'https://i.imgur.com/pWLz7Qk.png',
     color: 'bg-blue-100',
     cardColor: 'bg-blue-500',
     accentColor: 'text-blue-600',
-    userQuestions: [
-      'How do I count the words in my essay?',
-      'How can I remove duplicate lines from a list?',
-      'How do I change text to UPPERCASE or Title Case?',
-      'How can I generate placeholder text for a design?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'Text & List Tools')
+    tools: ALL_TOOLS.filter(t => t.category === 'Text & List Tools'),
+     userQuestions: [
+      "How do I convert text to uppercase?",
+      "Where can I find a word counter?",
+      "How to remove duplicate items from a list?",
+    ]
   },
   {
     slug: 'pdf-and-document-tools',
     name: 'PDF & Document Tools',
     shortDescription: 'Merge, split, secure, and convert your PDF documents.',
-    description: 'Effortlessly merge multiple PDFs into one, extract specific pages to create new documents, or convert PDFs to and from images.',
+    description: 'Manage your PDF and other documents directly in your browser. Merge multiple PDFs into one, extract specific pages, or convert between formats like PDF and JPG securely on your own device.',
     icon: 'https://i.imgur.com/fcPM5or.png',
     color: 'bg-green-100',
     cardColor: 'bg-green-500',
     accentColor: 'text-green-600',
-    userQuestions: [
-      'How do I combine multiple PDF files into one?',
-      'How can I extract just one page from a PDF?',
-      'How do I turn a PDF into a JPG image?',
-      'How can I make a PDF from a set of images?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools')
+    tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools'),
+     userQuestions: [
+      "How can I combine two PDF files?",
+      "How do I save a JPG as a PDF?",
+      "How to extract only one page from a PDF?",
+    ]
   },
   {
     slug: 'file-converters-and-utilities',
     name: 'File Converters & Utilities',
     shortDescription: 'Convert formats, merge files, and calculate checksums.',
-    description: 'Convert between common file formats like XLSX and CSV, merge multiple text files into a single document, or calculate file checksums to verify integrity.',
+    description: 'A versatile set of tools for various file types. Convert between spreadsheet formats like XLSX and CSV, merge text files, rename files in batches, and verify file integrity with checksum calculators.',
     icon: 'https://i.imgur.com/hCEBg9R.png',
     color: 'bg-purple-100',
     cardColor: 'bg-purple-500',
     accentColor: 'text-purple-600',
-    userQuestions: [
-      'How do I convert an Excel file to CSV?',
-      'How can I rename a batch of files at once?',
-      'How do I check if a file has been corrupted?',
-      'How can I merge several text files together?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities')
+    tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities'),
+     userQuestions: [
+      "How do I convert an Excel file to CSV?",
+      "Can I rename many files at once?",
+      "What is a file checksum and how do I find it?",
+    ]
   },
   {
     slug: 'calculators-and-time-tools',
     name: 'Calculators & Time Tools',
     shortDescription: 'Solve math, convert units, and generate passwords.',
-    description: 'A collection of handy calculators for percentages, date differences, unit conversions, and generating strong, secure passwords for your accounts.',
+    description: 'A collection of practical tools for everyday calculations. Quickly work out percentages, generate strong passwords, convert between different units of measurement, or find the duration between two dates.',
     icon: 'https://i.imgur.com/Aj5fAOO.png',
     color: 'bg-cyan-100',
     cardColor: 'bg-cyan-400',
     accentColor: 'text-cyan-600',
-    userQuestions: [
-      'How do I calculate a percentage?',
-      'How can I generate a secure password?',
-      'How do I convert meters to feet?',
-      'How many days are between two dates?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools')
+    tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools'),
+     userQuestions: [
+      "How to generate a secure password?",
+      "What is 15% of 80?",
+      "How many days are between two dates?",
+    ]
   },
   {
     slug: 'web-and-developer-tools',
     name: 'Web & Developer Tools',
     shortDescription: 'JSON, URL, hash, and code helpers for developers.',
-    description: 'Essential utilities for developers, including a JSON formatter, URL encoder/decoder, hash generator, and a QR code creator for your projects.',
+    description: 'A toolbox for web developers and programmers. Format JSON, encode or decode URLs and Base64 strings, generate hashes and UUIDs, convert colors, and create QR codes for your projects.',
     icon: 'https://i.imgur.com/2KCBdel.png',
     color: 'bg-indigo-100',
-    cardColor: 'bg-indigo-600',
+    cardColor: 'bg-indigo-500',
     accentColor: 'text-indigo-600',
-    userQuestions: [
-      'How do I make a QR code for my website?',
-      'How can I format my messy JSON code?',
-      'How do I encode a URL to be safe?',
-      'How can I convert a timestamp to a readable date?'
-    ],
-    tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools')
-  },
+    tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools'),
+     userQuestions: [
+      "How can I make a QR code for my website?",
+      "How to make messy JSON readable?",
+      "What is a Unix timestamp converter?",
+    ]
+  }
 ];
+
+// Fallback for tools without categories or other lookups
+const placeholderTools = ALL_TOOLS.filter(tool => !CATEGORIES.some(cat => cat.tools.includes(tool)));
+if(placeholderTools.length > 0) {
+    CATEGORIES.push({
+        slug: 'other',
+        name: 'Other Tools',
+        shortDescription: 'Various utilities.',
+        description: 'A collection of miscellaneous tools.',
+        icon: 'https://i.imgur.com/GtWkrQE.png',
+        color: 'bg-gray-100',
+        cardColor: 'bg-gray-400',
+        accentColor: 'text-gray-600',
+        tools: placeholderTools
+    });
+}

@@ -19,7 +19,8 @@
     "jspdf": "2.5.1",
     "fast-png": "6.1.0",
     "docx": "^9.5.1",
-    "@imgly/background-removal": "1.4.5"
+    "@imgly/background-removal": "1.4.5",
+    "upscaler": "1.0.0-beta.16"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

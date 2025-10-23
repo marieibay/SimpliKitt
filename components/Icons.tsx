@@ -827,6 +827,16 @@ export const EraserIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
+// FIX: Add missing ScalingIcon component to fix import error.
+export const ScalingIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path d="M12 3H5a2 2 0 0 0-2 2v7" />
+    <path d="M12 21h7a2 2 0 0 0 2-2v-7" />
+    <path d="M21 3v7" />
+    <path d="M3 21v-7" />
+  </IconWrapper>
+);
+
 export const DownloadIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
