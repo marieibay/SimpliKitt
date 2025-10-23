@@ -4,7 +4,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -100,6 +100,7 @@ import ImageLayerMerger from './tools/image/ImageLayerMerger';
 import ImageZoomPreviewer from './tools/image/ImageZoomPreviewer';
 import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
 import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
+import HeicToPngConverter from './tools/image/HeicToPngConverter';
 
 
 const slugify = (text: string) =>
@@ -213,6 +214,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image Layer Merger (2 Layers)', description: 'Merges two uploaded images with blend modes.', category: 'Image Tools', instructions: "Combine two images using different blend modes, similar to how layers work in programs like Photoshop. This allows for a variety of creative effects.\n1. Upload your 'Bottom Layer' image.\n2. Upload your 'Top Layer' image.\n3. Experiment with different 'Blend Modes' from the dropdown menu to see how they interact.\n4. Download the final merged image." },
   { name: 'Image Zoom Previewer (Local)', description: 'Allows zooming into a local image file for detail checking.', category: 'Image Tools', instructions: "This tool lets you inspect your images in high detail without needing any other software. You can zoom in and out, and pan around the image to check for quality or focus on specific areas.\n1. Upload any image file.\n2. Use your mouse wheel or pinch-to-zoom to adjust the zoom level.\n3. Click and drag (or use one finger on touch screens) to pan across the image." },
   { name: 'Image Histogram Viewer', description: 'Displays the color histogram of the uploaded image.', category: 'Image Tools', instructions: "A histogram is a graph that shows the distribution of colors and tones in an image. This technical tool is used by photographers and designers to analyze exposure and color balance.\n1. Upload an image.\n2. The tool will instantly generate and display the histograms for the Red, Green, Blue, and Luminosity channels." },
+  { name: 'HEIC to PNG Converter', description: 'Convert an iPhone HEIC image to PNG.', category: 'Image Tools', instructions: "HEIC is a modern image format used by iPhones, but it's not always compatible with other devices or software. This tool converts your HEIC files into the universally supported PNG format, right in your browser.\n1. Upload your .heic or .heif file.\n2. The tool will automatically convert the file to PNG.\n3. A download button for the new PNG file will appear." },
 ];
 
 const getComponentForTool = (slug: string): React.ComponentType => {
@@ -354,6 +356,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageZoomPreviewer;
     case 'image-histogram-viewer':
         return ImageHistogramViewer;
+    case 'heic-to-png-converter':
+        return HeicToPngConverter;
 
 
     // Text & List Tools
@@ -503,7 +507,6 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-tint-adjuster': return DropletIcon;
     case 'image-lightnessluminosity-adjuster': return SunIcon;
     case 'image-threshold-filter': return CircleSlashIcon;
-    case 'image-dithering-effect': return GridIcon;
     case 'image-to-css-background-generator': return Code2Icon;
     case 'image-metadata-remover': return FileXIcon;
     case 'image-dimension-checker': return MaximizeIcon;
@@ -521,6 +524,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-layer-merger-2-layers': return Layers2Icon;
     case 'image-zoom-previewer-local': return ZoomInIcon;
     case 'image-histogram-viewer': return BarChart2Icon;
+    case 'heic-to-png-converter': return FileCogIcon;
       
     default:
       return WrenchIcon;
