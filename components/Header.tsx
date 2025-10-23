@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CATEGORIES, ALL_TOOLS } from '../constants';
 import { Tool } from '../types';
 import { MenuIcon, CloseIcon } from './Icons';
+import { trackGtagEvent } from '../analytics';
 
 const Header: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,8 +47,12 @@ const Header: React.FC = () => {
     }
   }, [searchQuery]);
 
-  const handleResultClick = (slug: string) => {
-    navigate(`/tool/${slug}`);
+  const handleResultClick = (tool: Tool) => {
+    trackGtagEvent('tool_click', {
+      'tool_name': tool.name,
+      'tool_category': tool.category
+    });
+    navigate(`/tool/${tool.slug}`);
   };
 
   return (
@@ -87,7 +92,7 @@ const Header: React.FC = () => {
                     {searchResults.map(tool => (
                       <li key={tool.slug}>
                         <button
-                          onClick={() => handleResultClick(tool.slug)}
+                          onClick={() => handleResultClick(tool)}
                           className="w-full text-left px-4 py-3 hover:bg-gray-100 transition-colors"
                         >
                           <p className="font-semibold text-gray-800">{tool.name}</p>

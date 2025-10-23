@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent } from '../../analytics';
 
-// FIX: The type should be GlobalCompositeOperation[], not the keys of the string type itself.
 const blendModes: GlobalCompositeOperation[] = [
     'source-over', 'multiply', 'screen', 'overlay', 'darken', 'lighten',
     'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference', 'exclusion'
@@ -12,7 +11,6 @@ const blendModes: GlobalCompositeOperation[] = [
 const ImageLayerMerger: React.FC = () => {
     const [bottomLayer, setBottomLayer] = useState<HTMLImageElement | null>(null);
     const [topLayer, setTopLayer] = useState<HTMLImageElement | null>(null);
-    // FIX: The state type should be GlobalCompositeOperation to match the valid values.
     const [blendMode, setBlendMode] = useState<GlobalCompositeOperation>('overlay');
     const [resultUrl, setResultUrl] = useState('');
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,7 +61,6 @@ const ImageLayerMerger: React.FC = () => {
             <div className="flex justify-center"><canvas ref={canvasRef} className="max-w-full h-auto border" /></div>
             <div className="flex justify-center items-center gap-4">
                 <label>Blend Mode:</label>
-                {/* FIX: Cast event value to GlobalCompositeOperation. */}
                 <select value={blendMode} onChange={e => setBlendMode(e.target.value as GlobalCompositeOperation)} className="p-2 border rounded">
                     {blendModes.map(mode => <option key={mode} value={mode}>{mode}</option>)}
                 </select>

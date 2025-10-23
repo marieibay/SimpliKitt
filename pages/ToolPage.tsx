@@ -2,8 +2,9 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ALL_TOOLS, CATEGORIES } from '../constants';
-import { trackEvent } from '../analytics';
+import { trackEvent, trackGtagEvent } from '../analytics';
 import { updateMetaTags, resetMetaTags } from '../utils/meta';
+import { Tool } from '../types';
 
 const ToolPage: React.FC = () => {
   const { toolSlug } = useParams<{ toolSlug: string }>();
@@ -41,6 +42,13 @@ const ToolPage: React.FC = () => {
         .sort(() => 0.5 - Math.random()) // Shuffle to show different tools on each load
         .slice(0, 4)
     : [];
+    
+  const handleRelatedToolClick = (relatedTool: Tool) => {
+    trackGtagEvent('tool_click', {
+      'tool_name': relatedTool.name,
+      'tool_category': relatedTool.category
+    });
+  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -87,7 +95,7 @@ const ToolPage: React.FC = () => {
             {relatedTools.map(relatedTool => {
                 const { icon: RelatedIcon } = relatedTool;
                 return (
-                    <Link to={`/tool/${relatedTool.slug}`} key={relatedTool.slug} className="group block h-full">
+                    <Link to={`/tool/${relatedTool.slug}`} key={relatedTool.slug} className="group block h-full" onClick={() => handleRelatedToolClick(relatedTool)}>
                         <div className="flex flex-col h-full bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200/80 overflow-hidden text-center p-5 items-center justify-start">
                             <div className={`flex-shrink-0 w-12 h-12 ${category.color} rounded-lg flex items-center justify-center mb-3`}>
                             <RelatedIcon className={`w-7 h-7 ${category.accentColor}`} />
