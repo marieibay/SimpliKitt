@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
+import { loadScript } from '../../utils/meta';
 
 // Add type definitions for global libraries to satisfy TypeScript
 declare global {
@@ -16,18 +17,27 @@ interface ConvertedImage {
   filename: string;
 }
 
+const PDFJS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.mjs';
+
 const PdfToJpgConverter: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [convertedImages, setConvertedImages] = useState<ConvertedImage[]>([]);
   const [outputFormat, setOutputFormat] = useState<'jpeg' | 'png'>('jpeg');
   const [error, setError] = useState<string | null>(null);
+  const [isLibraryReady, setIsLibraryReady] = useState(false);
+  const [libraryError, setLibraryError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Set workerSrc for pdf.js safely after component mounts
-    if (window.pdfjsLib) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
-    }
+    loadScript(PDFJS_URL)
+        .then(() => {
+            const pdfjsLib = (window as any).pdfjsLib;
+            pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.mjs`;
+            setIsLibraryReady(true);
+        })
+        .catch(() => {
+            setLibraryError("PDF library failed to load. Please check your internet connection and refresh.");
+        });
   }, []);
 
   const handleFile = (selectedFile: File) => {
@@ -37,15 +47,11 @@ const PdfToJpgConverter: React.FC = () => {
   };
 
   const convertPdfToImages = async () => {
-    if (!file) {
+    if (!file || !isLibraryReady) {
       setError("Please upload a PDF file first.");
       return;
     }
-    if (!window.pdfjsLib) {
-      setError("PDF processing library failed to load. Please refresh and try again.");
-      return;
-    }
-
+    
     setIsProcessing(true);
     setError(null);
     setConvertedImages([]);
@@ -148,6 +154,18 @@ const PdfToJpgConverter: React.FC = () => {
     setError(null);
     setIsProcessing(false);
   };
+  
+  if (libraryError) {
+    return (
+      <div className="p-8 border-2 border-dashed border-red-300 rounded-lg text-center bg-red-50">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-red-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        <p className="mt-2 text-lg font-semibold text-red-700">Library Error</p>
+        <p className="text-sm text-red-600">{libraryError}</p>
+      </div>
+    )
+  }
 
   if (isProcessing) {
     return (
@@ -228,8 +246,8 @@ const PdfToJpgConverter: React.FC = () => {
               </div>
             </div>
             
-            <button onClick={convertPdfToImages} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition">
-              Convert to {outputFormat.toUpperCase()}
+            <button onClick={convertPdfToImages} disabled={!isLibraryReady} className="w-full px-8 py-3 bg-blue-600 text-white text-md font-bold rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed">
+              {isLibraryReady ? `Convert to ${outputFormat.toUpperCase()}` : 'Loading PDF Library...'}
             </button>
         </div>
     );

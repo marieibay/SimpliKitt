@@ -4,7 +4,7 @@ import { trackEvent, trackGtagEvent } from '../../analytics';
 
 declare global {
   interface Window {
-    docx: any;
+    mammoth: any;
     jspdf: any;
     html2canvas: any;
   }
@@ -20,7 +20,7 @@ const DocxToPdfConverter: React.FC = () => {
         setFile(selectedFile);
         setError(null);
 
-        if (!window.docx) {
+        if (!window.mammoth) {
             setError("DOCX preview library not loaded. Please refresh.");
             return;
         }
@@ -28,7 +28,7 @@ const DocxToPdfConverter: React.FC = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             if (previewRef.current) {
-                window.docx.renderAsync(e.target!.result, previewRef.current)
+                window.mammoth.renderAsync(e.target!.result, previewRef.current)
                     .then(() => console.log("DOCX rendered"))
                     .catch((err: any) => {
                         setError("Failed to render DOCX file. It may be corrupted or in an unsupported format.");
@@ -81,7 +81,7 @@ const DocxToPdfConverter: React.FC = () => {
                 <div className="space-y-4">
                     {error && <p className="text-red-500">{error}</p>}
                     <div className="p-4 border bg-gray-100 max-h-[70vh] overflow-y-auto">
-                        <div ref={previewRef} className="bg-white shadow-lg mx-auto" style={{width: '210mm', minHeight: '297mm', padding: '1in'}}></div>
+                        <div ref={previewRef} className="bg-white shadow-lg mx-auto prose" style={{width: '210mm', minHeight: '297mm', padding: '1in'}}></div>
                     </div>
                     <div className="text-center">
                         <button onClick={handleDownloadPdf} disabled={isProcessing} className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 disabled:bg-green-300">

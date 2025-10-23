@@ -15,10 +15,11 @@
     "react-router-dom": "^7.9.4",
     "react-dropzone": "^14.3.8",
     "xlsx": "latest",
-    "pdf-lib": "1.17.1",
+    "pdf-lib": "latest",
     "jspdf": "2.5.1",
     "fast-png": "6.1.0",
-    "docx": "^9.5.1"
+    "docx": "^9.5.1",
+    "@imgly/background-removal": "1.4.5"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

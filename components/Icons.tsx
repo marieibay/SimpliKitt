@@ -818,3 +818,25 @@ export const FileArchiveIcon: React.FC<{ className?: string }> = ({ className })
       <path d="M10 12h4" />
   </IconWrapper>
 );
+
+export const EraserIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21H7Z"/>
+    <path d="M22 21H7"/>
+    <path d="m5 12 5 5"/>
+  </IconWrapper>
+);
+
+export const DownloadIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <polyline points="7 10 12 15 17 10"/>
+    <line x1="12" y1="15" x2="12" y2="3"/>
+  </IconWrapper>
+);
+
+export const LoaderIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+  </IconWrapper>
+);

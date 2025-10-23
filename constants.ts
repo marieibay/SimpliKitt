@@ -4,7 +4,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -101,6 +101,7 @@ import ImageZoomPreviewer from './tools/image/ImageZoomPreviewer';
 import ImageHistogramViewer from './tools/image/ImageHistogramViewer';
 import DocxToPdfConverter from './tools/pdf/DocxToPdfConverter';
 import HeicToPngConverter from './tools/image/HeicToPngConverter';
+import RemoveBackground from './tools/image/RemoveBackground';
 
 
 const slugify = (text: string) =>
@@ -147,7 +148,6 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Image to PDF Converter', description: 'Combine multiple images into a single PDF.', category: 'PDF & Document Tools', instructions: "Compile photos, scans, or screenshots into a single, easy-to-share PDF document. This is ideal for creating photo albums, portfolios, or submitting scanned documents.\n1. Upload one or more image files (JPG, PNG, etc.).\n2. Drag and drop the images to reorder them as they should appear in the PDF.\n3. Adjust page size (e.g., A4, Letter) and orientation (Portrait, Landscape) as needed.\n4. Click 'Create PDF' and download your combined file." },
   { name: 'DOCX to PDF Converter', description: 'Converts DOCX files to a high-quality PDF, preserving layout and appearance much like a scanned document.', category: 'PDF & Document Tools', instructions: "This tool converts your Microsoft Word (.docx) documents into high-quality PDFs, preserving the original layout and appearance. It's ideal for sharing documents that look the same on every device.\n1. Upload your .docx file.\n2. The tool will generate a live preview of your document.\n3. Click 'Download as PDF' to save the final PDF file. Pagination is handled automatically." },
 
-
   // Text & List Tools
   { name: 'Word & Char Counter', description: 'Check content length for essays or tweets.', category: 'Text & List Tools', instructions: "Quickly get statistics on your text. This is essential for writers, students, and social media managers who need to meet specific length requirements.\n1. Paste or type your text into the text area.\n2. The tool will instantly and automatically update the counts for words, characters (with and without spaces), and paragraphs.\n3. No buttons are needed; the results update in real-time as you type." },
   { name: 'Case Converter', description: 'Instantly fix text capitalization.', category: 'Text & List Tools', instructions: "Easily change the capitalization of your text without having to retype it. Useful for formatting headlines, cleaning up data, or correcting accidental caps lock.\n1. Paste any text into the 'Input Text' box.\n2. Click a button to convert the text to your desired format: UPPERCASE, lowercase, Sentence case (first letter of each sentence capitalized), or Title Case (first letter of each word capitalized).\n3. The converted text will appear in the 'Output Text' box, ready to copy." },
@@ -155,6 +155,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Lorem Ipsum Generator', description: 'Generate placeholder text.', category: 'Text & List Tools', instructions: "Lorem Ipsum is standard placeholder text used in design and publishing to preview layouts before the final content is ready. It helps you focus on the design without being distracted by readable content.\n1. Specify the number of paragraphs of placeholder text you need.\n2. Click the 'Generate' button.\n3. The Lorem Ipsum text will be created and displayed, ready for you to copy and use in your mockups." },
 
   // Image Tools
+  { name: 'Remove Background From an Image', description: 'Easily Remove the Background from an image using AI, directly in your browser.', category: 'Image Tools', instructions: "This powerful tool uses an AI model that runs entirely on your device to remove the background from your images. Your photos are never uploaded to a server, ensuring your privacy.\n1. Upload an image (PNG, JPG, etc.).\n2. The tool will automatically process the image and remove the background.\n3. A preview of the image with a transparent background will be shown.\n4. Click 'Download PNG' to save your new background-free image." },
   { name: 'Image Resizer', description: 'Shrink or scale images without quality loss.', category: 'Image Tools', instructions: "Large images can slow down your website. Use this tool to resize images to the exact dimensions you need for web pages, profile pictures, or email attachments, helping your site load faster.\n1. Upload an image file (JPG, PNG, etc.).\n2. Enter your desired new width or height in pixels. Lock the aspect ratio to prevent the image from being stretched or distorted.\n3. Click 'Resize' to process the image.\n4. Download your perfectly resized image." },
   { name: 'Bulk Image Resizer', description: 'Allows resizing of multiple images in a single batch.', category: 'Image Tools', instructions: "Resizing many images one by one is tedious. This tool lets you resize a batch of images to the same dimensions all at once, saving you time when preparing photos for a gallery, blog post, or social media. Your privacy is protected as all processing happens in your browser.\n1. Upload multiple image files (JPG, PNG, etc.).\n2. Set your desired maximum width or height. The aspect ratio will be maintained by default.\n3. Click 'Resize Images' to process the entire batch.\n4. All your resized images will be bundled into a single ZIP file for easy download." },
   { name: 'Image Compressor', description: 'Reduce image file size with optimization.', category: 'Image Tools', instructions: "Significantly reduce the file size of your images with minimal loss in quality. This is one of the most effective ways to speed up your website's loading time.\n1. Upload a JPG or PNG image.\n2. Use the quality slider to adjust the compression level. A lower quality results in a smaller file size. You can see the file size change in real-time.\n3. Preview the result to ensure the quality is acceptable.\n4. Download your newly optimized image." },
@@ -238,6 +239,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return UuidGuidGenerator;
       
     // Image Tools
+    case 'remove-background-from-an-image':
+      return RemoveBackground;
     case 'image-resizer':
       return ImageResizer;
     case 'bulk-image-resizer':
@@ -458,6 +461,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
     case 'image-to-pdf-converter': return JpgToPdfConverterIcon;
     case 'docx-to-pdf-converter': return DocxToTextExtractorIcon;
+    case 'compress-pdf-file-size': return FileArchiveIcon;
 
     // Text & List Tools
     case 'word-and-char-counter': return WordCounterIcon;
@@ -466,6 +470,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'lorem-ipsum-generator': return LoremIpsumGeneratorIcon;
 
     // Image Tools
+    case 'remove-background-from-an-image': return EraserIcon;
     case 'image-resizer': return ImageResizerIcon;
     case 'bulk-image-resizer': return BulkImageIcon;
     case 'jpg-to-png-converter': return JpgPngConverterIcon;

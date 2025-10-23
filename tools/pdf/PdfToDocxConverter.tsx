@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as docx from 'docx';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
+import { loadScript } from '../../utils/meta';
 
 declare global {
   interface Window {
@@ -9,15 +10,31 @@ declare global {
   }
 }
 
+const PDFJS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.mjs';
+
 const PdfToDocxConverter: React.FC = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [docxUrl, setDocxUrl] = useState<string | null>(null);
     const [fileName, setFileName] = useState('');
+    const [isLibraryReady, setIsLibraryReady] = useState(false);
+    const [libraryError, setLibraryError] = useState<string | null>(null);
+
+    useEffect(() => {
+        loadScript(PDFJS_URL)
+            .then(() => {
+                const pdfjsLib = (window as any).pdfjsLib;
+                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.mjs`;
+                setIsLibraryReady(true);
+            })
+            .catch(() => {
+                setLibraryError("PDF library failed to load. Please check your internet connection and refresh.");
+            });
+    }, []);
 
     const handleFile = async (file: File) => {
-        if (!window.pdfjsLib) {
-            setError("PDF library not loaded. Please refresh.");
+        if (!isLibraryReady) {
+            setError("PDF library not ready. Please wait.");
             return;
         }
 
@@ -78,6 +95,18 @@ const PdfToDocxConverter: React.FC = () => {
         setDocxUrl(null);
         setFileName('');
     };
+    
+    if (libraryError) {
+      return (
+        <div className="p-8 border-2 border-dashed border-red-300 rounded-lg text-center bg-red-50">
+           <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 text-red-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+           </svg>
+          <p className="mt-2 text-lg font-semibold text-red-700">Library Error</p>
+          <p className="text-sm text-red-600">{libraryError}</p>
+        </div>
+      )
+    }
 
     if (docxUrl) {
          return (
@@ -107,6 +136,7 @@ const PdfToDocxConverter: React.FC = () => {
                     onFileUpload={handleFile}
                     acceptedMimeTypes={['application/pdf']}
                     title="Upload a PDF file"
+                    externalError={!isLibraryReady ? "Loading PDF library..." : null}
                 />
             )}
             {error && <p className="text-red-600 text-center">{error}</p>}
