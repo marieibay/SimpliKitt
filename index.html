@@ -14,6 +14,7 @@
     <meta property="og:description" content="A web-based suite of free, instant, and privacy-first digital tools. All tools run exclusively in your browser, ensuring your data remains private.">
     <meta property="og:image" content="https://i.imgur.com/qE5C45N.png">
 
+    
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://www.simplikitt.com/">
@@ -23,7 +24,24 @@
 
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     
+<!-- 🟢 ADD GOOGLE ANALYTICS HERE -->
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9MW3HR2QST"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'G-9MW3HR2QST');
+      
+      // Track hash changes for HashRouter
+      window.addEventListener('hashchange', function() {
+        gtag('config', 'G-9MW3HR2QST', {
+          'page_path': window.location.pathname + window.location.hash
+        });
+      });
+    </script>
+    <!-- End Google Analytics -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
