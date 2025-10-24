@@ -104,6 +104,7 @@ import RemoveBackground from './tools/image/RemoveBackground';
 import UpscaleImage from './tools/image/UpscaleImage';
 import CompressPdf from './tools/pdf/CompressPdf';
 import PdfToWordOcr from './tools/pdf/PdfToWordOcr';
+import ExtractTextFromImage from './tools/image/ExtractTextFromImage';
 
 
 const slugify = (text: string) =>
@@ -159,6 +160,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Lorem Ipsum Generator', description: 'Generate placeholder text.', category: 'Text & List Tools', instructions: "Lorem Ipsum is standard placeholder text used in design and publishing to preview layouts before the final content is ready. It helps you focus on the design without being distracted by readable content.\n1. Specify the number of paragraphs of placeholder text you need.\n2. Click the 'Generate' button.\n3. The Lorem Ipsum text will be created and displayed, ready for you to copy and use in your mockups." },
 
   // Image Tools
+  { name: 'Extract Text from Image', description: 'Use AI (OCR) to extract text from any image, directly in your browser.', category: 'Image Tools', instructions: "This tool uses Optical Character Recognition (OCR) to read and extract text from an image. All processing happens locally on your device for privacy.\n1. Upload an image file (PNG, JPG, etc.) containing text.\n2. Select the language of the text in the image.\n3. Click 'Extract Text' to begin the process.\n4. The AI model will analyze the image and display the extracted text in the box below.\n5. Copy the text for your use." },
   { name: 'Upscale an Image', description: 'increase the resolution from your PC, iPhone or Android device', category: 'Image Tools', instructions: "Enhance your images using AI. This tool increases the resolution of your image (2x, 4x, or 8x) right in your browser, making it clearer and more detailed. Your data remains private as no uploads are required.\n1. Upload an image file (JPG, PNG, etc.).\n2. Select your desired upscale factor (2x, 4x, or 8x) using the buttons.\n3. Click the 'Upscale Image' button to start the process.\n4. The AI model will process your image. Note that 4x and 8x upscaling involve multiple passes and will take longer.\n5. A preview of the high-resolution image will appear.\n6. Click 'Download Image' to save your upscaled image." },
   { name: 'Remove Background From an Image', description: 'Easily Remove the Background from an image using AI, directly in your browser.', category: 'Image Tools', instructions: "This tool offers two ways to remove a background. The AI method is powerful and works on any image, while the non-AI 'Remove by Color' method is instant and perfect for images with solid backgrounds.\n1. Upload an image (PNG, JPG, etc.).\n2. For complex photos, click 'Remove with AI'. The AI model, which runs entirely on your device, will automatically find and remove the background.\n3. For simple graphics or product shots on a solid background, click 'Remove by Color'. This method instantly makes all colors similar to the one in the top-left corner transparent. Use the 'Tolerance' slider to fine-tune the result.\n4. Click 'Download PNG' to save your new background-free image." },
   { name: 'Image Resizer', description: 'Shrink or scale images without quality loss.', category: 'Image Tools', instructions: "Large images can slow down your website. Use this tool to resize images to the exact dimensions you need for web pages, profile pictures, or email attachments, helping your site load faster.\n1. Upload an image file (JPG, PNG, etc.).\n2. Enter your desired new width or height in pixels. Lock the aspect ratio to prevent the image from being stretched or distorted.\n3. Click 'Resize' to process the image.\n4. Download your perfectly resized image." },
@@ -244,6 +246,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return UuidGuidGenerator;
       
     // Image Tools
+    case 'extract-text-from-image':
+        return ExtractTextFromImage;
     case 'upscale-an-image':
         return UpscaleImage;
     case 'remove-background-from-an-image':
@@ -482,6 +486,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'lorem-ipsum-generator': return LoremIpsumGeneratorIcon;
 
     // Image Tools
+    case 'extract-text-from-image': return FileScanIcon;
     case 'upscale-an-image': return ScalingIcon;
     case 'remove-background-from-an-image': return EraserIcon;
     case 'image-resizer': return ImageResizerIcon;

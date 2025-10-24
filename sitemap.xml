@@ -173,5 +173,5 @@
   <url><loc>https://www.simplikitt.com/#/tool/upscale-an-image</loc><lastmod>2025-10-21</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/compress-pdf-file-size</loc><lastmod>2025-10-21</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://www.simplikitt.com/#/tool/pdf-to-word-ocr</loc><lastmod>2025-10-21</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
-</urlset>--- END OF FILE ---
-The PDF to Word OCR tool is still failing. can you take a look at the file i just gave and apply that to the tool?
+  <url><loc>https://www.simplikitt.com/#/tool/extract-text-from-image</loc><lastmod>2025-10-21</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
+</urlset>
