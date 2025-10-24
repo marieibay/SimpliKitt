@@ -94,8 +94,6 @@ export const FileTypeCheckerIcon: React.FC<{ className?: string }> = ({ classNam
     </IconWrapper>
 );
 
-// FIX: Add all missing icon components that were causing import errors.
-
 export const WrenchIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.7-3.7a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0l-3.7 3.7z" />
@@ -827,7 +825,6 @@ export const EraserIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
-// FIX: Add missing ScalingIcon component to fix import error.
 export const ScalingIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path d="M12 3H5a2 2 0 0 0-2 2v7" />

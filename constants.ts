@@ -413,8 +413,6 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return DateDifferenceCalculator;
 
     // PDF Tools
-    case 'compress-pdf-file-size':
-        return CompressPdf;
     case 'merge-pdf':
       return MergePdf;
     case 'extract-pdf-pages':

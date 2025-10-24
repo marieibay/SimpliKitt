@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { PDFDocument, PageSizes } from 'pdf-lib';
@@ -109,7 +108,7 @@ const ImageToPdfConverter: React.FC = () => {
                         </div>
                         <div>
                             <label className="block text-sm font-medium">Orientation</label>
-                            <select value={orientation} onChange={e => setOrientation(e.target.value as any)} className="w-full p-2 mt-1 border-gray-300 rounded-md">
+                            <select value={orientation} onChange={e => setOrientation(e.target.value as 'portrait' | 'landscape')} className="w-full p-2 mt-1 border-gray-300 rounded-md">
                                 <option value="portrait">Portrait</option>
                                 <option value="landscape">Landscape</option>
                             </select>
