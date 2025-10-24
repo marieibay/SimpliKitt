@@ -1,18 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
-
-declare global {
-  interface Window {
-    heic2any: any;
-  }
-}
+import { LoaderIcon } from '../../components/Icons';
 
 const HeicToPngConverter: React.FC = () => {
+    const [isReady, setIsReady] = useState(false);
+    const [status, setStatus] = useState("Initializing...");
+    const [libError, setLibError] = useState('');
+
     const [originalFile, setOriginalFile] = useState<File | null>(null);
     const [convertedUrl, setConvertedUrl] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const heic2anyRef = useRef<any>(null);
+
+    useEffect(() => {
+        const loadLibrary = async () => {
+            try {
+                setStatus("Loading HEIC converter...");
+                const heic2anyModule = await import('heic2any');
+                heic2anyRef.current = heic2anyModule.default || heic2anyModule;
+                setIsReady(true);
+                setStatus("Ready");
+            } catch (err) {
+                console.error(err);
+                setStatus("Error loading library");
+                setLibError("Failed to load the HEIC library. Please refresh the page.");
+            }
+        };
+        loadLibrary();
+    }, []);
 
     const handleFile = (file: File) => {
         setOriginalFile(file);
@@ -22,7 +40,7 @@ const HeicToPngConverter: React.FC = () => {
     };
 
     const handleConvert = async (fileToConvert: File) => {
-        if (!window.heic2any) {
+        if (!heic2anyRef.current) {
             setError("Conversion library not loaded. Please refresh and try again.");
             return;
         }
@@ -30,7 +48,7 @@ const HeicToPngConverter: React.FC = () => {
         setError(null);
 
         try {
-            const conversionResult = await window.heic2any({
+            const conversionResult = await heic2anyRef.current({
                 blob: fileToConvert,
                 toType: "image/png",
             });
@@ -69,13 +87,21 @@ const HeicToPngConverter: React.FC = () => {
         return `${name}.png`;
     };
 
+    if (!isReady) {
+        return (
+            <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                <LoaderIcon className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Initializing Converter...</h2>
+                <p className="text-gray-600">{status}</p>
+                {libError && <p className="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{libError}</p>}
+            </div>
+        );
+    }
+
     if (isProcessing) {
         return (
             <div className="text-center p-8 border-2 border-dashed border-gray-200 rounded-lg">
-                <svg className="animate-spin h-10 w-10 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
+                <LoaderIcon className="w-10 h-10 text-blue-600 animate-spin mx-auto" />
                 <p className="text-lg font-semibold text-gray-700 mt-4">Converting your HEIC file...</p>
                 <p className="text-sm text-gray-500 mt-1">This may take a moment.</p>
             </div>

@@ -1,120 +1,148 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { trackEvent, trackGtagEvent } from '../../analytics';
-
-declare global {
-  interface Window {
-    QRCode: any;
-  }
-}
+import { LoaderIcon } from '../../components/Icons';
 
 const QrCodeGenerator: React.FC = () => {
-  const [text, setText] = useState('https://simplikitt.com');
-  const [size, setSize] = useState(256);
-  const [foregroundColor, setForegroundColor] = useState('#000000');
-  const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [isReady, setIsReady] = useState(false);
+    const [status, setStatus] = useState("Initializing...");
+    const [error, setError] = useState('');
+    
+    const [text, setText] = useState('https://simplikitt.com');
+    const [size, setSize] = useState(256);
+    const [foregroundColor, setForegroundColor] = useState('#000000');
+    const [backgroundColor, setBackgroundColor] = useState('#FFFFFF');
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const QRCodeRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (canvasRef.current && text) {
-      window.QRCode.toCanvas(canvasRef.current, text, {
-        width: size,
-        color: {
-          dark: foregroundColor,
-          light: backgroundColor,
-        },
-        errorCorrectionLevel: 'H',
-        margin: 2,
-      }, (error: Error | null) => {
-        if (error) console.error(error);
-      });
-    }
-  }, [text, size, foregroundColor, backgroundColor]);
+    useEffect(() => {
+        const loadLibrary = async () => {
+            try {
+                setStatus("Loading QR Code library...");
+                const qrcodeModule = await import('qrcode');
+                QRCodeRef.current = qrcodeModule.default || qrcodeModule;
+                setIsReady(true);
+                setStatus("Ready");
+            } catch (err) {
+                console.error(err);
+                setStatus("Error loading library");
+                setError("Failed to load the QR Code library. Please refresh the page.");
+            }
+        };
+        loadLibrary();
+    }, []);
 
-  const handleDownload = () => {
-    if (canvasRef.current) {
-      const link = document.createElement('a');
-      link.download = 'qrcode.png';
-      link.href = canvasRef.current.toDataURL('image/png');
-      link.click();
-      trackEvent('qr_code_downloaded', { size, textLength: text.length });
-      trackGtagEvent('tool_used', {
-        event_category: 'Web & Developer Tools',
-        event_label: 'QR Code Generator',
-        tool_name: 'qr-code-generator',
-        is_download: true,
-      });
-    }
-  };
+    useEffect(() => {
+        if (isReady && canvasRef.current && text) {
+            QRCodeRef.current.toCanvas(canvasRef.current, text, {
+                width: size,
+                color: {
+                    dark: foregroundColor,
+                    light: backgroundColor,
+                },
+                errorCorrectionLevel: 'H',
+                margin: 2,
+            }, (error: Error | null) => {
+                if (error) console.error(error);
+            });
+        }
+    }, [isReady, text, size, foregroundColor, backgroundColor]);
+
+    const handleDownload = () => {
+        if (canvasRef.current) {
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = canvasRef.current.toDataURL('image/png');
+            link.click();
+            trackEvent('qr_code_downloaded', { size, textLength: text.length });
+            trackGtagEvent('tool_used', {
+                event_category: 'Web & Developer Tools',
+                event_label: 'QR Code Generator',
+                tool_name: 'qr-code-generator',
+                is_download: true,
+            });
+        }
+    };
   
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-    if (e.target.value) {
-        trackEvent('qr_code_generated', { textLength: e.target.value.length });
+    const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setText(e.target.value);
+        if (e.target.value) {
+            trackEvent('qr_code_generated', { textLength: e.target.value.length });
+        }
     }
-  }
-
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div className="space-y-6">
-        <div>
-          <label htmlFor="qr-text" className="block text-sm font-medium text-gray-700 mb-1">
-            Text or URL
-          </label>
-          <textarea
-            id="qr-text"
-            rows={4}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
-            placeholder="Enter URL or text to encode..."
-            value={text}
-            onChange={handleTextChange}
-          />
-        </div>
-        
-        <div className="grid grid-cols-2 gap-4">
-            <div>
-                <label htmlFor="fg-color" className="block text-sm font-medium text-gray-700">Foreground Color</label>
-                <input type="color" id="fg-color" value={foregroundColor} onChange={(e) => setForegroundColor(e.target.value)} className="mt-1 w-full h-10 p-1 border border-gray-300 rounded-md cursor-pointer" />
+    
+    if (!isReady) {
+        return (
+            <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                <LoaderIcon className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Initializing Tool...</h2>
+                <p className="text-gray-600">{status}</p>
+                {error && <p className="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{error}</p>}
             </div>
-            <div>
-                <label htmlFor="bg-color" className="block text-sm font-medium text-gray-700">Background Color</label>
-                <input type="color" id="bg-color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} className="mt-1 w-full h-10 p-1 border border-gray-300 rounded-md cursor-pointer" />
+        );
+    }
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+                <div>
+                    <label htmlFor="qr-text" className="block text-sm font-medium text-gray-700 mb-1">
+                        Text or URL
+                    </label>
+                    <textarea
+                        id="qr-text"
+                        rows={4}
+                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition"
+                        placeholder="Enter URL or text to encode..."
+                        value={text}
+                        onChange={handleTextChange}
+                    />
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="fg-color" className="block text-sm font-medium text-gray-700">Foreground Color</label>
+                        <input type="color" id="fg-color" value={foregroundColor} onChange={(e) => setForegroundColor(e.target.value)} className="mt-1 w-full h-10 p-1 border border-gray-300 rounded-md cursor-pointer" />
+                    </div>
+                    <div>
+                        <label htmlFor="bg-color" className="block text-sm font-medium text-gray-700">Background Color</label>
+                        <input type="color" id="bg-color" value={backgroundColor} onChange={(e) => setBackgroundColor(e.target.value)} className="mt-1 w-full h-10 p-1 border border-gray-300 rounded-md cursor-pointer" />
+                    </div>
+                </div>
+
+                <div>
+                    <label htmlFor="size" className="block text-sm font-medium text-gray-700">Size: {size}px</label>
+                    <input 
+                    id="size"
+                    type="range" 
+                    min="128" 
+                    max="1024" 
+                    step="32"
+                    value={size} 
+                    onChange={(e) => setSize(parseInt(e.target.value, 10))}
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
+                    />
+                </div>
+                
+                <button
+                onClick={handleDownload}
+                disabled={!text}
+                className="w-full px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300 disabled:cursor-not-allowed"
+                >
+                Download QR Code
+                </button>
+            </div>
+
+            <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
+                {text ? (
+                    <canvas ref={canvasRef} className="max-w-full h-auto shadow-md" />
+                ) : (
+                    <div className="text-center text-gray-500">
+                        <p>Enter text to generate a QR code.</p>
+                    </div>
+                )}
             </div>
         </div>
-
-        <div>
-            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Size: {size}px</label>
-            <input 
-              id="size"
-              type="range" 
-              min="128" 
-              max="1024" 
-              step="32"
-              value={size} 
-              onChange={(e) => setSize(parseInt(e.target.value, 10))}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1"
-            />
-        </div>
-        
-        <button
-          onClick={handleDownload}
-          disabled={!text}
-          className="w-full px-5 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:bg-blue-300 disabled:cursor-not-allowed"
-        >
-          Download QR Code
-        </button>
-      </div>
-
-      <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg border">
-        {text ? (
-            <canvas ref={canvasRef} className="max-w-full h-auto shadow-md" />
-        ) : (
-            <div className="text-center text-gray-500">
-                <p>Enter text to generate a QR code.</p>
-            </div>
-        )}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default QrCodeGenerator;

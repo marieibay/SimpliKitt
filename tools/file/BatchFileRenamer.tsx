@@ -1,18 +1,37 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { trackEvent, trackGtagEvent } from '../../analytics';
-import { UploadIcon } from '../../components/Icons';
-
-declare global {
-  interface Window { JSZip: any; }
-}
+import { UploadIcon, LoaderIcon } from '../../components/Icons';
 
 const BatchFileRenamer: React.FC = () => {
+    const [isReady, setIsReady] = useState(false);
+    const [status, setStatus] = useState("Initializing...");
+    const [error, setError] = useState('');
+    
     const [files, setFiles] = useState<File[]>([]);
     const [prefix, setPrefix] = useState('renamed-');
     const [startNumber, setStartNumber] = useState(1);
     const [isProcessing, setIsProcessing] = useState(false);
     
+    const JSZipRef = useRef<any>(null);
+
+    useEffect(() => {
+        const loadLibrary = async () => {
+            try {
+                setStatus("Loading ZIP library...");
+                const jszipModule = await import('jszip');
+                JSZipRef.current = jszipModule.default || jszipModule;
+                setIsReady(true);
+                setStatus("Ready");
+            } catch (err) {
+                console.error(err);
+                setStatus("Error loading library");
+                setError("Failed to load the ZIP library. Please refresh the page.");
+            }
+        };
+        loadLibrary();
+    }, []);
+
     const onDrop = (acceptedFiles: File[]) => {
         setFiles(prev => [...prev, ...acceptedFiles]);
     };
@@ -27,12 +46,12 @@ const BatchFileRenamer: React.FC = () => {
     }, [files, prefix, startNumber]);
 
     const handleRename = async () => {
-        if (!window.JSZip) {
+        if (!JSZipRef.current) {
             alert("JSZip library not loaded. Please refresh.");
             return;
         }
         setIsProcessing(true);
-        const zip = new window.JSZip();
+        const zip = new JSZipRef.current();
         files.forEach((file, index) => {
             zip.file(newFilenames[index], file);
         });
@@ -42,6 +61,7 @@ const BatchFileRenamer: React.FC = () => {
         link.href = URL.createObjectURL(content);
         link.download = "renamed-files.zip";
         link.click();
+        URL.revokeObjectURL(link.href);
         
         trackEvent('batch_files_renamed', { count: files.length });
         trackGtagEvent('tool_used', {
@@ -53,6 +73,17 @@ const BatchFileRenamer: React.FC = () => {
         });
         setIsProcessing(false);
     };
+    
+    if (!isReady) {
+        return (
+            <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                <LoaderIcon className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Initializing Tool...</h2>
+                <p className="text-gray-600">{status}</p>
+                {error && <p className="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{error}</p>}
+            </div>
+        );
+    }
     
     return (
         <div className="space-y-6">

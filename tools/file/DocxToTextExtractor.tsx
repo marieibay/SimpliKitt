@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
-
-declare global {
-    interface Window { mammoth: any; }
-}
+import { LoaderIcon } from '../../components/Icons';
 
 const DocxToTextExtractor: React.FC = () => {
+    const [isReady, setIsReady] = useState(false);
+    const [status, setStatus] = useState("Initializing...");
+    const [libError, setLibError] = useState('');
+
     const [text, setText] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState('');
     const [copied, setCopied] = useState(false);
 
+    const mammothRef = useRef<any>(null);
+
+    useEffect(() => {
+        const loadLibrary = async () => {
+            try {
+                setStatus("Loading DOCX library...");
+                const mammothModule = await import('mammoth');
+                mammothRef.current = mammothModule.default || mammothModule;
+                setIsReady(true);
+                setStatus("Ready");
+            } catch (err) {
+                console.error(err);
+                setStatus("Error loading library");
+                setLibError("Failed to load the DOCX library. Please refresh the page.");
+            }
+        };
+        loadLibrary();
+    }, []);
+
     const handleFile = (file: File) => {
-        if (!window.mammoth) {
+        if (!mammothRef.current) {
             setError("Mammoth.js library not loaded. Please refresh.");
             return;
         }
@@ -21,7 +41,7 @@ const DocxToTextExtractor: React.FC = () => {
         setError('');
         const reader = new FileReader();
         reader.onload = (e) => {
-            window.mammoth.extractRawText({ arrayBuffer: e.target!.result })
+            mammothRef.current.extractRawText({ arrayBuffer: e.target!.result })
                 .then((result: any) => {
                     setText(result.value);
                     trackEvent('docx_text_extracted');
@@ -46,6 +66,17 @@ const DocxToTextExtractor: React.FC = () => {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+    
+    if (!isReady) {
+        return (
+            <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                <LoaderIcon className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Initializing Tool...</h2>
+                <p className="text-gray-600">{status}</p>
+                {libError && <p className="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{libError}</p>}
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">

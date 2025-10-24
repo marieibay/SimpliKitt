@@ -1,26 +1,57 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
+import { LoaderIcon } from '../../components/Icons';
 
-declare global {
-  interface Window {
-    mammoth: any;
-    jspdf: any;
-    html2canvas: any;
-  }
-}
 
 const DocxToPdfConverter: React.FC = () => {
+    const [isReady, setIsReady] = useState(false);
+    const [status, setStatus] = useState("Initializing...");
+    const [libError, setLibError] = useState<string | null>(null);
+
     const [file, setFile] = useState<File | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const previewRef = useRef<HTMLDivElement>(null);
+    
+    const mammothRef = useRef<any>(null);
+    const jspdfRef = useRef<any>(null);
+    const html2canvasRef = useRef<any>(null);
+
+    useEffect(() => {
+        const loadLibraries = async () => {
+            try {
+                setStatus("Loading document libraries...");
+                const [mammothModule, jspdfModule, html2canvasModule] = await Promise.all([
+                    import('mammoth'),
+                    import('jspdf'),
+                    import('html2canvas'),
+                ]);
+
+                mammothRef.current = mammothModule.default || mammothModule;
+                jspdfRef.current = jspdfModule;
+                html2canvasRef.current = html2canvasModule.default || html2canvasModule;
+
+                if (!mammothRef.current || !jspdfRef.current || !html2canvasRef.current) {
+                    throw new Error("One or more libraries failed to load correctly.");
+                }
+                
+                setIsReady(true);
+                setStatus("Ready");
+            } catch (err: any) {
+                console.error(err);
+                setLibError(err.message || "Failed to load required libraries. Please refresh.");
+                setStatus("Error");
+            }
+        };
+        loadLibraries();
+    }, []);
 
     const handleFile = (selectedFile: File) => {
         setFile(selectedFile);
         setError(null);
 
-        if (!window.mammoth) {
+        if (!mammothRef.current) {
             setError("DOCX preview library not loaded. Please refresh.");
             return;
         }
@@ -28,7 +59,7 @@ const DocxToPdfConverter: React.FC = () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             if (previewRef.current) {
-                window.mammoth.renderAsync(e.target!.result, previewRef.current)
+                mammothRef.current.renderAsync(e.target!.result, previewRef.current)
                     .then(() => console.log("DOCX rendered"))
                     .catch((err: any) => {
                         setError("Failed to render DOCX file. It may be corrupted or in an unsupported format.");
@@ -40,14 +71,14 @@ const DocxToPdfConverter: React.FC = () => {
     };
     
     const handleDownloadPdf = async () => {
-        if (!previewRef.current || !window.jspdf || !window.html2canvas) {
+        if (!previewRef.current || !jspdfRef.current || !html2canvasRef.current) {
              setError("PDF generation libraries not loaded. Please refresh.");
             return;
         }
         setIsProcessing(true);
         try {
-            const { jsPDF } = window.jspdf;
-            const canvas = await window.html2canvas(previewRef.current, { scale: 2 });
+            const { jsPDF } = jspdfRef.current;
+            const canvas = await html2canvasRef.current(previewRef.current, { scale: 2 });
             const imgData = canvas.toDataURL('image/png');
             
             const pdf = new jsPDF({
@@ -72,6 +103,17 @@ const DocxToPdfConverter: React.FC = () => {
             setIsProcessing(false);
         }
     };
+    
+    if (!isReady) {
+        return (
+            <div className="flex flex-col items-center justify-center bg-gray-50 p-6 rounded-lg border min-h-[300px]">
+                <LoaderIcon className="w-12 h-12 text-blue-600 animate-spin mb-6" />
+                <h2 className="text-xl font-bold text-gray-800 mb-2">Initializing Converter...</h2>
+                <p className="text-gray-600">{status}</p>
+                {libError && <p className="mt-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">{libError}</p>}
+            </div>
+        );
+    }
 
     return (
         <div className="space-y-6">

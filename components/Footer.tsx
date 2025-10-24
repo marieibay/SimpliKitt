@@ -6,6 +6,7 @@ import { CATEGORIES } from '../constants';
 const Footer: React.FC = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'Blog', path: 'https://simplikitt.blogspot.com/' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
     { name: 'Privacy Policy', path: '/privacy' },
@@ -28,13 +29,27 @@ const Footer: React.FC = () => {
           <div className="col-span-1">
              <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase">Navigate</h3>
               <ul className="mt-4 space-y-2">
-                {navLinks.map(link => (
-                  <li key={link.name}>
-                    <Link to={link.path} className="text-base text-gray-500 hover:text-gray-900">
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
+                {navLinks.map(link => {
+                  const isExternal = link.path.startsWith('http');
+                  return (
+                    <li key={link.name}>
+                      {isExternal ? (
+                        <a 
+                          href={link.path} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-base text-gray-500 hover:text-gray-900"
+                        >
+                          {link.name}
+                        </a>
+                      ) : (
+                        <Link to={link.path} className="text-base text-gray-500 hover:text-gray-900">
+                          {link.name}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
           </div>
            <div className="col-span-1">

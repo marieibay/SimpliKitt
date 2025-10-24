@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Category, Tool } from './types';
 import {
@@ -105,6 +106,7 @@ import UpscaleImage from './tools/image/UpscaleImage';
 import CompressPdf from './tools/pdf/CompressPdf';
 import PdfToWordOcr from './tools/pdf/PdfToWordOcr';
 import ExtractTextFromImage from './tools/image/ExtractTextFromImage';
+import AudioFormatConverter from './tools/file/AudioFormatConverter';
 
 
 const slugify = (text: string) =>
@@ -132,6 +134,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Date Difference Calculator', description: 'Calculate time between two dates.', category: 'Calculators & Time Tools', instructions: "Find the exact duration between two dates, which is useful for calculating ages, project timelines, or tracking milestones.\n1. Select a 'Start Date' from the calendar picker.\n2. Select an 'End Date' from the calendar picker.\n3. The tool will calculate and display the precise duration between the two dates, broken down into years, months, and days." },
   
   // File Converters & Utilities
+  { name: 'Audio Format Converter', description: 'Convert audio between WAV, MP3, FLAC, OGG, and AIFF. Supports most common input formats.', category: 'File Converters & Utilities', instructions: "Convert your audio files between a variety of formats like WAV, MP3, FLAC, OGG, and AIFF. All processing happens in your browser, keeping your files private.\n1. Upload your audio file (e.g., WAV, MP3, M4A, FLAC, etc.).\n2. Select your desired output format from the dropdown menu.\n3. Adjust format-specific settings like bitrate for MP3 or quality for OGG.\n4. Click 'Convert File' to begin the process.\n5. Your new audio file will be generated and a download button will appear." },
   { name: 'Excel (XLSX) to CSV Converter', description: 'Converts simple XLSX data to CSV.', category: 'File Converters & Utilities', instructions: "XLSX is a complex format for spreadsheets, while CSV (Comma-Separated Values) is a simple, plain-text format ideal for data exchange between different applications. This tool extracts the data from the first sheet of an Excel file.\n1. Drag and drop your .xlsx file or click to select it.\n2. The tool will process the first sheet of your file locally in your browser.\n3. A 'Download CSV' button will appear, allowing you to save the converted data." },
   { name: 'CSV to Excel (XLSX) Converter', description: 'Converts CSV to XLSX format.', category: 'File Converters & Utilities', instructions: "Convert your simple CSV data files into the more powerful XLSX format, allowing you to use Excel's features like formulas, charts, and formatting.\n1. Drag and drop your .csv file or click to select it.\n2. The tool will parse your CSV data and prepare it for Excel.\n3. Click the 'Download XLSX' button to save the data in a new Excel spreadsheet." },
   { name: 'TSV (Tab Separated) to CSV Converter', description: 'Converts tab-delimited text to comma-delimited.', category: 'File Converters & Utilities', instructions: "Quickly convert files that use tabs to separate values (TSV) into the more common comma-separated (CSV) format.\n1. Upload your .tsv or .txt file.\n2. The tool will instantly replace all tab characters with commas.\n3. Click 'Download CSV' to save your newly formatted file." },
@@ -385,6 +388,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return LoremIpsumGenerator;
 
     // File Converters
+    case 'audio-format-converter':
+      return AudioFormatConverter;
     case 'excel-xlsx-to-csv-converter':
       return XlsxToCsvConverter;
     case 'csv-to-excel-xlsx-converter':
@@ -458,6 +463,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'date-difference-calculator': return DateDifferenceCalculatorIcon;
     
     // File Converters & Utilities
+    case 'audio-format-converter': return WavesIcon;
     case 'excel-xlsx-to-csv-converter': return FileSpreadsheetIcon;
     case 'csv-to-excel-xlsx-converter': return FileSpreadsheetIcon;
     case 'tsv-tab-separated-to-csv-converter': return TsvToCsvIcon;

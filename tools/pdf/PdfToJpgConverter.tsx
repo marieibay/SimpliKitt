@@ -29,22 +29,29 @@ const PdfToJpgConverter: React.FC = () => {
   const [isLibraryReady, setIsLibraryReady] = useState(false);
   const [libraryError, setLibraryError] = useState<string | null>(null);
   const pdfjsLibRef = useRef<any>(null);
+  const jszipRef = useRef<any>(null);
+
 
   useEffect(() => {
     const loadLibrary = async () => {
       try {
-        const pdfjsModule = await import(/* @vite-ignore */ PDFJS_URL);
+        const [pdfjsModule, jszipModule] = await Promise.all([
+            import(/* @vite-ignore */ PDFJS_URL),
+            import('jszip')
+        ]);
         const pdfjsLib = pdfjsModule.default || pdfjsModule;
+        jszipRef.current = jszipModule.default || jszipModule;
 
-        if (!pdfjsLib || !pdfjsLib.getDocument) {
-            throw new Error("PDF library loaded but is not in the expected format.");
+
+        if (!pdfjsLib || !pdfjsLib.getDocument || !jszipRef.current) {
+            throw new Error("A required library loaded but is not in the expected format.");
         }
         pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
         pdfjsLibRef.current = pdfjsLib;
         setIsLibraryReady(true);
       } catch(err) {
         console.error(err);
-        setLibraryError("PDF library failed to load. Please check your internet connection and refresh.");
+        setLibraryError("A required library failed to load. Please check your internet connection and refresh.");
       }
     };
     loadLibrary();
@@ -119,12 +126,8 @@ const PdfToJpgConverter: React.FC = () => {
   };
   
   const handleDownloadAllAsZip = async () => {
-    if (convertedImages.length === 0) return;
-    const JSZip = (window as any).JSZip;
-    if (!JSZip) {
-        setError("ZIP compression library failed to load. Please refresh and try again.");
-        return;
-    }
+    if (convertedImages.length === 0 || !jszipRef.current) return;
+    const JSZip = jszipRef.current;
 
     const zip = new JSZip();
     
