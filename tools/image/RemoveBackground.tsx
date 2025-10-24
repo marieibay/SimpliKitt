@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { trackGtagEvent } from '../../analytics';
 import { UploadIcon, DownloadIcon, CloseIcon, LoaderIcon } from '../../components/Icons';
 
 const RemoveBackground: React.FC = () => {
     const [originalImage, setOriginalImage] = useState<string | null>(null);
+    const [originalImageElement, setOriginalImageElement] = useState<HTMLImageElement | null>(null);
     const [processedImage, setProcessedImage] = useState<string | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [progress, setProgress] = useState('');
@@ -11,6 +13,9 @@ const RemoveBackground: React.FC = () => {
     
     const [isModelReady, setIsModelReady] = useState(false);
     const [modelProgress, setModelProgress] = useState(0);
+
+    const [tolerance, setTolerance] = useState(20);
+    const [showColorOptions, setShowColorOptions] = useState(false);
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const removeBackgroundRef = useRef<any>(null);
@@ -51,14 +56,19 @@ const RemoveBackground: React.FC = () => {
 
         const reader = new FileReader();
         reader.onload = (event) => {
-            setOriginalImage(event.target!.result as string);
+            const img = new Image();
+            img.onload = () => setOriginalImageElement(img);
+            const url = event.target!.result as string;
+            img.src = url;
+            setOriginalImage(url);
             setProcessedImage(null);
             setError('');
+            setShowColorOptions(false);
         };
         reader.readAsDataURL(file);
     };
 
-    const processImage = async () => {
+    const processWithAI = async () => {
         if (!originalImage || !isModelReady || isProcessing) return;
 
         setIsProcessing(true);
@@ -82,6 +92,7 @@ const RemoveBackground: React.FC = () => {
                 'tool_name': 'Remove Background From an Image',
                 'tool_category': 'Image Tools',
                 'is_download': true,
+                'method': 'ai',
             });
 
             const reader = new FileReader();
@@ -100,6 +111,46 @@ const RemoveBackground: React.FC = () => {
         }
     };
 
+    const processWithColor = () => {
+        if (!originalImageElement) return;
+        setIsProcessing(true);
+        const canvas = document.createElement('canvas');
+        canvas.width = originalImageElement.width;
+        canvas.height = originalImageElement.height;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        if (!ctx) return;
+
+        ctx.drawImage(originalImageElement, 0, 0);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        
+        // Use top-left pixel as the color key
+        const rKey = data[0];
+        const gKey = data[1];
+        const bKey = data[2];
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            const distance = Math.sqrt((r - rKey)**2 + (g - gKey)**2 + (b - bKey)**2);
+            if (distance < tolerance) {
+                data[i + 3] = 0; // Set alpha to 0
+            }
+        }
+        ctx.putImageData(imageData, 0, 0);
+        setProcessedImage(canvas.toDataURL('image/png'));
+        setShowColorOptions(true);
+        setIsProcessing(false);
+        trackGtagEvent('tool_used', {
+            'tool_name': 'Remove Background From an Image',
+            'tool_category': 'Image Tools',
+            'is_download': true,
+            'method': 'color_key',
+            'tolerance': tolerance,
+        });
+    }
+
     const handleDownload = () => {
         if (!processedImage) return;
         const link = document.createElement('a');
@@ -110,9 +161,11 @@ const RemoveBackground: React.FC = () => {
 
     const handleReset = () => {
         setOriginalImage(null);
+        setOriginalImageElement(null);
         setProcessedImage(null);
         setProgress('');
         setError('');
+        setShowColorOptions(false);
         if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
@@ -171,20 +224,34 @@ const RemoveBackground: React.FC = () => {
                             </div>
                         </div>
                     </div>
+
+                    {showColorOptions && (
+                        <div className="bg-gray-50 p-4 rounded-lg border space-y-2">
+                            <label className="text-sm font-medium">Tolerance: {tolerance}</label>
+                            <input type="range" min="0" max="200" value={tolerance} onChange={e => { setTolerance(+e.target.value); processWithColor(); }} className="w-full" />
+                        </div>
+                    )}
+
                     <div className="flex gap-3 justify-center flex-wrap pt-4 border-t">
-                        {!processedImage && !isProcessing && (
-                            <button onClick={processImage} className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition">
-                                ✨ Remove Background
+                        {processedImage ? (
+                            <>
+                                <button onClick={handleDownload} className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition flex items-center gap-2">
+                                    <DownloadIcon className="w-5 h-5" /> Download PNG
+                                </button>
+                                <button onClick={handleReset} className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition flex items-center gap-2">
+                                    <CloseIcon className="w-5 h-5" /> Start Over
+                                </button>
+                            </>
+                        ) : !isProcessing && (
+                           <>
+                             <button onClick={processWithAI} className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold shadow hover:bg-blue-700 transition">
+                                ✨ Remove with AI (Best Quality)
                             </button>
-                        )}
-                        {processedImage && (
-                            <button onClick={handleDownload} className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition flex items-center gap-2">
-                                <DownloadIcon className="w-5 h-5" /> Download PNG
+                             <button onClick={processWithColor} className="px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold shadow hover:bg-teal-700 transition">
+                                🎨 Remove by Color (Fastest)
                             </button>
+                           </>
                         )}
-                        <button onClick={handleReset} className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition flex items-center gap-2">
-                            <CloseIcon className="w-5 h-5" /> Start Over
-                        </button>
                     </div>
                 </div>
             )}
