@@ -3,15 +3,12 @@ import { PDFDocument } from 'pdf-lib';
 import FileUpload from '../../components/FileUpload';
 import { trackGtagEvent } from '../../analytics';
 import { LoaderIcon, InfoIcon } from '../../components/Icons';
-import { loadScript } from '../../utils/meta';
 
 type QualityLevel = 'low' | 'medium' | 'high';
 
-declare global {
-  interface Window {
-    pdfjsLib: any;
-  }
-}
+const PDFJS_VERSION = "4.3.136";
+const PDFJS_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
+const PDFJS_WORKER_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
 
 const qualitySettings = {
   low: { scale: 1.0, quality: 0.5 },
@@ -32,13 +29,13 @@ const CompressPdf: React.FC = () => {
     useEffect(() => {
         const loadLibrary = async () => {
             try {
-                await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js');
-                const pdfjsLib = window.pdfjsLib;
+                const pdfjsModule = await import(/* @vite-ignore */ PDFJS_URL);
+                const pdfjsLib = pdfjsModule.default || pdfjsModule;
 
                 if (!pdfjsLib || !pdfjsLib.getDocument) {
                     throw new Error("PDF library loaded but is not in the expected format.");
                 }
-                pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
+                pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER_URL;
                 pdfjsLibRef.current = pdfjsLib;
                 setIsLibraryReady(true);
             } catch (err) {

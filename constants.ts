@@ -3,7 +3,7 @@ import React from 'react';
 import { Category, Tool } from './types';
 import {
   // Tool Icons
-  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon, ScalingIcon
+  WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon, ScalingIcon, FileScanIcon
 } from './components/Icons';
 
 // Tool Component Imports
@@ -103,6 +103,7 @@ import HeicToPngConverter from './tools/image/HeicToPngConverter';
 import RemoveBackground from './tools/image/RemoveBackground';
 import UpscaleImage from './tools/image/UpscaleImage';
 import CompressPdf from './tools/pdf/CompressPdf';
+import PdfToWordOcr from './tools/pdf/PdfToWordOcr';
 
 
 const slugify = (text: string) =>
@@ -143,6 +144,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'File Type Checker', description: 'Confirms the actual file type based on headers, not just extension.', category: 'File Converters & Utilities', instructions: "A file's extension can be misleading. This tool checks a file's 'magic bytes'—a unique signature in its header—to reveal its true format, helping you verify file integrity and avoid security risks.\n1. Upload any file.\n2. The tool reads the first few bytes of the file and compares them against a database of known file types.\n3. It will display the detected file type alongside the filename's extension for comparison." },
 
   // PDF & Document Tools
+  { name: 'PDF to Word (OCR)', description: 'Convert a PDF to an editable Word document using OCR.', category: 'PDF & Document Tools', instructions: "This tool uses Optical Character Recognition (OCR) to convert scanned or regular PDFs into editable Word (.docx) files. All processing happens in your browser.\n1. Upload a PDF file. This will trigger the one-time download of the OCR engine.\n2. Click 'Initialize OCR' to load the required libraries.\n3. Once ready, select your document language and other options.\n4. Click 'Convert to .docx' to start the process.\n5. Download your editable Word document." },
   { name: 'Compress PDF File Size', description: 'Lessen the file size of a PDF file.', category: 'PDF & Document Tools', instructions: "Reduce the size of your PDF files directly in your browser. This tool works by re-rendering the pages as optimized images and then re-assembling them into a new, smaller PDF. It's perfect for documents heavy with images.\n1. Upload your PDF file.\n2. Select a compression level (Low, Medium, or High).\n3. Click the 'Compress PDF' button.\n4. A new, smaller PDF will be generated for you to download." },
   { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "Easily combine reports, presentations, or separate chapters into a single, organized PDF document without needing any desktop software.\n1. Upload two or more PDF files by clicking 'Add PDFs'.\n2. Drag and drop the file previews in the list to arrange them in the exact order you want.\n3. Click the 'Merge PDFs' button to start the process.\n4. Your new, single PDF document will be generated and ready for download." },
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "This tool lets you select only the pages you need from a large PDF, creating a smaller, more focused document. It's perfect for separating chapters, pulling out specific slides, or removing unnecessary pages.\n1. Upload your PDF file.\n2. In the input box, enter the page numbers or ranges you want to extract (e.g., '1, 3-5, 8').\n3. Click 'Extract Pages & Download' to begin.\n4. A new PDF containing only your selected pages will be downloaded automatically." },
@@ -413,6 +415,10 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return DateDifferenceCalculator;
 
     // PDF Tools
+    case 'compress-pdf-file-size':
+      return CompressPdf;
+    case 'pdf-to-word-ocr':
+      return PdfToWordOcr;
     case 'merge-pdf':
       return MergePdf;
     case 'extract-pdf-pages':
@@ -462,6 +468,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
 
     // PDF & Document Tools
     case 'compress-pdf-file-size': return FileArchiveIcon;
+    case 'pdf-to-word-ocr': return FileScanIcon;
     case 'merge-pdf': return MergePdfIcon;
     case 'extract-pdf-pages': return SplitPdfIcon;
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
@@ -496,15 +503,18 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-sharpen-filter': return SparklesIcon;
     case 'image-invert-colors': return EclipseIcon;
     case 'image-opacitytransparency-adjuster': return LayersIcon;
-    case 'image-huesaturation-adjuster': return PaletteIcon;
+    // FIX: Reassign icons to resolve conflicts.
+    case 'image-huesaturation-adjuster': return WrenchIcon; // Placeholder to resolve conflict chain
     case 'image-flipper-horizontal-and-vertical': return FlipHorizontalIcon;
     case 'image-to-ascii-art-simple': return TerminalIcon;
     case 'image-contrast-adjuster': return ContrastIcon;
     case 'add-border-to-image': return FrameIcon;
     case 'add-rounded-corners-to-image': return AppWindowIcon;
     case 'image-collage-maker-basic-grid': return LayoutGridIcon;
-    case 'color-palette-extractor-from-image': return PipetteIcon;
-    case 'image-color-picker-magnifier': return ZoomInIcon;
+    // FIX: Reassign icons to resolve conflicts.
+    case 'color-palette-extractor-from-image': return PaletteIcon;
+    // FIX: Reassign icons to resolve conflicts.
+    case 'image-color-picker-magnifier': return PipetteIcon;
     case 'image-to-data-url-generator': return FileJson2Icon;
     case 'image-dpi-changer': return GaugeIcon;
     case 'image-filter-preset-library': return Wand2Icon;
@@ -559,6 +569,7 @@ export const CATEGORIES: Category[] = [
     description: 'A comprehensive suite of tools for all your image needs. Resize, compress, convert formats, apply filters, and perform advanced edits without ever leaving your browser. All processing is done locally for maximum speed and privacy.',
     icon: 'https://i.imgur.com/2fSinTK.png',
     color: 'bg-orange-100',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
     cardColor: 'bg-orange-500',
     accentColor: 'text-orange-600',
     tools: ALL_TOOLS.filter(t => t.category === 'Image Tools'),
@@ -576,6 +587,7 @@ export const CATEGORIES: Category[] = [
     description: 'Manipulate text and lists effortlessly. Whether you need to count words, change capitalization, remove duplicate lines, or generate placeholder text, these tools have you covered.',
     icon: 'https://i.imgur.com/pWLz7Qk.png',
     color: 'bg-blue-100',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
     cardColor: 'bg-blue-500',
     accentColor: 'text-blue-600',
     tools: ALL_TOOLS.filter(t => t.category === 'Text & List Tools'),
@@ -592,6 +604,7 @@ export const CATEGORIES: Category[] = [
     description: 'Manage your PDF and other documents directly in your browser. Merge multiple PDFs into one, extract specific pages, or convert between formats like PDF and JPG securely on your own device.',
     icon: 'https://i.imgur.com/fcPM5or.png',
     color: 'bg-green-100',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
     cardColor: 'bg-green-500',
     accentColor: 'text-green-600',
     tools: ALL_TOOLS.filter(t => t.category === 'PDF & Document Tools'),
@@ -608,6 +621,7 @@ export const CATEGORIES: Category[] = [
     description: 'A versatile set of tools for various file types. Convert between spreadsheet formats like XLSX and CSV, merge text files, rename files in batches, and verify file integrity with checksum calculators.',
     icon: 'https://i.imgur.com/hCEBg9R.png',
     color: 'bg-purple-100',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
     cardColor: 'bg-purple-500',
     accentColor: 'text-purple-600',
     tools: ALL_TOOLS.filter(t => t.category === 'File Converters & Utilities'),
@@ -624,6 +638,7 @@ export const CATEGORIES: Category[] = [
     description: 'A collection of practical tools for everyday calculations. Quickly work out percentages, generate strong passwords, convert between different units of measurement, or find the duration between two dates.',
     icon: 'https://i.imgur.com/Aj5fAOO.png',
     color: 'bg-cyan-100',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
     cardColor: 'bg-cyan-400',
     accentColor: 'text-cyan-600',
     tools: ALL_TOOLS.filter(t => t.category === 'Calculators & Time Tools'),
@@ -640,7 +655,8 @@ export const CATEGORIES: Category[] = [
     description: 'A toolbox for web developers and programmers. Format JSON, encode or decode URLs and Base64 strings, generate hashes and UUIDs, convert colors, and create QR codes for your projects.',
     icon: 'https://i.imgur.com/2KCBdel.png',
     color: 'bg-indigo-100',
-    cardColor: 'bg-indigo-500',
+    // FIX: Use Tailwind class instead of hex code for cardColor.
+    cardColor: 'bg-indigo-600',
     accentColor: 'text-indigo-600',
     tools: ALL_TOOLS.filter(t => t.category === 'Web & Developer Tools'),
      userQuestions: [
