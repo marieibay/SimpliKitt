@@ -90,9 +90,12 @@ const ToolPage: React.FC = () => {
             {relatedTools.map(relatedTool => {
                 return (
                     <Link to={`/tool/${relatedTool.slug}`} key={relatedTool.slug} className="group block h-full" onClick={() => handleRelatedToolClick(relatedTool)}>
-                        <div className="flex flex-col h-full bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200/80 overflow-hidden text-center p-5 items-center justify-start">
-                            <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors leading-tight">{relatedTool.name}</h3>
-                            <p className="mt-2 text-xs text-gray-500">{relatedTool.description}</p>
+                        <div className="flex flex-col h-full bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200/80 overflow-hidden">
+                            <div className={`h-1.5 ${category.cardColor}`} />
+                            <div className="text-center p-5 flex-grow flex flex-col items-center justify-start">
+                                <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors leading-tight">{relatedTool.name}</h3>
+                                <p className="mt-2 text-xs text-gray-500">{relatedTool.description}</p>
+                            </div>
                         </div>
                     </Link>
                 )
