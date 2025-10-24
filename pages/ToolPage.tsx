@@ -34,7 +34,7 @@ const ToolPage: React.FC = () => {
   }
 
   const category = CATEGORIES.find(c => c.name === tool.category);
-  const { name, description, component: ToolComponent, icon: ToolIcon, instructions } = tool;
+  const { name, description, component: ToolComponent, instructions } = tool;
 
   const relatedTools = category
     ? category.tools
@@ -59,11 +59,6 @@ const ToolPage: React.FC = () => {
             </Link>
         )}
         <div className="flex justify-center items-center gap-3">
-          {category && ToolIcon && (
-            <div className={`w-12 h-12 ${category.color} rounded-lg flex items-center justify-center`}>
-              <ToolIcon className={`w-7 h-7 ${category.accentColor}`} />
-            </div>
-          )}
           <h1 className="text-4xl font-extrabold text-gray-900">{name}</h1>
         </div>
         <p className="mt-4 text-lg text-gray-600">{description}</p>
@@ -93,13 +88,9 @@ const ToolPage: React.FC = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">You Might Also Like</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedTools.map(relatedTool => {
-                const { icon: RelatedIcon } = relatedTool;
                 return (
                     <Link to={`/tool/${relatedTool.slug}`} key={relatedTool.slug} className="group block h-full" onClick={() => handleRelatedToolClick(relatedTool)}>
                         <div className="flex flex-col h-full bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200/80 overflow-hidden text-center p-5 items-center justify-start">
-                            <div className={`flex-shrink-0 w-12 h-12 ${category.color} rounded-lg flex items-center justify-center mb-3`}>
-                            <RelatedIcon className={`w-7 h-7 ${category.accentColor}`} />
-                            </div>
                             <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors leading-tight">{relatedTool.name}</h3>
                             <p className="mt-2 text-xs text-gray-500">{relatedTool.description}</p>
                         </div>

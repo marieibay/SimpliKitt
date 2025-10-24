@@ -13,8 +13,6 @@
 // ------------------------------------------------------------------
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import FileUpload from "../../components/FileUpload";
-import { InfoIcon, LoaderIcon } from "../../components/Icons";
 
 const PDFJS_VERSION = "4.6.82";
 const PDFJS_MJS = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
