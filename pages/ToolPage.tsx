@@ -59,7 +59,7 @@ const ToolPage: React.FC = () => {
             </Link>
         )}
         <div className="flex justify-center items-center gap-3">
-          <h1 className="text-4xl font-extrabold text-gray-900">{name}</h1>
+          <h1 className="text-5xl font-extrabold text-gray-900">{name}</h1>
         </div>
         <p className="mt-4 text-lg text-gray-600">{description}</p>
       </div>

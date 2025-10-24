@@ -25,7 +25,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool, category }) => {
         <div className={`h-1.5 ${cardColor}`} />
         <div className="p-5 flex-grow">
           <div>
-            <h3 className="text-base font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{name}</h3>
+            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{name}</h3>
             <p className="text-sm text-gray-500 mt-1">{description}</p>
           </div>
         </div>
