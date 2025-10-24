@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
 import { LoaderIcon, InfoIcon } from '../../components/Icons';
+import { loadScript } from '../../utils/meta';
 
 declare global {
   interface Window {
     JSZip: any;
+    pdfjsLib: any;
   }
 }
 
@@ -28,11 +30,13 @@ const PdfToJpgConverter: React.FC = () => {
   useEffect(() => {
     const loadLibrary = async () => {
       try {
-        const pdfjsLib = await import('pdfjs-dist');
+        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js');
+        const pdfjsLib = window.pdfjsLib;
+
         if (!pdfjsLib || !pdfjsLib.getDocument) {
             throw new Error("PDF library loaded but is not in the expected format.");
         }
-        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.mjs`;
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.worker.min.js`;
         pdfjsLibRef.current = pdfjsLib;
         setIsLibraryReady(true);
       } catch(err) {
