@@ -5,6 +5,7 @@ import { Category, Tool } from './types';
 import {
   // Tool Icons
   WrenchIcon, JsonFormatterIcon, UrlEncoderDecoderIcon, TimestampConverterIcon, Base64EncoderDecoderIcon, HashGeneratorIcon, ColorConverterIcon, UuidGeneratorIcon, PercentageCalculatorIcon, PasswordGeneratorIcon, UnitConverterIcon, DateDifferenceCalculatorIcon, FileSpreadsheetIcon, FileMergerIcon, FileChecksumCalculatorIcon, MergePdfIcon, SplitPdfIcon, PdfToJpgConverterIcon, JpgToPdfConverterIcon, WordCounterIcon, CaseConverterIcon, DuplicateLineRemoverIcon, LoremIpsumGeneratorIcon, ImageResizerIcon, JpgPngConverterIcon, ImageCompressorIcon, ImageToBase64Icon, QrCodeIcon, PngToSvgIcon, TsvToCsvIcon, BatchFileRenamerIcon, FileExtensionChangerIcon, DocxToTextExtractorIcon, PptxToTextExtractorIcon, FileSizeConverterIcon, FileTypeCheckerIcon, CropIcon, BulkImageIcon, ShrinkIcon, BinaryIcon, ContrastIcon, BulkImageConversionIcon, ShieldCheckIcon, RotateCwIcon, EyeOffIcon, CameraIcon, SparklesIcon, EclipseIcon, LayersIcon, PaletteIcon, FlipHorizontalIcon, TerminalIcon, PipetteIcon, ZoomInIcon, FrameIcon, AppWindowIcon, LayoutGridIcon, FileJson2Icon, GaugeIcon, Wand2Icon, TypeIcon, CheckSquareIcon, GridIcon, FileImageIcon, FlipVertical2Icon, Move3dIcon, DropletIcon, SunIcon, CircleSlashIcon, Code2Icon, FileXIcon, MaximizeIcon, PinIcon, ExpandIcon, OrbitIcon, WavesIcon, FileCode2Icon, RefreshCcwIcon, BoxSelectIcon, CircleHalfIcon, LayoutDashboardIcon, Paintbrush2Icon, PictureInPicture2Icon, Layers2Icon, BarChart2Icon, FileCogIcon, FileArchiveIcon, EraserIcon, ScalingIcon, FileScanIcon, Trash2Icon,
+  PenLineIcon,
   ScissorsIcon
 } from './components/Icons';
 
@@ -110,6 +111,7 @@ import PdfToWordOcr from './tools/pdf/PdfToWordOcr';
 import ExtractTextFromImage from './tools/image/ExtractTextFromImage';
 import AudioFormatConverter from './tools/file/AudioFormatConverter';
 import VintageFilmFilter from './tools/image/VintageFilmFilter';
+import SignPdf from './tools/pdf/SignPdf';
 
 
 const slugify = (text: string) =>
@@ -151,6 +153,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'File Type Checker', description: 'Confirms the actual file type based on headers, not just extension.', category: 'File Converters & Utilities', instructions: "A file's extension can be misleading. This tool checks a file's 'magic bytes'—a unique signature in its header—to reveal its true format, helping you verify file integrity and avoid security risks.\n1. Upload any file.\n2. The tool reads the first few bytes of the file and compares them against a database of known file types.\n3. It will display the detected file type alongside the filename's extension for comparison." },
 
   // PDF & Document Tools
+  { name: 'Sign PDF', description: 'Draw, type, or upload your signature to sign a PDF document.', category: 'PDF & Document Tools', instructions: "Easily add your signature to any PDF document right in your browser. Your file is never uploaded.\n1. Upload your PDF document.\n2. Click 'Add Signature' and choose to draw, type, or upload your signature.\n3. Drag and drop your saved signature onto the desired page.\n4. Drag to move, and use the corner handles to resize the signature.\n5. Click 'Apply & Download' to get your signed PDF." },
   { name: 'PDF to Word (OCR)', description: 'Convert a PDF to an editable Word document using OCR.', category: 'PDF & Document Tools', instructions: "This tool uses Optical Character Recognition (OCR) to convert scanned or regular PDFs into editable Word (.docx) files. All processing happens in your browser.\n1. Upload a PDF file. This will trigger the one-time download of the OCR engine.\n2. Click 'Initialize OCR' to load the required libraries.\n3. Once ready, select your document language and other options.\n4. Click 'Convert to .docx' to start the process.\n5. Download your editable Word document." },
   { name: 'Compress PDF File Size', description: 'Lessen the file size of a PDF file.', category: 'PDF & Document Tools', instructions: "Reduce the size of your PDF files directly in your browser. This tool works by re-rendering the pages as optimized images and then re-assembling them into a new, smaller PDF. It's perfect for documents heavy with images.\n1. Upload your PDF file.\n2. Select a compression level (Low, Medium, or High).\n3. Click the 'Compress PDF' button.\n4. A new, smaller PDF will be generated for you to download." },
   { name: 'Combine & Reorder PDF Pages', description: 'Merge pages from multiple PDFs, reorder them, and remove unwanted pages.', category: 'PDF & Document Tools', instructions: "This powerful tool lets you build a new PDF from the pages of multiple documents.\n1. Upload one or more PDF files. All pages will appear in the thumbnail view.\n2. Drag and drop thumbnails to change the page order for your final document.\n3. Click the 'X' icon on any thumbnail to remove unwanted pages.\n4. Click any thumbnail to see a large preview on the right.\n5. When ready, click 'Merge & Download' to create your new, custom PDF." },
@@ -431,6 +434,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return DateDifferenceCalculator;
 
     // PDF Tools
+    case 'sign-pdf':
+      return SignPdf;
     case 'compress-pdf-file-size':
       return CompressPdf;
     case 'pdf-to-word-ocr':
@@ -486,6 +491,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'file-type-checker': return FileTypeCheckerIcon;
 
     // PDF & Document Tools
+    case 'sign-pdf': return PenLineIcon;
     case 'compress-pdf-file-size': return FileArchiveIcon;
     case 'pdf-to-word-ocr': return FileScanIcon;
     case 'combine-and-reorder-pdf-pages': return LayersIcon;

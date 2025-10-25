@@ -782,7 +782,7 @@ export const LayoutDashboardIcon: React.FC<{ className?: string }> = ({ classNam
 
 export const Paintbrush2Icon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
-    <path d="M12.2 2.2a4 4 0 0 1 5.6 5.6l-8 8" />
+    <path d="m12.2 2.2a4 4 0 0 1 5.6 5.6l-8 8" />
     <path d="m2 22 1-1h3l9-9" />
   </IconWrapper>
 );
@@ -888,4 +888,11 @@ export const PlusIcon: React.FC<{ className?: string }> = ({ className }) => (
     <IconWrapper className={className}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5v14" />
     </IconWrapper>
+);
+
+export const PenLineIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+  </IconWrapper>
 );
