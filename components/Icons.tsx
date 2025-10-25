@@ -675,6 +675,21 @@ export const FileXIcon: React.FC<{ className?: string }> = ({ className }) => (
   </IconWrapper>
 );
 
+export const Trash2Icon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <polyline points="3 6 5 6 21 6"></polyline>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+    <line x1="10" y1="11" x2="10" y2="17"></line>
+    <line x1="14" y1="11" x2="14" y2="17"></line>
+  </IconWrapper>
+);
+
+export const CheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <polyline points="20 6 9 17 4 12" />
+  </IconWrapper>
+);
+
 export const MaximizeIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path d="M8 3H5a2 2 0 0 0-2 2v3" />
@@ -856,5 +871,15 @@ export const DownloadIcon: React.FC<{ className?: string }> = ({ className }) =>
 export const LoaderIcon: React.FC<{ className?: string }> = ({ className }) => (
   <IconWrapper className={className}>
     <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+  </IconWrapper>
+);
+
+export const ScissorsIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <IconWrapper className={className}>
+    <circle cx="6" cy="6" r="3" />
+    <circle cx="6" cy="18" r="3" />
+    <line x1="20" y1="4" x2="8.12" y2="15.88" />
+    <line x1="14.47" y1="14.48" x2="20" y2="20" />
+    <line x1="8.12" y1="8.12" x2="12" y2="12" />
   </IconWrapper>
 );

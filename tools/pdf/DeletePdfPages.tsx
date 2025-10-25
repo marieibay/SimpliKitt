@@ -2,16 +2,16 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import FileUpload from '../../components/FileUpload';
 import { trackEvent, trackGtagEvent } from '../../analytics';
-import { LoaderIcon, InfoIcon, ScissorsIcon, CheckIcon } from '../../components/Icons';
+import { LoaderIcon, InfoIcon, Trash2Icon, CheckIcon } from '../../components/Icons';
 
 const PDFJS_VERSION = "4.3.136";
 const PDFJS_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.min.mjs`;
 const PDFJS_WORKER_URL = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}/pdf.worker.min.mjs`;
 
-const SplitPdf: React.FC = () => {
+const DeletePdfPages: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [isProcessingFile, setIsProcessingFile] = useState(false);
-  const [isExtracting, setIsExtracting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [totalPages, setTotalPages] = useState(0);
@@ -137,57 +137,59 @@ const SplitPdf: React.FC = () => {
     setSelectedPages(new Set());
   };
 
-  const handleExtract = async () => {
+
+  const handleDelete = async () => {
     if (!file || selectedPages.size === 0) {
-      setError("Please select at least one page to extract.");
+      setError("No pages selected for deletion.");
       return;
     }
-    setIsExtracting(true);
+    if (selectedPages.size >= totalPages) {
+        setError("You cannot delete all pages of the document.");
+        return;
+    }
+
+    setIsDeleting(true);
     setError(null);
 
     try {
       // FIX: Explicitly type `p` as a number to resolve TS error.
-      const indicesToKeep = Array.from(selectedPages).map((p: number) => p - 1).sort((a, b) => a - b);
-
-      if (indicesToKeep.length === 0) {
-        setError("Invalid or empty page selection.");
-        setIsExtracting(false);
-        return;
-      }
-
-      const arrayBuffer = await file.arrayBuffer();
-      const originalPdf = await PDFDocument.load(arrayBuffer);
+      const indicesToDelete = Array.from(selectedPages).map((p: number) => p - 1);
       
+      const arrayBuffer = await file.arrayBuffer();
+      const originalPdf = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+      
+      const pageIndicesToKeep = Array.from({ length: totalPages }, (_, i) => i).filter(i => !indicesToDelete.includes(i));
+
+      // This is faster than removing pages one by one
       const newPdf = await PDFDocument.create();
-      const copiedPages = await newPdf.copyPages(originalPdf, indicesToKeep);
+      const copiedPages = await newPdf.copyPages(originalPdf, pageIndicesToKeep);
       copiedPages.forEach(page => newPdf.addPage(page));
       
       const newPdfBytes = await newPdf.save();
       const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `extracted-${file.name}`;
-      document.body.appendChild(link);
+      link.download = `deleted-${file.name}`;
       link.click();
-      document.body.removeChild(link);
       URL.revokeObjectURL(link.href);
-      
-      trackEvent('pdf_pages_extracted', { extractedPageCount: selectedPages.size });
+
+      trackEvent('pdf_pages_deleted', { deletedPageCount: selectedPages.size });
       trackGtagEvent('tool_used', {
         event_category: 'PDF & Document Tools',
-        event_label: 'Extract PDF Pages',
-        tool_name: 'extract-pdf-pages',
+        event_label: 'Delete Pages from PDF',
+        tool_name: 'delete-pages-from-pdf',
         is_download: true,
-        extracted_pages: selectedPages.size,
+        deleted_pages: selectedPages.size,
       });
-
+      
+      // Reset after successful deletion
       handleReset();
 
     } catch (err) {
-      setError("An error occurred while extracting pages from the PDF.");
+      setError("An error occurred while deleting pages.");
       console.error(err);
     } finally {
-      setIsExtracting(false);
+      setIsDeleting(false);
     }
   };
 
@@ -222,7 +224,7 @@ const SplitPdf: React.FC = () => {
   }
 
   if (!file) {
-      return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['application/pdf']} title="Upload a PDF to select pages to extract" externalError={error} />;
+      return <FileUpload onFileUpload={handleFile} acceptedMimeTypes={['application/pdf']} title="Upload a PDF to view and delete pages" externalError={error} />;
   }
 
   return (
@@ -233,9 +235,9 @@ const SplitPdf: React.FC = () => {
                     <button onClick={handleSelectAll} className="px-2 py-1 text-xs font-semibold text-blue-600 hover:bg-blue-100 rounded">Select All</button>
                     <button onClick={handleDeselectAll} className="px-2 py-1 text-xs font-semibold text-gray-600 hover:bg-gray-200 rounded">Deselect All</button>
                 </div>
-                <button onClick={handleExtract} disabled={isExtracting || selectedPages.size === 0} className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed">
-                    {isExtracting ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <ScissorsIcon className="w-4 h-4" />}
-                    Extract ({selectedPages.size})
+                <button onClick={handleDelete} disabled={isDeleting || selectedPages.size === 0} className="flex items-center gap-2 px-3 py-1.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 disabled:bg-red-300 disabled:cursor-not-allowed">
+                    {isDeleting ? <LoaderIcon className="w-4 h-4 animate-spin" /> : <Trash2Icon className="w-4 h-4" />}
+                    Delete ({selectedPages.size})
                 </button>
             </div>
 
@@ -288,4 +290,4 @@ const SplitPdf: React.FC = () => {
   );
 };
 
-export default SplitPdf;
+export default DeletePdfPages;
