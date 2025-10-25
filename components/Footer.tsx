@@ -23,7 +23,9 @@ const Footer: React.FC = () => {
               <span className="font-bold text-xl text-gray-800">SimpliKitt</span>
             </a>
             <p className="text-sm text-gray-500 max-w-md">
-              Free, instant, client-side tools to simplify your digital life. Your privacy is our priority, so your data never leaves your browser.
+              Free, instant, client-side tools to simplify your digital life.
+              <br />
+              Your privacy is our priority — your data never leaves your browser.
             </p>
           </div>
           <div className="col-span-1">

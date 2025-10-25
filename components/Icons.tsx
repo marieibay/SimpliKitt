@@ -883,3 +883,9 @@ export const ScissorsIcon: React.FC<{ className?: string }> = ({ className }) =>
     <line x1="8.12" y1="8.12" x2="12" y2="12" />
   </IconWrapper>
 );
+
+export const PlusIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <IconWrapper className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5v14" />
+    </IconWrapper>
+);

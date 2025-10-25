@@ -153,7 +153,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   // PDF & Document Tools
   { name: 'PDF to Word (OCR)', description: 'Convert a PDF to an editable Word document using OCR.', category: 'PDF & Document Tools', instructions: "This tool uses Optical Character Recognition (OCR) to convert scanned or regular PDFs into editable Word (.docx) files. All processing happens in your browser.\n1. Upload a PDF file. This will trigger the one-time download of the OCR engine.\n2. Click 'Initialize OCR' to load the required libraries.\n3. Once ready, select your document language and other options.\n4. Click 'Convert to .docx' to start the process.\n5. Download your editable Word document." },
   { name: 'Compress PDF File Size', description: 'Lessen the file size of a PDF file.', category: 'PDF & Document Tools', instructions: "Reduce the size of your PDF files directly in your browser. This tool works by re-rendering the pages as optimized images and then re-assembling them into a new, smaller PDF. It's perfect for documents heavy with images.\n1. Upload your PDF file.\n2. Select a compression level (Low, Medium, or High).\n3. Click the 'Compress PDF' button.\n4. A new, smaller PDF will be generated for you to download." },
-  { name: 'Merge PDF', description: 'Combine multiple PDF files into one.', category: 'PDF & Document Tools', instructions: "Easily combine reports, presentations, or separate chapters into a single, organized PDF document without needing any desktop software.\n1. Upload two or more PDF files by clicking 'Add PDFs'.\n2. Drag and drop the file previews in the list to arrange them in the exact order you want.\n3. Click the 'Merge PDFs' button to start the process.\n4. Your new, single PDF document will be generated and ready for download." },
+  { name: 'Combine & Reorder PDF Pages', description: 'Merge pages from multiple PDFs, reorder them, and remove unwanted pages.', category: 'PDF & Document Tools', instructions: "This powerful tool lets you build a new PDF from the pages of multiple documents.\n1. Upload one or more PDF files. All pages will appear in the thumbnail view.\n2. Drag and drop thumbnails to change the page order for your final document.\n3. Click the 'X' icon on any thumbnail to remove unwanted pages.\n4. Click any thumbnail to see a large preview on the right.\n5. When ready, click 'Merge & Download' to create your new, custom PDF." },
   { name: 'Extract PDF Pages', description: 'Extract specific pages from a PDF document into a new file.', category: 'PDF & Document Tools', instructions: "This tool lets you select only the pages you need from a large PDF, creating a smaller, more focused document. It's perfect for separating chapters, pulling out specific slides, or removing unnecessary pages.\n1. Upload your PDF file. You will see a grid of thumbnails for all pages.\n2. Click on the thumbnails of the pages you wish to keep. Selected pages will be highlighted with a blue border and a checkmark.\n3. Click any thumbnail to see a large, high-quality preview of that page on the right.\n4. Use the 'Select All' and 'Deselect All' buttons for convenience.\n5. Once you've selected your desired pages, click the 'Extract (X)' button.\n6. A new PDF containing only your chosen pages will be generated and downloaded automatically." },
   { name: 'Delete Pages from PDF', description: 'Remove specific pages or page ranges from a PDF document.', category: 'PDF & Document Tools', instructions: "This tool allows you to visually select and remove unwanted pages from a PDF file, creating a new, shorter document.\n1. Upload your PDF file. You will see a grid of thumbnails for all its pages.\n2. Click on the thumbnails of the pages you wish to delete. Selected pages will be highlighted with a blue border and a checkmark.\n3. Click any thumbnail to see a large, high-quality preview of that page on the right, so you can be sure of what you're deleting.\n4. Use the 'Select All' and 'Deselect All' buttons for convenience if you need to remove many pages.\n5. Once you've selected all the pages to remove, click the red 'Delete (X)' button.\n6. A new PDF with the specified pages removed will be generated and downloaded automatically." },
   { name: 'PDF to Image Converter', description: 'Convert PDF pages into high-quality JPG or PNG images.', category: 'PDF & Document Tools', instructions: "Turn each page of your PDF into a separate image file, which is great for presentations, sharing on social media, or embedding in other documents.\n1. Upload your PDF document.\n2. Select your desired output image format (JPEG for smaller files, PNG for higher quality).\n3. The tool will convert each page of the PDF into an image.\n4. All generated images will be bundled together and downloaded as a single ZIP file." },
@@ -435,7 +435,7 @@ const getComponentForTool = (slug: string): React.ComponentType => {
       return CompressPdf;
     case 'pdf-to-word-ocr':
       return PdfToWordOcr;
-    case 'merge-pdf':
+    case 'combine-and-reorder-pdf-pages':
       return MergePdf;
     case 'extract-pdf-pages':
       return SplitPdf;
@@ -488,7 +488,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     // PDF & Document Tools
     case 'compress-pdf-file-size': return FileArchiveIcon;
     case 'pdf-to-word-ocr': return FileScanIcon;
-    case 'merge-pdf': return MergePdfIcon;
+    case 'combine-and-reorder-pdf-pages': return LayersIcon;
     case 'extract-pdf-pages': return ScissorsIcon;
     case 'delete-pages-from-pdf': return Trash2Icon;
     case 'pdf-to-image-converter': return PdfToJpgConverterIcon;
@@ -523,18 +523,15 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'image-sepia-filter': return CameraIcon;
     case 'image-sharpen-filter': return SparklesIcon;
     case 'image-invert-colors': return EclipseIcon;
-    case 'image-opacitytransparency-adjuster': return LayersIcon;
-    // FIX: Reassign icons to resolve conflicts.
-    case 'image-huesaturation-adjuster': return WrenchIcon; // Placeholder to resolve conflict chain
+    case 'image-opacitytransparency-adjuster': return CircleHalfIcon;
+    case 'image-huesaturation-adjuster': return WrenchIcon;
     case 'image-flipper-horizontal-and-vertical': return FlipHorizontalIcon;
     case 'image-to-ascii-art-simple': return TerminalIcon;
     case 'image-contrast-adjuster': return ContrastIcon;
     case 'add-border-to-image': return FrameIcon;
     case 'add-rounded-corners-to-image': return AppWindowIcon;
     case 'image-collage-maker-basic-grid': return LayoutGridIcon;
-    // FIX: Reassign icons to resolve conflicts.
     case 'color-palette-extractor-from-image': return PaletteIcon;
-    // FIX: Reassign icons to resolve conflicts.
     case 'image-color-picker-magnifier': return PipetteIcon;
     case 'image-to-data-url-generator': return FileJson2Icon;
     case 'image-dpi-changer': return GaugeIcon;
@@ -559,7 +556,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'base64-to-image-decoder': return FileCode2Icon;
     case 'batch-image-rotator': return RefreshCcwIcon;
     case 'image-shadow-generator': return BoxSelectIcon;
-    case 'image-to-black-and-white-adjustable': return CircleHalfIcon;
+    case 'image-to-black-and-white-adjustable': return ContrastIcon;
     case 'vintage-film-filter': return CameraIcon;
     case 'image-tiling-previewer': return LayoutDashboardIcon;
     case 'image-color-replacer-single': return Paintbrush2Icon;
