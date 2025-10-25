@@ -107,6 +107,7 @@ import CompressPdf from './tools/pdf/CompressPdf';
 import PdfToWordOcr from './tools/pdf/PdfToWordOcr';
 import ExtractTextFromImage from './tools/image/ExtractTextFromImage';
 import AudioFormatConverter from './tools/file/AudioFormatConverter';
+import VintageFilmFilter from './tools/image/VintageFilmFilter';
 
 
 const slugify = (text: string) =>
@@ -219,6 +220,7 @@ const allToolsRaw: (Omit<Tool, 'slug' | 'component' | 'icon'>)[] = [
   { name: 'Batch Image Rotator', description: 'Rotates multiple images simultaneously.', category: 'Image Tools', instructions: "Save time by rotating multiple images at once. This tool can rotate a batch of images by 90, -90, or 180 degrees and package them in a single ZIP file.\n1. Upload all the images you want to rotate.\n2. Select the 'Rotation Angle' from the dropdown menu.\n3. Click the 'Rotate Images' button to process the batch.\n4. Download the ZIP file containing all your rotated images." },
   { name: 'Image Shadow Generator', description: 'Adds a simple drop shadow effect to the image edges.', category: 'Image Tools', instructions: "This tool adds a customizable drop shadow to images that have a transparent background (like PNGs). This effect can make your image 'pop' off the page and give it a sense of depth.\n1. Upload a PNG image with a transparent background.\n2. Adjust the shadow's 'Offset', 'Blur', and 'Color' using the controls.\n3. The preview will update in real-time.\n4. Download your image with the new shadow." },
   { name: 'Image to Black & White (Adjustable)', description: 'Converts to B&W with a customizable intensity slider.', category: 'Image Tools', instructions: "Convert your color photos to black and white with adjustable intensity. You can create a fully monochrome image or a partially desaturated, faded color look.\n1. Upload an image.\n2. Use the 'Intensity' slider to adjust the strength of the grayscale effect. 100% is fully black and white.\n3. Download the result." },
+  { name: 'Vintage Film Filter', description: 'Give your photos a nostalgic, retro look with classic film grain and color shifts.', category: 'Image Tools', instructions: "Recreate the classic look of old film photography with this easy-to-use filter.\n1. Upload your image.\n2. Adjust the 'Grain Intensity' to add a subtle, realistic film grain effect.\n3. Control the darkness of the corners with the 'Vignette' slider.\n4. Choose a 'Color Style' preset to mimic different types of old film.\n5. Download your new vintage-style photo." },
   { name: 'Image Tiling Previewer', description: 'Shows how an image looks when tiled as a background.', category: 'Image Tools', instructions: "This tool helps you visualize how an image will look when it is repeated, or 'tiled,' as a background pattern. It's perfect for testing seamless patterns for websites or designs.\n1. Upload the image you want to test.\n2. The preview area will automatically show the image tiled across the screen." },
   { name: 'Image Color Replacer (Single)', description: 'Replaces one specific color with another in the image.', category: 'Image Tools', instructions: "This tool allows you to swap one color in your image for another. You can select the color you want to replace directly from the image and choose a new color to substitute it with.\n1. Upload your image.\n2. Click on the image preview to pick the 'From Color' you want to change.\n3. Use the 'To Color' picker to select your new color.\n4. Adjust the 'Tolerance' slider to include similar shades in the replacement.\n5. Download the edited image." },
   { name: 'Image Reflection Generator', description: 'Creates a realistic ground reflection effect.', category: 'Image Tools', instructions: "This tool adds a realistic reflection below your image, making it look like it's sitting on a glossy surface. It works best with images that have a transparent background.\n1. Upload a PNG image with a transparent background.\n2. The tool automatically generates the reflection with a fade-out effect.\n3. Download the image with its new reflection." },
@@ -361,6 +363,8 @@ const getComponentForTool = (slug: string): React.ComponentType => {
         return ImageShadowGenerator;
     case 'image-to-black-and-white-adjustable':
         return ImageToBlackAndWhiteAdjustable;
+    case 'vintage-film-filter':
+        return VintageFilmFilter;
     case 'image-tiling-previewer':
         return ImageTilingPreviewer;
     case 'image-color-replacer-single':
@@ -550,6 +554,7 @@ const getIconForTool = (slug: string): React.ComponentType<{ className?: string 
     case 'batch-image-rotator': return RefreshCcwIcon;
     case 'image-shadow-generator': return BoxSelectIcon;
     case 'image-to-black-and-white-adjustable': return CircleHalfIcon;
+    case 'vintage-film-filter': return CameraIcon;
     case 'image-tiling-previewer': return LayoutDashboardIcon;
     case 'image-color-replacer-single': return Paintbrush2Icon;
     case 'image-reflection-generator': return PictureInPicture2Icon;
